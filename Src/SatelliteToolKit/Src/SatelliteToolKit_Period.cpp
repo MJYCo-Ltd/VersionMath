@@ -66,6 +66,12 @@ struct bestPoint
     bool    bIsTowPos;
 };
 
+struct minAngle
+{
+    double dTime;
+    double dAngle;
+};
+
 typedef bool (*pFun)(const PV& satECFPV, const Pos& station3DPos, const Pos& satPRY,
                      double dVisibleHAngle, double dVisibleVAngle, RotateType eRotate);
 
@@ -138,10 +144,11 @@ vector<Period> VisiblePeriod(const BJTime& stStartTime,
     CVector vTEME(6),vSatPos(3),vTEMEGround(3),vCenter(0,0,1);
 
     vector<bestPoint> vBestPos;
-    vector<double>    vMinAngle;
+    vector<minAngle>    vMinAngle;
     int nReserveCount = dSpace / dT * 1.5;
     vBestPos.reserve(nReserveCount);
     vMinAngle.reserve(nReserveCount);
+    minAngle tmpMinAngle;
 
     double dCosAngle,dDot,dLength,dMinAngle(DBL_MAX);
     bool   bEntered(false),bCalRotate(false),bBiger(false),bCanPush(false);
@@ -178,6 +185,13 @@ vector<Period> VisiblePeriod(const BJTime& stStartTime,
                 vBestPos.push_back(tmpBestPos);
                 bEntered =false;
             }
+
+            if(bCanPush)
+            {
+                vMinAngle.push_back(tmpMinAngle);
+                bCanPush = false;
+                dMinAngle = DBL_MAX;
+            }
         }
         else
         {
@@ -205,6 +219,13 @@ vector<Period> VisiblePeriod(const BJTime& stStartTime,
                     vBestPos.push_back(tmpBestPos);
                     bEntered =false;
                 }
+
+                if(bCanPush)
+                {
+                    vMinAngle.push_back(tmpMinAngle);
+                    bCanPush = false;
+                    dMinAngle = DBL_MAX;
+                }
             }
             else
             {
@@ -215,6 +236,8 @@ vector<Period> VisiblePeriod(const BJTime& stStartTime,
                 if(dMinAngle > dCosAngle)
                 {
                     dMinAngle = dCosAngle;
+                    tmpMinAngle.dTime = dMJDCal;
+                    tmpMinAngle.dAngle = dMinAngle;
                     bCanPush = true;
                 }
                 else
@@ -253,7 +276,7 @@ vector<Period> VisiblePeriod(const BJTime& stStartTime,
                 }
                 else if(bCanPush && bBiger)
                 {
-                    vMinAngle.push_back(dMinAngle);
+                    vMinAngle.push_back(tmpMinAngle);
                     bCanPush = false;
                     bBiger = false;
                 }
@@ -268,16 +291,152 @@ vector<Period> VisiblePeriod(const BJTime& stStartTime,
 
     double dMinStep = SECDAY * 1e-3,dEnterStep;
 
+
+    double dSecond,dInsertTime;
+    CVector vMinAngleSatPos(3);
+
+    /// 遍历所有的
+    for(auto one : vMinAngle)
+    {
+        /// 不可见时间点
+        dInsertTime = one.dTime;
+        dMinAngle = dInsertTime;
+        dEnterStep = dMJDStep*0.5;
+        dMJDCal = dInsertTime-dEnterStep;
+
+        for(dEnterStep*=0.5;
+            dEnterStep>dMinStep;
+            dEnterStep*=0.5)
+        {
+            vTEME = tmpSGP4.CalPV(dMJDCal);
+            /// 只考虑地球自转
+            vSatPos = vTEME.slice(0,2);
+            vTEMEGround = vGround3D * CCoorSys::TEME2ECF(dMJDCal);
+
+            if(!InsertEarth(vSatPos,vTEMEGround))
+            {
+                /// 目标相对于卫星的位置
+                vSatPos = vTEMEGround - vSatPos;
+
+                /// 计算旋转后的地面目标
+                if(bCalRotate)
+                {
+                    vSatPos = matRotate * CalSatMatrix(vTEME)*vSatPos;
+                }
+                else
+                {
+                    vSatPos = CalSatMatrix(vTEME) * vSatPos;
+                }
+
+                dDot = CVecMat::Dot(vSatPos,vCenter);
+                if(fabs(dDot) < DF_ZERO || dDot < 0)
+                {
+                    dMJDCal += dEnterStep;
+                }
+                else
+                {
+                    dLength = vSatPos.Length();
+                    dCosAngle = acos(dDot/dLength);
+                    if(dCosAngle > one.dAngle)
+                    {
+                        dMJDCal += dEnterStep;
+                    }
+                    else
+                    {
+                        vMinAngleSatPos = vSatPos;
+                        dLength = 1.0 / vSatPos.GetZ();
+                        vMinAngleSatPos *= dLength;
+                        dMinAngle = dMJDCal;
+                        one.dAngle = dCosAngle;
+                        dMJDCal -= dEnterStep;
+                    }
+                }
+            }
+            else
+            {
+                dMJDCal += dEnterStep;
+            }
+        }
+
+        dInsertTime = one.dTime;
+        dEnterStep = dMJDStep*0.5;
+        dMJDCal = dInsertTime+dEnterStep;
+
+        for(dEnterStep*=0.5;
+            dEnterStep>dMinStep;
+            dEnterStep*=0.5)
+        {
+            vTEME = tmpSGP4.CalPV(dMJDCal);
+            /// 只考虑地球自转
+            vSatPos = vTEME.slice(0,2);
+            vTEMEGround = vGround3D * CCoorSys::TEME2ECF(dMJDCal);
+
+            if(!InsertEarth(vSatPos,vTEMEGround))
+            {
+                /// 目标相对于卫星的位置
+                vSatPos = vTEMEGround - vSatPos;
+
+                /// 计算旋转后的地面目标
+                if(bCalRotate)
+                {
+                    vSatPos = matRotate * CalSatMatrix(vTEME)*vSatPos;
+                }
+                else
+                {
+                    vSatPos = CalSatMatrix(vTEME) * vSatPos;
+                }
+
+                dDot = CVecMat::Dot(vSatPos,vCenter);
+                if(fabs(dDot) < DF_ZERO || dDot < 0)
+                {
+                    dMJDCal -= dEnterStep;
+                }
+                else
+                {
+                    dLength = vSatPos.Length();
+                    dCosAngle = acos(dDot/dLength);
+                    if(dCosAngle > one.dAngle)
+                    {
+                        dMJDCal -= dEnterStep;
+                    }
+                    else
+                    {
+                        vMinAngleSatPos = vSatPos;
+                        dLength = 1.0 / vSatPos.GetZ();
+                        vMinAngleSatPos *= dLength;
+
+                        dMinAngle = dMJDCal;
+                        one.dAngle = dCosAngle;
+                        dMJDCal += dEnterStep;
+                    }
+                }
+            }
+            else
+            {
+                dMJDCal -= dEnterStep;
+            }
+        }
+
+        /// 最小角度值差别大于1毫秒
+        if(fabs(dMinAngle - one.dTime)>dMinStep && CallJudge(dHAngle,dVAngle,one.dAngle,vMinAngleSatPos))
+        {
+            tmpBestPos.dEnterTime = dMinAngle;
+            tmpBestPos.bIsTowPos = false;
+            vBestPos.push_back(tmpBestPos);
+        }
+
+    }
+
+
     Period tmpPeriod;
     int nYear,nMonth,nDay,nHour,nMinute;
-    double dSecond,dInsertTime;
+
     CDate tmpDate(UTC);
     int nResultCount=vBestPos.size();
     vResult.resize(nResultCount);
     int nIndex(0);
 
     --nResultCount;
-
     for(auto one : vBestPos)
     {
         if(one.bIsTowPos)
