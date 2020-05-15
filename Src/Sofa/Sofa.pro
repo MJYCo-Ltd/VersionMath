@@ -12,7 +12,22 @@ TEMPLATE = lib
 DEFINES += SOFA_LIBRARY
 
 INCLUDEPATH *= $$PWD/../../Inc/Sofa
+win32-msvc:QMAKE_CXXFLAGS += -utf-8
+win32-msvc:QMAKE_CXXFLAGS += /wd"4100"
+win32-msvc:RC_FILE = Src/$${TARGET}_Version.rc
+win32-msvc:DLLDESTDIR = $${SDK_PATH}/../Bin
+win32-msvc:DESTDIR = $${SDK_PATH}/Lib
 
+### Linux 或 Mac 环境
+unix{
+    DESTDIR = $${SDK_PATH}/Bin
+    VERSION = 2.0.0
+    QMAKE_LFLAGS += -Wl,-rpath,.
+}
+
+CONFIG(debug, debug|release){
+  TARGET = $$join(TARGET,,,D)
+}
 # 目标文件的输出路径  end
 
 # 源代码
