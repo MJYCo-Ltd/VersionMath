@@ -1,7 +1,7 @@
 #ifndef SOFA_GLOBAL_H
 #define SOFA_GLOBAL_H
 
-#include <QtCore/QtGlobal>
+#include "../NoQt.h"
 
 #if defined(SOFA_LIBRARY)
 #  define SOFASHARED_EXPORT Q_DECL_EXPORT

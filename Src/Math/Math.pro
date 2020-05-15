@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       -= gui
+CONFIG -= qt
 
 TEMPLATE = lib
 
@@ -17,27 +17,11 @@ INCLUDEPATH *= ../../Public/Include/Math/
 ### win32 环境
 win32{
     contains(TEMPLATE, "lib") {
-        win32-msvc2010{
-            RC_FILE = Src/Math_Version.rc
-            DESTDIR = $${PWD}/../../Lib
-            DLLDESTDIR = $${PWD}/../../Bin/VS2010
-        }
-        win32-msvc{
+
             RC_FILE = Src/Math_Version.rc
             DESTDIR = $${PWD}/../../Lib
             DLLDESTDIR = $${PWD}/../../Bin
-        }
-        win32-msvc2015{
-            RC_FILE = Src/Math_Version.rc
-            DESTDIR = $${PWD}/../../Lib/VS2015
-            DLLDESTDIR = $${PWD}/../../Bin/VS2015
-        }
-        win32-g++{
-            DESTDIR = $${PWD}/../../Bin/g++
-        }
-    } else {
-      DESTDIR = $${PWD}/../../Bin
-    }
+			}
 }
 
 ### Linux  Mac 环境

@@ -1,7 +1,7 @@
 #ifndef GIS_GLOBAL_H
 #define GIS_GLOBAL_H
 
-#include <QtCore/qglobal.h>
+#include "../NoQt.h"
 
 #if defined(GIS_LIBRARY)
 #  define GISSHARED_EXPORT Q_DECL_EXPORT

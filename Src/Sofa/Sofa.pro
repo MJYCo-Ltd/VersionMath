@@ -4,12 +4,12 @@
 #
 #-------------------------------------------------
 
-QT       -= gui
+CONFIG -= qt
 
 TEMPLATE = lib
 
 # 头文件路径
-INCLUDEPATH += ../../Public/Include/Sofa/
+INCLUDEPATH += ../../Inc/Sofa/
 
 # 预定义宏
 DEFINES += SOFA_LIBRARY
@@ -19,24 +19,9 @@ DEFINES += SOFA_LIBRARY
 
 win32{
     contains(TEMPLATE, "lib"){
-        win32-msvc2010{
-            RC_FILE = Source/Sofa_Version.rc
-            DESTDIR = $${PWD}/../../Lib
-            DLLDESTDIR = $${PWD}/../../Bin/VS2010
-        }
-        win32-msvc{
             RC_FILE = Source/Sofa_Version.rc
             DESTDIR = $${PWD}/../../Lib
             DLLDESTDIR = $${PWD}/../../Bin
-        }
-        win32-msvc2015{
-            RC_FILE = Source/Sofa_Version.rc
-            DESTDIR = $${PWD}/../../Lib/VS2015
-            DLLDESTDIR = $${PWD}/../../Bin/VS2015
-        }
-        win32-g++{
-            DESTDIR = $${PWD}/../../Bin/g++
-        }
     }else{
       DESTDIR = $${PWD}/../../Bin
     }
