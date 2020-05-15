@@ -25,3 +25,9 @@
 /build-STK-Desktop_Qt_5_14_1_MSVC2015_64bit-Release/Sofa/Makefile
 *.dll
 *.user
+/build-STK-Desktop_Qt_5_14_2_MSVC2015_64bit-Debug
+/Src/.vs/STK/v16
+/Src/GisMath/x64
+/Src/Math/x64
+/Src/Satellite/x64
+/Src/Sofa/x64

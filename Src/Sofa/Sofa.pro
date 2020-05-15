@@ -11,7 +11,9 @@ TEMPLATE = lib
 # 预定义宏
 DEFINES += SOFA_LIBRARY
 
-INCLUDEPATH *= $$PWD/../../Inc/Sofa
+SDK_PATH = $$PWD/../..
+
+INCLUDEPATH *= $$SDK_PATH/Inc/Sofa
 win32-msvc:QMAKE_CXXFLAGS += -utf-8
 win32-msvc:QMAKE_CXXFLAGS += /wd"4100"
 win32-msvc:RC_FILE = Src/$${TARGET}_Version.rc
