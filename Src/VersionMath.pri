@@ -5,6 +5,8 @@ win32-msvc:RC_FILE = Src/$${TARGET}_Version.rc
 win32-msvc:DLLDESTDIR = $${SDK_PATH}/../Bin
 win32-msvc:DESTDIR = $${SDK_PATH}/Lib
 
+
+
 ### Linux 或 Mac 环境
 unix{
     DESTDIR = $${SDK_PATH}/Bin
@@ -41,7 +43,7 @@ contains(SDK_CONFIG,SATELLITE){
     }
 }
 
-contains(SDK_CONFIG,GISMATH){
+contains(SDK_CONFIG,GIS_MATH){
     INCLUDEPATH *= $${SDK_PATH}/Inc/GisMath
     CONFIG(debug, debug|release) {
       LIBS *= -lGisMathD
@@ -50,8 +52,21 @@ contains(SDK_CONFIG,GISMATH){
     }
 }
 
+contains(SDK_CONFIG,SATELLITE_TOOL_KIT){
+    INCLUDEPATH *= $${SDK_PATH}/Inc/SatelliteToolKit
+    CONFIG(debug, debug|release) {
+      LIBS *= -lSatelliteToolKitD
+    }else{
+      LIBS *= -lSatelliteToolKit
+    }
+}
+
 CONFIG(debug, debug|release){
   TARGET = $$join(TARGET,,,D)
 }
 
+
+contains(TEMPLATE, "app"){
+    win32-msvc:DESTDIR = $${SDK_PATH}/../Bin
+}
 

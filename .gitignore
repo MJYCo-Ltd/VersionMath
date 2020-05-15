@@ -31,3 +31,5 @@
 /Src/Math/x64
 /Src/Satellite/x64
 /Src/Sofa/x64
+/build-STK-Desktop_Qt_5_14_1_MSVC2015_64bit-Release/SatelliteToolKit/Makefile
+/build-STK-Desktop_Qt_5_14_1_MSVC2015_64bit-Release/TestSTK/Makefile
