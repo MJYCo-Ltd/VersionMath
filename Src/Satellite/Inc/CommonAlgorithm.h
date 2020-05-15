@@ -1,4 +1,4 @@
-﻿#ifndef YTY_COMMONALGORITHM_H
+#ifndef YTY_COMMONALGORITHM_H
 #define YTY_COMMONALGORITHM_H
 
 /*****************************************
@@ -175,31 +175,6 @@ void put_sci( char *obuff, double ival);
  */
 void write_elements_in_tle_format( char buff[2][73], const tle_t *tle);
 ////////////轨道处理end////////////////
-
-////////////处理流程////////////////
-
-/**
- * @brief 根据输入检查输出是否合理
- * @param vIn  输入项
- * @param vOut 输出项
- * @return 返回检查结果
- * @attention 1、如果 vOut是一个空的向量，会自动开辟空间
- *            以匹配 vIn 的输入项
- *            2、如果 vOut 非空，则判断 vIn.Size() == vOut.Size()
- */
-bool IsValid(const CVector& vIn, CVector& vOut);
-
-/**
- * @brief 批量转换 vIn 到 vOut
- * @param rMatrix 转换矩阵
- * @param vIn     输入项
- * @param vOut    输出项
- * @return 返回处理结果
- * @attention 没有对 vOut的数据大小进行检查
- *            必须先调用 IsValid 进行数据校验
- */
-bool CalReault(const CMatrix& rMatrix, const CVector& vIn, CVector& vOut);
-////////////处理流程 end ////////////////
 
 
 ////////////大气////////////////////////

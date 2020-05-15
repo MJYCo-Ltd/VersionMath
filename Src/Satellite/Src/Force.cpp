@@ -1,4 +1,4 @@
-﻿#include <cmath>
+#include <cmath>
 using namespace std;
 #include "VecMat.h"
 #include "Force.h"
@@ -6,6 +6,7 @@ using namespace std;
 #include "sofam.h"
 #include "MathCommonAlgorithm.h"
 #include "CommonAlgorithm.h"
+#include "GisMath.h"
 
 using namespace Physical;
 using namespace Math;
@@ -205,7 +206,7 @@ CVector CForce::TesseralHarmonic(const CVector &vecR, const CMatrix &matT,
     CVector SatPos = matT * vecR;
 
     double dL,dB,dH;
-    CCoorSys::XYZ2LBH(SatPos(0),SatPos(1),SatPos(2),dL,dB,dH);
+    GisMath::XYZ2LBH(SatPos(0),SatPos(1),SatPos(2),dL,dB,dH);
 
     SatPos /= dR;
     double RL,dPlm,WCS,WSC,pVpr=0,pVpsf=0,pVpl=0;

@@ -1,4 +1,4 @@
-﻿#ifndef YTY_COORSYS_H
+#ifndef YTY_COORSYS_H
 #define YTY_COORSYS_H
 
 /*****************************************
@@ -102,33 +102,6 @@ public:
     /// ECI到轨道坐标系的旋转矩阵
     static CMatrix VVLH2ECI(const CVector& vKep);
     static CMatrix ECI2VVLH(const CVector& vKep);
-    /************************ 表述方式的转换 ************************/
-    /// @brief 地心笛卡尔坐标 转 地理坐标
-    /// @param dX  X轴坐标[m]  dY Y轴坐标[m]  dZ Z轴坐标[m]
-    /// @param dL  经度[rad] dB 纬度[rad] dH 高度[m]
-    /// @attention 采用的是WGS84椭球参数
-    static void XYZ2LBH(double dX, double dY, double dZ, double& dL, double& dB, double& dH);
-    /// @brief 地理坐标 转 地心笛卡尔坐标
-    static void LBH2XYZ(double dL, double dB, double dH, double& dX, double& dY, double& dZ);
-    /// @attention 用向量表示(适合数据为3的倍数) 支持批量处理
-    static bool XYZ2LBH(const CVector& v3D, CVector& vGeo);
-    static bool LBH2XYZ(const CVector& vGeo, CVector& v3D);
-
-    /************************ 观察方式的转换 ************************/
-    /**
-     * @brief 全局坐标转换成局部东北天坐标
-     * @param dL       站的经度            [rad]
-     * @param dB       站的纬度            [rad]
-     * @param vGlobal  全局(ECF)下笛卡尔坐标 [m]
-     * @param vLocal   站心坐标系系的坐标    [m]
-     */
-    static bool GLOBAL2LOCAL(double dL, double dB,const CVector& vGlobal, CVector& vLocal);
-
-    /// @brief 东北天坐标转换成全局坐标
-    static bool LOCAL2GLOBAL(double dL, double dB,const CVector& vLocal, CVector& vGlobal);
-
-    static CMatrix GLOBAL2LOCAL(double dL, double dB);
-    static CMatrix LOCAL2GLOBAL(double dL, double dB);
 private:
     CCoorSys();
 };

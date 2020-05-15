@@ -24,7 +24,7 @@ VS_VERSION_INFO     VERSIONINFO
                 VALUE "FileDescription","卫星算法库"
                 VALUE "FileVersion","2.0.0.0"
                 VALUE "InternalName","Satellite Algorithm"
-                VALUE "LegalCopyright","Copyright (c)2008-2015 幻视科技有限公司"
+                VALUE "LegalCopyright","Copyright (c)2008-2020 幻视科技有限公司"
                 #ifdef _DEBUG
                 VALUE "OriginalFilename","SatelliteD.dll"
                 #else

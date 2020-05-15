@@ -17,7 +17,7 @@
 **
 **  Copyright (C) 2015 IAU SOFA Board.  See notes at end.
 **
-** ×¢Òâ£ºÈç¹û±¾ÎÄ¼şÃ»ÓĞËµÃ÷£¬ÏòÁ¿¶ÔÓ¦µÄ µÑ¿¨¶û×ø±êÏµÏÂµÄÏòÁ¿
+** æ³¨æ„ï¼šå¦‚æœæœ¬æ–‡ä»¶æ²¡æœ‰è¯´æ˜ï¼Œå‘é‡å¯¹åº”çš„ ç¬›å¡å°”åæ ‡ç³»ä¸‹çš„å‘é‡
 */
 #include "Sofa_global.h"
 #include "sofam.h"
@@ -27,135 +27,135 @@
 extern "C" {
 #endif
 
-/* Astronomy/Àú·¨²¿·Ö */
+/* Astronomy/å†æ³•éƒ¨åˆ† */
 
-/// ½«ÌìÊı×ª»»³É Ê±·ÖÃë
-/// @param ndp ÓÃÓÚÖ¸¶¨Ê£ÓàÌìÊı£¬¼ÆËã³öÀ´µÄÃëÖ®ºóµÄÊı¾İµÄÎ»Êı
-///            Èç¹ûndpÎª¸ºÊı£¬Êä³ö½á¹ûÎ´Öª
+/// å°†å¤©æ•°è½¬æ¢æˆ æ—¶åˆ†ç§’
+/// @param ndp ç”¨äºæŒ‡å®šå‰©ä½™å¤©æ•°ï¼Œè®¡ç®—å‡ºæ¥çš„ç§’ä¹‹åçš„æ•°æ®çš„ä½æ•°
+///            å¦‚æœndpä¸ºè´Ÿæ•°ï¼Œè¾“å‡ºç»“æœæœªçŸ¥
 SOFASHARED_EXPORT void iauD2tf(int ndp, double days, char *sign, int ihmsf[4]);
-/// ½«Ê±·ÖÃë×ª»»³ÉÌìÊı
+/// å°†æ—¶åˆ†ç§’è½¬æ¢æˆå¤©æ•°
 SOFASHARED_EXPORT int iauTf2d(char s, int ihour, int imin, double sec, double *days);
-/// Í¨¹ıÄêÔÂÈÕ¼ÆËãÈåÂÔÈÕ
-/// @param iy Äê
-/// @param im ÔÂ
-/// @param id ÈÕ
-/// @param djm0 Ô¼¼òÈåÂÔÈÕÆğÊ¼ÌìÊı
-/// @param djm  ´ÓÔ¼¼òÈåÂÔÈÕ¿ªÊ¼µÄÌìÊı
+/// é€šè¿‡å¹´æœˆæ—¥è®¡ç®—å„’ç•¥æ—¥
+/// @param iy å¹´
+/// @param im æœˆ
+/// @param id æ—¥
+/// @param djm0 çº¦ç®€å„’ç•¥æ—¥èµ·å§‹å¤©æ•°
+/// @param djm  ä»çº¦ç®€å„’ç•¥æ—¥å¼€å§‹çš„å¤©æ•°
 SOFASHARED_EXPORT int iauCal2jd(int iy, int im, int id, double *djm0, double *djm);
 
-/// Í¨¹ıÈåÂÔÈÕ¼ÆËãÄêÔÂÈÕ
+/// é€šè¿‡å„’ç•¥æ—¥è®¡ç®—å¹´æœˆæ—¥
 SOFASHARED_EXPORT int iauJd2cal(double dj1, double dj2,
                                 int *iy, int *im, int *id, double *fd);
 SOFASHARED_EXPORT int iauJdcalf(int ndp, double dj1, double dj2, int iymdf[4]);
 
-/// ¾«È·µÄÈåÂÔÈÕ¼ÆËã·½·¨(°üº¬ÈòÃë£¬»òÕßËµ°üº¬ÌøÃë)
+/// ç²¾ç¡®çš„å„’ç•¥æ—¥è®¡ç®—æ–¹æ³•(åŒ…å«é—°ç§’ï¼Œæˆ–è€…è¯´åŒ…å«è·³ç§’)
 SOFASHARED_EXPORT int iauD2dtf(const char *scale, int ndp, double d1, double d2,
                                int *iy, int *im, int *id, int ihmsf[4]);
-/// ¾«È·µÄ½«ÈåÂÔÈÕ×ª»»³É ÈÕÆÚ
+/// ç²¾ç¡®çš„å°†å„’ç•¥æ—¥è½¬æ¢æˆ æ—¥æœŸ
 SOFASHARED_EXPORT int iauDtf2d(const char *scale, int iy, int im, int id,
                                int ihr, int imn, double sec, double *d1, double *d2);
 
 
-/// ½«ÈåÂÔÈÕ×ª»»³É ±´Èû¶ûÀúÔª£¨1984ÄêÖ®Ç°Ê¹ÓÃ£©
+/// å°†å„’ç•¥æ—¥è½¬æ¢æˆ è´å¡å°”å†å…ƒï¼ˆ1984å¹´ä¹‹å‰ä½¿ç”¨ï¼‰
 SOFASHARED_EXPORT double iauEpb(double dj1, double dj2);
 SOFASHARED_EXPORT void iauEpb2jd(double epb, double *djm0, double *djm);
 
-/// ½«ÈåÂÔÈÕ×ª»»³É ÈåÂÔÈÕÀúÔª£¨ÏÖÔÚµÄ±ê×¼ÀúÔª£©
+/// å°†å„’ç•¥æ—¥è½¬æ¢æˆ å„’ç•¥æ—¥å†å…ƒï¼ˆç°åœ¨çš„æ ‡å‡†å†å…ƒï¼‰
 SOFASHARED_EXPORT double iauEpj(double dj1, double dj2);
 SOFASHARED_EXPORT void iauEpj2jd(double epj, double *djm0, double *djm);
 
-/* Astronomy/Ê±¼ä×ª»»¡ª¡ªÊ±¼ä³ß¶È */
-/// ½üËÆ¼ÆËã TDB-TT µÄÃëÊı
-/// @param ut    µ±ÌìµÄ²»ÒªÌìÊıµÄUT1ÈåÂÔÈÕÊ±¼ä
-/// @param elong ¾­¶ÈÏò¶«ÎªÕı                [rad]
-/// @param u     ¾àÀë×Ô×ªÖáµÄ¾àÀë             [km]
-/// @param v     ¾àÀë³àµÀµ½µÄ¾àÀë ±±ÎªÕı       [km]
-/// @return TDB-TTÃëÊı                      [s]
+/* Astronomy/æ—¶é—´è½¬æ¢â€”â€”æ—¶é—´å°ºåº¦ */
+/// è¿‘ä¼¼è®¡ç®— TDB-TT çš„ç§’æ•°
+/// @param ut    å½“å¤©çš„ä¸è¦å¤©æ•°çš„UT1å„’ç•¥æ—¥æ—¶é—´
+/// @param elong ç»åº¦å‘ä¸œä¸ºæ­£                [rad]
+/// @param u     è·ç¦»è‡ªè½¬è½´çš„è·ç¦»             [km]
+/// @param v     è·ç¦»èµ¤é“åˆ°çš„è·ç¦» åŒ—ä¸ºæ­£       [km]
+/// @return TDB-TTç§’æ•°                      [s]
 SOFASHARED_EXPORT double iauDtdb(double date1, double date2,
                                  double ut, double elong, double u, double v);
 
-/// TAIºÍTTÊ±¼ä×ª»»
-/// @brief TT-TAI = 32.184Ãë ¼û sofam.h ÖĞ TTMTAI
+/// TAIå’ŒTTæ—¶é—´è½¬æ¢
+/// @brief TT-TAI = 32.184ç§’ è§ sofam.h ä¸­ TTMTAI
 SOFASHARED_EXPORT int iauTaitt(double tai1, double tai2, double *tt1, double *tt2);
 SOFASHARED_EXPORT int iauTttai(double tt1, double tt2, double *tai1, double *tai2);
 
-/// TAIºÍUT1Ê±¼ä×ª»»
-/// @param dta UT1-TAI µÄÃëÊı
+/// TAIå’ŒUT1æ—¶é—´è½¬æ¢
+/// @param dta UT1-TAI çš„ç§’æ•°
 SOFASHARED_EXPORT int iauTaiut1(double tai1, double tai2, double dta,
                                 double *ut11, double *ut12);
 SOFASHARED_EXPORT int iauUt1tai(double ut11, double ut12, double dta,
                                 double *tai1, double *tai2);
 
-/// »ñÈ¡ TAI-UTC µÄÃëÊı
-/// @brief TAIºÍUTCÏà²îÕûÊıÃë£¬IERS ¹«±¨C½øĞĞ¹«²¼
+/// è·å– TAI-UTC çš„ç§’æ•°
+/// @brief TAIå’ŒUTCç›¸å·®æ•´æ•°ç§’ï¼ŒIERS å…¬æŠ¥Cè¿›è¡Œå…¬å¸ƒ
 /// @return deltat TAI-UTC
 SOFASHARED_EXPORT int iauDat(int iy, int im, int id, double fd, double *deltat);
 
-/// TAIºÍUTCÊ±¼ä×ª»»
+/// TAIå’ŒUTCæ—¶é—´è½¬æ¢
 SOFASHARED_EXPORT int iauTaiutc(double tai1, double tai2, double *utc1, double *utc2);
 SOFASHARED_EXPORT int iauUtctai(double utc1, double utc2, double *tai1, double *tai2);
 
-/// TCBºÍTDBÊ±¼ä×ª»»
+/// TCBå’ŒTDBæ—¶é—´è½¬æ¢
 SOFASHARED_EXPORT int iauTcbtdb(double tcb1, double tcb2, double *tdb1, double *tdb2);
 SOFASHARED_EXPORT int iauTdbtcb(double tdb1, double tdb2, double *tcb1, double *tcb2);
 
-/// TCGºÍTTÊ±¼ä×ª»»
+/// TCGå’ŒTTæ—¶é—´è½¬æ¢
 SOFASHARED_EXPORT int iauTcgtt(double tcg1, double tcg2, double *tt1, double *tt2);
 SOFASHARED_EXPORT int iauTttcg(double tt1, double tt2, double *tcg1, double *tcg2);
 
-/// TTºÍTDBÊ±¼ä×ª»»
-/// @param dtr TDB-TT µÄÃëÊı
+/// TTå’ŒTDBæ—¶é—´è½¬æ¢
+/// @param dtr TDB-TT çš„ç§’æ•°
 SOFASHARED_EXPORT int iauTttdb(double tt1, double tt2, double dtr,
                                double *tdb1, double *tdb2);
 SOFASHARED_EXPORT int iauTdbtt(double tdb1, double tdb2, double dtr,
                                double *tt1, double *tt2);
 
-/// TTºÍUT1Ê±¼ä×ª»»
-/// @param dt TT-UT1 µÄÃëÊı
+/// TTå’ŒUT1æ—¶é—´è½¬æ¢
+/// @param dt TT-UT1 çš„ç§’æ•°
 SOFASHARED_EXPORT int iauTtut1(double tt1, double tt2, double dt,
                                double *ut11, double *ut12);
 SOFASHARED_EXPORT int iauUt1tt(double ut11, double ut12, double dt,
                                double *tt1, double *tt2);
 
-/// UT1ºÍUTCÊ±¼ä×ª»»
-/// @param dut1 UT1-UTC µÄÃëÊı
-/// @brief Êı¾İ¿ÉÒÔ´ÓIERS¹«±¨BµÃµ½
+/// UT1å’ŒUTCæ—¶é—´è½¬æ¢
+/// @param dut1 UT1-UTC çš„ç§’æ•°
+/// @brief æ•°æ®å¯ä»¥ä»IERSå…¬æŠ¥Bå¾—åˆ°
 SOFASHARED_EXPORT int iauUt1utc(double ut11, double ut12, double dut1,
                                 double *utc1, double *utc2);
 SOFASHARED_EXPORT int iauUtcut1(double utc1, double utc2, double dut1,
                                 double *ut11, double *ut12);
-/* Astronomy/µØÇò×Ô×ªºÍºãĞÇÊ± */
-//////////////////////Ë²Ê±´º·ÖµãÓëÆ½´º·ÖµãµÄ¼ÆËã/////////////
-/// GAST = GMST + EE + CT(¿ÉÒÔ²»Òª)
-/// GST¡¢GAST Á½¸öÃû´ÊµÈÍ¬
-/// GAST ÊÇECI×ªECFÊ±ĞèÒªÓÃµÄ Ê±½Ç
+/* Astronomy/åœ°çƒè‡ªè½¬å’Œæ’æ˜Ÿæ—¶ */
+//////////////////////ç¬æ—¶æ˜¥åˆ†ç‚¹ä¸å¹³æ˜¥åˆ†ç‚¹çš„è®¡ç®—/////////////
+/// GAST = GMST + EE + CT(å¯ä»¥ä¸è¦)
+/// GSTã€GAST ä¸¤ä¸ªåè¯ç­‰åŒ
+/// GAST æ˜¯ECIè½¬ECFæ—¶éœ€è¦ç”¨çš„ æ—¶è§’
 
-/// @brief Ë²Ê±Õæ´º·ÖµãÓëÆ½´º·ÖµãµÄ²îÖµ
+/// @brief ç¬æ—¶çœŸæ˜¥åˆ†ç‚¹ä¸å¹³æ˜¥åˆ†ç‚¹çš„å·®å€¼
 /// @param date1 date2 date1+date2=JD(TT)
-/// @param epsa »Æ³à½»½Ç              [rad]
-/// @param dpsi »Æ¾­ÕÂ¶¯              [rad]
-/// @return Ë²Ê±Æ½´º·Öµãµ½Æ½´º·ÖµãµÄ½Ç¶È  [rad]
+/// @param epsa é»„èµ¤äº¤è§’              [rad]
+/// @param dpsi é»„ç»ç« åŠ¨              [rad]
+/// @return ç¬æ—¶å¹³æ˜¥åˆ†ç‚¹åˆ°å¹³æ˜¥åˆ†ç‚¹çš„è§’åº¦  [rad]
 SOFASHARED_EXPORT double iauEe00(double date1, double date2, double epsa, double dpsi);
 SOFASHARED_EXPORT double iauEe00a(double date1, double date2);
 SOFASHARED_EXPORT double iauEe00b(double date1, double date2);
 SOFASHARED_EXPORT double iauEe06a(double date1, double date2);
 
-/// @brief Ë²Ê±Õæ´º·ÖµãÓëÆ½´º·ÖµãµÄ²îÖµ Ê¹ÓÃµÄ²¹³äÏî
-/// @brief GAST = GMST + CT +¡¡EE
+/// @brief ç¬æ—¶çœŸæ˜¥åˆ†ç‚¹ä¸å¹³æ˜¥åˆ†ç‚¹çš„å·®å€¼ ä½¿ç”¨çš„è¡¥å……é¡¹
+/// @brief GAST = GMST + CT +ã€€EE
 /// @param date1 date2 date1+date2=JD(TT)
-/// @return Ë²Ê±Æ½´º·Öµãµ½Æ½´º·ÖµãµÄ½Ç¶È²¹³äÏî [rad]
+/// @return ç¬æ—¶å¹³æ˜¥åˆ†ç‚¹åˆ°å¹³æ˜¥åˆ†ç‚¹çš„è§’åº¦è¡¥å……é¡¹ [rad]
 SOFASHARED_EXPORT double iauEect00(double date1, double date2);
 /// @param date1 date2 date1+date2=JD(TDB)
-/// @return Ë²Ê±Æ½´º·Öµãµ½Æ½´º·ÖµãµÄ½Ç¶È      [rad]
+/// @return ç¬æ—¶å¹³æ˜¥åˆ†ç‚¹åˆ°å¹³æ˜¥åˆ†ç‚¹çš„è§’åº¦      [rad]
 SOFASHARED_EXPORT double iauEqeq94(double date1, double date2);
-//////////////////////Ë²Ê±´º·ÖµãÓëÆ½´º·ÖµãµÄ¼ÆËã end/////////////
+//////////////////////ç¬æ—¶æ˜¥åˆ†ç‚¹ä¸å¹³æ˜¥åˆ†ç‚¹çš„è®¡ç®— end/////////////
 
-/// @brief µØÇò×Ô×ª½Ç
+/// @brief åœ°çƒè‡ªè½¬è§’
 /// @param dj1 dj2 dj1+dj2=JD(UT1)
-/// @return µØÇò×Ô×ª½Ç               [rad]
+/// @return åœ°çƒè‡ªè½¬è§’               [rad]
 SOFASHARED_EXPORT double iauEra00(double dj1, double dj2);
 
-/// @brief ¸ñÁÖÄáÖÎÆ½ºãĞÇÊ±(GMST)£ºÕæ´º·ÖµãºÍ¸ñÁÖÄáÖÎ×ÓÎçÏßÖ®¼äµÄ¼Ğ½Ç
+/// @brief æ ¼æ—å°¼æ²»å¹³æ’æ˜Ÿæ—¶(GMST)ï¼šçœŸæ˜¥åˆ†ç‚¹å’Œæ ¼æ—å°¼æ²»å­åˆçº¿ä¹‹é—´çš„å¤¹è§’
 /// @param uta utb uta+utb=JD(UT1)
 /// @param tta ttb tta+ttb=JD(TT)
 /// @return GMST                   [rad]
@@ -164,7 +164,7 @@ SOFASHARED_EXPORT double iauGmst06(double uta, double utb, double tta, double tt
 /// @param dj1 dj2 dj1+dj2=JD(UT1)
 SOFASHARED_EXPORT double iauGmst82(double dj1, double dj2);
 
-/// @brief ¸ñÁÖÄáÖÎÕæºãĞÇÊ±(GAST):²âÁ¿µÄÊÇÕæ´º·ÖµãµÄÊ±½Ç
+/// @brief æ ¼æ—å°¼æ²»çœŸæ’æ˜Ÿæ—¶(GAST):æµ‹é‡çš„æ˜¯çœŸæ˜¥åˆ†ç‚¹çš„æ—¶è§’
 /// @param uta utb uta+utb=JD(UT1)
 /// @param tta ttb tta+ttb=JD(TT)
 /// @return GAST                   [rad]
@@ -185,50 +185,50 @@ SOFASHARED_EXPORT void iauLteceq(double epj, double dl, double db, double *dr, d
 SOFASHARED_EXPORT void iauLtecm(double epj, double rm[3][3]);
 SOFASHARED_EXPORT void iauLteqec(double epj, double dr, double dd, double *dl, double *db);
 
-/* Astronomy/ÒøºÓÏµ×ø±ê */
+/* Astronomy/é“¶æ²³ç³»åæ ‡ */
 SOFASHARED_EXPORT void iauG2icrs ( double dl, double db, double *dr, double *dd );
 SOFASHARED_EXPORT void iauIcrs2g ( double dr, double dd, double *dl, double *db );
 
-/* Astronomy/µØÇòµØÀí */
-/// @brief »ñÈ¡µØÇòÍÖÇòÏµÊı
+/* Astronomy/åœ°çƒåœ°ç† */
+/// @brief è·å–åœ°çƒæ¤­çƒç³»æ•°
 /// @param n 1(WGS84)2(GRS80)3(WGS72)
-/// @param a ³¤°ëÖá          [m]
-/// @param f ±âÂÊ
+/// @param a é•¿åŠè½´          [m]
+/// @param f æ‰ç‡
 SOFASHARED_EXPORT int iauEform(int n, double *a, double *f);
 
-/// @brief µØĞÄ×ø±êÏµ×ª»»³ÉµØÀí×ø±êÏµ
+/// @brief åœ°å¿ƒåæ ‡ç³»è½¬æ¢æˆåœ°ç†åæ ‡ç³»
 /// @param n 1(WGS84)2(GRS80)3(WGS72)
-/// @param xyz µ¥Î»        [m]
-/// @param elong  ¾­¶È     [rad] (Ïò¶«ÎªÕı)
-/// @param phi    Î³¶È     [rad] (Ïò±±ÎªÕı)
-/// @param height ¸ß¶È     [m]
+/// @param xyz å•ä½        [m]
+/// @param elong  ç»åº¦     [rad] (å‘ä¸œä¸ºæ­£)
+/// @param phi    çº¬åº¦     [rad] (å‘åŒ—ä¸ºæ­£)
+/// @param height é«˜åº¦     [m]
 SOFASHARED_EXPORT int iauGc2gd(int n, double xyz[3],
                                double *elong, double *phi, double *height);
-/// @param a ³¤°ëÖá
-/// @param f ±âÂÊ
-/// @attention a xyz height ±ØĞëÊÇÏàÍ¬µÄµ¥Î» Ã× Ç§Ã× µÈ
+/// @param a é•¿åŠè½´
+/// @param f æ‰ç‡
+/// @attention a xyz height å¿…é¡»æ˜¯ç›¸åŒçš„å•ä½ ç±³ åƒç±³ ç­‰
 SOFASHARED_EXPORT int iauGc2gde(double a, double f, double xyz[3],
                                 double *elong, double *phi, double *height);
 
-/// @brief µØÀí×ø±êÏµ×ª»»³ÉµØĞÄ×ø±êÏµ
+/// @brief åœ°ç†åæ ‡ç³»è½¬æ¢æˆåœ°å¿ƒåæ ‡ç³»
 SOFASHARED_EXPORT int iauGd2gc(int n, double elong, double phi, double height,
                                double xyz[3]);
 SOFASHARED_EXPORT int iauGd2gce(double a, double f,
                                 double elong, double phi, double height, double xyz[3]);
-/// @param elong  WGS84 ÏÂµÄ¾­¶È [rad]
-/// @param phi    WGS84 ÏÂµÄÎ³¶È [rad]
-/// @param height ¸ß¶È          [m]
-/// @param xp,yp ¼«ÒÆÊı¾İ        [rad]
-/// @param sp    TIO¶¨Î»½Ç       [rad]    ÓÉÕÂ¶¯¿ÉÒÔ¼ÆËã¼û iauS06a
-/// @param theta µØÇò×Ô×ª½Ç       [rad]
-/// @param pv    CIRS×ø±êÏµÏÂ ¹Û²ìÕßµÄÎ»ÖÃËÙ¶È µ¥Î» m m/s CIRS(ÌìÇòÖĞ¼ä²Î¿¼Ïµ£¬¶ÔGCRS½øĞĞËê²îÕÂ×ª¶¯ºóµÄµØĞÄ²Î¿¼Ïµ)
+/// @param elong  WGS84 ä¸‹çš„ç»åº¦ [rad]
+/// @param phi    WGS84 ä¸‹çš„çº¬åº¦ [rad]
+/// @param height é«˜åº¦          [m]
+/// @param xp,yp æç§»æ•°æ®        [rad]
+/// @param sp    TIOå®šä½è§’       [rad]    ç”±ç« åŠ¨å¯ä»¥è®¡ç®—è§ iauS06a
+/// @param theta åœ°çƒè‡ªè½¬è§’       [rad]
+/// @param pv    CIRSåæ ‡ç³»ä¸‹ è§‚å¯Ÿè€…çš„ä½ç½®é€Ÿåº¦ å•ä½ m m/s CIRS(å¤©çƒä¸­é—´å‚è€ƒç³»ï¼Œå¯¹GCRSè¿›è¡Œå²å·®ç« è½¬åŠ¨åçš„åœ°å¿ƒå‚è€ƒç³»)
 SOFASHARED_EXPORT void iauPvtob(double elong, double phi, double height, double xp,
                                 double yp, double sp, double theta, double pv[2][3]);
-/* Astronomy/Ëê²î ÕÂ¶¯ ¼«ÒÆ */
-/// GCRS µ½ ITRS ×ø±êÏµ×ª»»¾ØÕó (°üÀ¨Ëê²î¡¢ÕÂ¶¯¡¢¼«ÒÆ)
+/* Astronomy/å²å·® ç« åŠ¨ æç§» */
+/// GCRS åˆ° ITRS åæ ‡ç³»è½¬æ¢çŸ©é˜µ (åŒ…æ‹¬å²å·®ã€ç« åŠ¨ã€æç§»)
 /// @param tta tta+ttb = dJD(TT)
 /// @param uta uta+utb = dJD(UT1)
-/// @param xp,yp  ¼«ÒÆÊı¾İ     [rad]
+/// @param xp,yp  æç§»æ•°æ®     [rad]
 SOFASHARED_EXPORT void iauC2t00a(double tta, double ttb, double uta, double utb,
                                  double xp, double yp, double rc2t[3][3]);
 SOFASHARED_EXPORT void iauC2t00b(double tta, double ttb, double uta, double utb,
@@ -237,11 +237,11 @@ SOFASHARED_EXPORT void iauC2t06a(double tta, double ttb, double uta, double utb,
                                  double xp, double yp, double rc2t[3][3]);
 
 /// @brief IAU 2000A model
-/// @param date1 TT ÈåÂÔÈÕÊ±¼ä
-/// @param date2 TT ÈåÂÔÈÕÊ±¼ä date1+date2 = dJD(TT)
-/// ¾«¶ÈÎª 0.2 mas
+/// @param date1 TT å„’ç•¥æ—¥æ—¶é—´
+/// @param date2 TT å„’ç•¥æ—¥æ—¶é—´ date1+date2 = dJD(TT)
+/// ç²¾åº¦ä¸º 0.2 mas
 SOFASHARED_EXPORT void iauNum00a(double date1, double date2, double rmatn[3][3]);
-/// @attention Ïà½ÏÓÚ num00a 00bËÙ¶È¿ì£¬¾«¶ÈÎª1mas£¨1ºÁ»¡Ãë»òÕß1ºÁ½ÇÃë£©
+/// @attention ç›¸è¾ƒäº num00a 00bé€Ÿåº¦å¿«ï¼Œç²¾åº¦ä¸º1masï¼ˆ1æ¯«å¼§ç§’æˆ–è€…1æ¯«è§’ç§’ï¼‰
 SOFASHARED_EXPORT void iauNum00b(double date1, double date2, double rmatn[3][3]);
 SOFASHARED_EXPORT void iauNum06a(double date1, double date2, double rmatn[3][3]);
 SOFASHARED_EXPORT void iauNutm80(double date1, double date2, double rmatn[3][3]);
@@ -346,7 +346,7 @@ SOFASHARED_EXPORT void iauXys00b(double date1, double date2,
 SOFASHARED_EXPORT void iauXys06a(double date1, double date2,
                double *x, double *y, double *s);
 
-/* Astronomy/ÌìÌå²âÁ¿ */
+/* Astronomy/å¤©ä½“æµ‹é‡ */
 SOFASHARED_EXPORT void iauAb(double pnat[3], double v[3], double s, double bm1,
                              double ppr[3]);
 SOFASHARED_EXPORT void iauApcg(double date1, double date2,
@@ -449,23 +449,23 @@ SOFASHARED_EXPORT int iauPmsafe(double ra1, double dec1, double pmr1, double pmd
 SOFASHARED_EXPORT void iauRefco(double phpa, double tk, double rh, double wl,
                                 double *refa, double *refb);
 
-/* Astronomy/ĞÇÀú±í */
-/// @brief µØÇòÔÚÌ«ÑôÏµÖĞµÄÎ»ÖÃºÍËÙ¶È
+/* Astronomy/æ˜Ÿå†è¡¨ */
+/// @brief åœ°çƒåœ¨å¤ªé˜³ç³»ä¸­çš„ä½ç½®å’Œé€Ÿåº¦
 /// @param date1 + date2 = dJD(TDB)
-/// @param pvh ÒÔÌ«ÑôÎªÖĞĞÄµÄ×ø±êÏµµÄ Î»ÖÃ¡¢ËÙ¶È [Au¡¢Au/d]
-/// @param pvb ÒÔÌ«ÑôÖÊĞÄÎªÖĞĞÄµÄ×ø±êÏµµÄÎ»ÖÃ¡¢ËÙ¶È [Au¡¢Au/d]
-/// @attention Ö»ÄÜ¼ÆËã 1900-2100 Äê
+/// @param pvh ä»¥å¤ªé˜³ä¸ºä¸­å¿ƒçš„åæ ‡ç³»çš„ ä½ç½®ã€é€Ÿåº¦ [Auã€Au/d]
+/// @param pvb ä»¥å¤ªé˜³è´¨å¿ƒä¸ºä¸­å¿ƒçš„åæ ‡ç³»çš„ä½ç½®ã€é€Ÿåº¦ [Auã€Au/d]
+/// @attention åªèƒ½è®¡ç®— 1900-2100 å¹´
 SOFASHARED_EXPORT int iauEpv00(double date1, double date2,
              double pvh[2][3], double pvb[2][3]);
 
-/// @brief ¸÷ĞĞĞÇÔÚÌ«ÑôÏµµÄÎ»ÖÃºÍËÙ¶È
+/// @brief å„è¡Œæ˜Ÿåœ¨å¤ªé˜³ç³»çš„ä½ç½®å’Œé€Ÿåº¦
 /// @param date1 + date2 = dJD(TDB)
 /// @param np [1-8] [Mercury,Venus,EMB,Mars,Jupiter,Saturn,Uranus,Neptune]
-/// @param pv ÒÔÌ«ÑôÎªÖĞĞÄµÄ×ø±êÏµµÄ Î»ÖÃ¡¢ËÙ¶È [Au¡¢Au/d]
-/// @attention Ö»ÄÜ¼ÆËã 1000-3000 Äê
+/// @param pv ä»¥å¤ªé˜³ä¸ºä¸­å¿ƒçš„åæ ‡ç³»çš„ ä½ç½®ã€é€Ÿåº¦ [Auã€Au/d]
+/// @attention åªèƒ½è®¡ç®— 1000-3000 å¹´
 SOFASHARED_EXPORT int iauPlan94(double date1, double date2, int np, double pv[2][3]);
 
-/* Astronomy/ÓÃÓÚÕÂ¶¯µÈ¹«Ê½ÖĞµÄ»ù±¾·ù½Ç */
+/* Astronomy/ç”¨äºç« åŠ¨ç­‰å…¬å¼ä¸­çš„åŸºæœ¬å¹…è§’ */
 SOFASHARED_EXPORT double iauFad03(double t);
 SOFASHARED_EXPORT double iauFae03(double t);
 SOFASHARED_EXPORT double iauFaf03(double t);
@@ -492,7 +492,7 @@ SOFASHARED_EXPORT int iauStarpv(double ra, double dec,
               double pmr, double pmd, double px, double rv,
               double pv[2][3]);
 
-/* Astronomy/ĞÇ±í×ª»» */
+/* Astronomy/æ˜Ÿè¡¨è½¬æ¢ */
 SOFASHARED_EXPORT void iauFk52h(double r5, double d5,
               double dr5, double dd5, double px5, double rv5,
               double *rh, double *dh,
@@ -549,144 +549,144 @@ SOFASHARED_EXPORT void iauRxpv(double r[3][3], double pv[2][3], double rpv[2][3]
 SOFASHARED_EXPORT void iauTrxp(double r[3][3], double p[3], double trp[3]);
 SOFASHARED_EXPORT void iauTrxpv(double r[3][3], double pv[2][3], double trpv[2][3]);
 
-/* VectorMatrix/ËÄÔªÊıÓë¾ØÕó×ª»» */
-/// @brief ½«¾ØÕó×ª»»³ÉËÄÔªÊı
-/// @param r Ğı×ª¾ØÕó
-/// @return w wµÄÄ£ÊÇĞı×ª½Ç¶È [rad] ·½ÏòÎªĞı×ªÖáµÄ·½Ïò
+/* VectorMatrix/å››å…ƒæ•°ä¸çŸ©é˜µè½¬æ¢ */
+/// @brief å°†çŸ©é˜µè½¬æ¢æˆå››å…ƒæ•°
+/// @param r æ—‹è½¬çŸ©é˜µ
+/// @return w wçš„æ¨¡æ˜¯æ—‹è½¬è§’åº¦ [rad] æ–¹å‘ä¸ºæ—‹è½¬è½´çš„æ–¹å‘
 SOFASHARED_EXPORT void iauRm2v(double r[3][3], double w[3]);
 
-/// @brief ½«ËÄÔªÊı×ª»»³ÉĞı×ª¾ØÕó
-/// @return r rÎªĞı×ª¾ØÕó
+/// @brief å°†å››å…ƒæ•°è½¬æ¢æˆæ—‹è½¬çŸ©é˜µ
+/// @return r rä¸ºæ—‹è½¬çŸ©é˜µ
 SOFASHARED_EXPORT void iauRv2m(double w[3], double r[3][3]);
 
-/* VectorMatrix/·½Î»½ÇÓë½Ç¾à */
-/// @brief bµãÏà¶ÔÓÚaµãµÄ·½Î»½Ç
-/// @param a ÏòÁ¿ a
-/// @param b ÏòÁ¿ b
-/// @return ·½Î»½Ç [rad]
+/* VectorMatrix/æ–¹ä½è§’ä¸è§’è· */
+/// @brief bç‚¹ç›¸å¯¹äºaç‚¹çš„æ–¹ä½è§’
+/// @param a å‘é‡ a
+/// @param b å‘é‡ b
+/// @return æ–¹ä½è§’ [rad]
 SOFASHARED_EXPORT double iauPap(double a[3], double b[3]);
 
-/// @brief b µãÏà¶ÔÓÚ aµãµÄ·½Î»½Ç ÇòÃæ×ø±ê
-/// @param al a µãµÄ¾­¶È [rad]
-/// @param ap a µãµÄÎ³¶È [rad]
-/// @param bl b µãµÄ¾­¶È [rad]
-/// @param bp b µãµÄÎ³¶È [rad]
-/// @return ·½Î»½Ç       [rad]
+/// @brief b ç‚¹ç›¸å¯¹äº aç‚¹çš„æ–¹ä½è§’ çƒé¢åæ ‡
+/// @param al a ç‚¹çš„ç»åº¦ [rad]
+/// @param ap a ç‚¹çš„çº¬åº¦ [rad]
+/// @param bl b ç‚¹çš„ç»åº¦ [rad]
+/// @param bp b ç‚¹çš„çº¬åº¦ [rad]
+/// @return æ–¹ä½è§’       [rad]
 SOFASHARED_EXPORT double iauPas(double al, double ap, double bl, double bp);
 
-/// @brief ÏòÁ¿a Óë ÏòÁ¿b µÄ½Ç¾à(¼Ğ½Ç)
-/// @param a ÏòÁ¿ a
-/// @param b ÏòÁ¿ b
-/// @return ½Ç¾à        [rad]
-/// @attention ¾­¹ı´¦ÀíÔÚ 0 ºÍ Pi Ê±¾«¶ÈÒÀÈ»ºÜ¸ß
+/// @brief å‘é‡a ä¸ å‘é‡b çš„è§’è·(å¤¹è§’)
+/// @param a å‘é‡ a
+/// @param b å‘é‡ b
+/// @return è§’è·        [rad]
+/// @attention ç»è¿‡å¤„ç†åœ¨ 0 å’Œ Pi æ—¶ç²¾åº¦ä¾ç„¶å¾ˆé«˜
 SOFASHARED_EXPORT double iauSepp(double a[3], double b[3]);
 
-/// @brief ÏòÁ¿a Óë ÏòÁ¿b µÄ½Ç¾à(¼Ğ½Ç) ÇòÃæ×ø±ê
-/// @param al a µãµÄ¾­¶È [rad]
-/// @param ap a µãµÄÎ³¶È [rad]
-/// @param bl b µãµÄ¾­¶È [rad]
-/// @param bp b µãµÄÎ³¶È [rad]
-/// @return ½Ç¾à        [rad]
+/// @brief å‘é‡a ä¸ å‘é‡b çš„è§’è·(å¤¹è§’) çƒé¢åæ ‡
+/// @param al a ç‚¹çš„ç»åº¦ [rad]
+/// @param ap a ç‚¹çš„çº¬åº¦ [rad]
+/// @param bl b ç‚¹çš„ç»åº¦ [rad]
+/// @param bp b ç‚¹çš„çº¬åº¦ [rad]
+/// @return è§’è·        [rad]
 SOFASHARED_EXPORT double iauSeps(double al, double ap, double bl, double bp);
 
-/* VectorMatrix/Çò×ø±êÓëµÑ¿¨¶û×ø±êµÄ×ª»» */
-/// @brief ÇóµÑ¿¨¶û×ø±ê¶ÔÓ¦µÄÇò×ø±ê
-/// @param p µÑ¿¨¶û×ø±êÏµÎ»ÖÃ
-/// @return theta ¾­¶È        [rad]
-/// @return phi   Î³¶È        [rad]
+/* VectorMatrix/çƒåæ ‡ä¸ç¬›å¡å°”åæ ‡çš„è½¬æ¢ */
+/// @brief æ±‚ç¬›å¡å°”åæ ‡å¯¹åº”çš„çƒåæ ‡
+/// @param p ç¬›å¡å°”åæ ‡ç³»ä½ç½®
+/// @return theta ç»åº¦        [rad]
+/// @return phi   çº¬åº¦        [rad]
 SOFASHARED_EXPORT void iauC2s(double p[3], double *theta, double *phi);
 
-/// @brief ÇóµÑ¿¨¶û×ø±ê¶ÔÓ¦µÄÇò×ø±ê
-/// ²ÎÊıÍ¬ÉÏ
-/// @return r ¾àÀë     µ¥Î»Óë´«ÈëµÄ·ÖÁ¿ÏàÍ¬
+/// @brief æ±‚ç¬›å¡å°”åæ ‡å¯¹åº”çš„çƒåæ ‡
+/// å‚æ•°åŒä¸Š
+/// @return r è·ç¦»     å•ä½ä¸ä¼ å…¥çš„åˆ†é‡ç›¸åŒ
 SOFASHARED_EXPORT void iauP2s(double p[3], double *theta, double *phi, double *r);
 
-/// @brief ÇóµÑ¿¨¶ûÏÂµÄÎ»ÖÃ/ËÙ¶È ¶ÔÓ¦µÄÇò×ø±ê¼°Æä±ä»¯ÂÊ
-/// @param pv µÑ¿¨¶ûÎ»ÖÃ/ËÙ¶È
-/// @return theta µÈÍ¬ÉÏ
-/// @return td ¾­¶ÈµÄ±ä»¯ÂÊ  [rad/t] tÓëËÙ¶ÈµÄµ¥Î»ÏàÍ¬
-/// @return pd Î³¶ÈµÄ±ä»¯ÂÊ  [rad/t] tÓëËÙ¶ÈµÄµ¥Î»ÏàÍ¬
-/// @return rd ¾àÀëµÄ±ä»¯ÂÊ  [r/t] rÓëÎ»ÖÃµÄ·ÖÁ¿µ¥Î»ÏàÍ¬ tÓëËÙ¶ÈµÄµ¥Î»ÏàÍ¬
+/// @brief æ±‚ç¬›å¡å°”ä¸‹çš„ä½ç½®/é€Ÿåº¦ å¯¹åº”çš„çƒåæ ‡åŠå…¶å˜åŒ–ç‡
+/// @param pv ç¬›å¡å°”ä½ç½®/é€Ÿåº¦
+/// @return theta ç­‰åŒä¸Š
+/// @return td ç»åº¦çš„å˜åŒ–ç‡  [rad/t] tä¸é€Ÿåº¦çš„å•ä½ç›¸åŒ
+/// @return pd çº¬åº¦çš„å˜åŒ–ç‡  [rad/t] tä¸é€Ÿåº¦çš„å•ä½ç›¸åŒ
+/// @return rd è·ç¦»çš„å˜åŒ–ç‡  [r/t] rä¸ä½ç½®çš„åˆ†é‡å•ä½ç›¸åŒ tä¸é€Ÿåº¦çš„å•ä½ç›¸åŒ
 SOFASHARED_EXPORT void iauPv2s(double pv[2][3],
              double *theta, double *phi, double *r,
              double *td, double *pd, double *rd);
 
-//// Õâ¼¸¸öÊÇÉÏÃæÈı¸öµÄÄæ±ä»»
+//// è¿™å‡ ä¸ªæ˜¯ä¸Šé¢ä¸‰ä¸ªçš„é€†å˜æ¢
 SOFASHARED_EXPORT void iauS2c(double theta, double phi, double c[3]);
 SOFASHARED_EXPORT void iauS2p(double theta, double phi, double r, double p[3]);
 SOFASHARED_EXPORT void iauS2pv(double theta, double phi, double r,
              double td, double pd, double rd,
              double pv[2][3]);
 
-/* VectorMatrix/ÏòÁ¿²Ù×÷ */
-/// @brief ÇóÏòÁ¿aÓëÏòÁ¿bµÄµã³Ë(ÄÚ»ı)
-/// @param ÏòÁ¿ a
-/// @param ÏòÁ¿ b
-/// @return a¡¤b ÏòÁ¿aÓëÏòÁ¿bµÄµã³Ë
+/* VectorMatrix/å‘é‡æ“ä½œ */
+/// @brief æ±‚å‘é‡aä¸å‘é‡bçš„ç‚¹ä¹˜(å†…ç§¯)
+/// @param å‘é‡ a
+/// @param å‘é‡ b
+/// @return aÂ·b å‘é‡aä¸å‘é‡bçš„ç‚¹ä¹˜
 SOFASHARED_EXPORT double iauPdp(double a[3], double b[3]);
 /// @return adb[0] = a[0] . b[0]
 /// @return adb[1] = a[0] . b[1] + a[1] . b[0]
 SOFASHARED_EXPORT void iauPvdpv(double a[2][3], double b[2][3], double adb[2]);
 
-/// @brief ÇóÏòÁ¿pµÄÄ£
-/// @param ÏòÁ¿ p
-/// @return ÏòÁ¿pµÄÄ£
+/// @brief æ±‚å‘é‡pçš„æ¨¡
+/// @param å‘é‡ p
+/// @return å‘é‡pçš„æ¨¡
 SOFASHARED_EXPORT double iauPm(double p[3]);
-/// @return r ÏòÁ¿pv[0]µÄÄ£
-/// @return s ÏòÁ¿pv[1]µÄÄ£
+/// @return r å‘é‡pv[0]çš„æ¨¡
+/// @return s å‘é‡pv[1]çš„æ¨¡
 SOFASHARED_EXPORT void iauPvm(double pv[2][3], double *r, double *s);
 
-/// @brief ÇóÏòÁ¿a¼õÏòÁ¿b
-/// @param a ÏòÁ¿a
-/// @param b ÏòÁ¿b
+/// @brief æ±‚å‘é‡aå‡å‘é‡b
+/// @param a å‘é‡a
+/// @param b å‘é‡b
 /// @return amb = a - b
 SOFASHARED_EXPORT void iauPmp(double a[3], double b[3], double amb[3]);
 /// @return amb[0] = a[0] - b[0]
 /// @return amb[1] = a[1] - b[1]
 SOFASHARED_EXPORT void iauPvmpv(double a[2][3], double b[2][3], double amb[2][3]);
 
-/// @brief ¸ù¾İÏòÁ¿Çó ÏòÁ¿µÄÄ£ ÒÔ¼°¹éÒ»»¯µÄÏòÁ¿
-/// @param p  ÏòÁ¿ p
-/// @return r ÏòÁ¿µÄÄ£
-/// @return u ¹éÒ»»¯µÄÏòÁ¿
+/// @brief æ ¹æ®å‘é‡æ±‚ å‘é‡çš„æ¨¡ ä»¥åŠå½’ä¸€åŒ–çš„å‘é‡
+/// @param p  å‘é‡ p
+/// @return r å‘é‡çš„æ¨¡
+/// @return u å½’ä¸€åŒ–çš„å‘é‡
 SOFASHARED_EXPORT void iauPn(double p[3], double *r, double u[3]);
 
-/// @brief ÇóÏòÁ¿µÄºÍ
-/// @param a ÏòÁ¿ a
-/// @param b ÏòÁ¿ b
+/// @brief æ±‚å‘é‡çš„å’Œ
+/// @param a å‘é‡ a
+/// @param b å‘é‡ b
 /// @return apb = a + b
 SOFASHARED_EXPORT void iauPpp(double a[3], double b[3], double apb[3]);
 /// @return apb[0] = a[0] + b[0]
 /// @return apb[1] = a[1] + b[1]
 SOFASHARED_EXPORT void iauPvppv(double a[2][3], double b[2][3], double apb[2][3]);
 
-/// @brief ÇóÏòÁ¿µÄºÍ
-/// @param a ÏòÁ¿ a
-/// @param s Ëõ·ÅÏµÊı
-/// @param b ÏòÁ¿ b
+/// @brief æ±‚å‘é‡çš„å’Œ
+/// @param a å‘é‡ a
+/// @param s ç¼©æ”¾ç³»æ•°
+/// @param b å‘é‡ b
 /// @return apsb = a + s*b
 SOFASHARED_EXPORT void iauPpsp(double a[3], double s, double b[3], double apsb[3]);
 
-/// @brief ¸ù¾İ Î»ÖÃ/ËÙ¶È Ê±¼ä ¸üĞÂ Î»ÖÃ/ËÙ¶È
-/// @param dt  ÍùºóÍÆËãµÄÊ±¼ä  Ê±¼äµ¥Î»ÓëpvÖĞvµÄÊ±¼ä³ß¶ÈÏàÍ¬
-/// @param pv  Î»ÖÃ/ËÙ¶È      p[0] Î»ÖÃ p[1] ËÙ¶È
-/// @return upv ¸üĞÂºóµÄÎ»ÖÃ/ËÙ¶È upv[0] = p[0] + p[1]*dt;upv[1] = p[1];
+/// @brief æ ¹æ® ä½ç½®/é€Ÿåº¦ æ—¶é—´ æ›´æ–° ä½ç½®/é€Ÿåº¦
+/// @param dt  å¾€åæ¨ç®—çš„æ—¶é—´  æ—¶é—´å•ä½ä¸pvä¸­vçš„æ—¶é—´å°ºåº¦ç›¸åŒ
+/// @param pv  ä½ç½®/é€Ÿåº¦      p[0] ä½ç½® p[1] é€Ÿåº¦
+/// @return upv æ›´æ–°åçš„ä½ç½®/é€Ÿåº¦ upv[0] = p[0] + p[1]*dt;upv[1] = p[1];
 SOFASHARED_EXPORT void iauPvu(double dt, double pv[2][3], double upv[2][3]);
 SOFASHARED_EXPORT void iauPvup(double dt, double pv[2][3], double p[3]);
 
-/// @brief ÇóÏòÁ¿aÓëÏòÁ¿bµÄ²æ³Ë(Íâ»ı)
-/// @param ÏòÁ¿ a
-/// @param ÏòÁ¿ b
-/// @return axb = a X b ÏòÁ¿aÓëÏòÁ¿bµÄ²æ³Ë
+/// @brief æ±‚å‘é‡aä¸å‘é‡bçš„å‰ä¹˜(å¤–ç§¯)
+/// @param å‘é‡ a
+/// @param å‘é‡ b
+/// @return axb = a X b å‘é‡aä¸å‘é‡bçš„å‰ä¹˜
 SOFASHARED_EXPORT void iauPxp(double a[3], double b[3], double axb[3]);
 /// @return axb[0] = a[0] X b[0]
 /// @return axb[1] = a[0] X b[1] + a[1] X b[0]
 SOFASHARED_EXPORT void iauPvxpv(double a[2][3], double b[2][3], double axb[2][3]);
 
-/// @brief ¶ÔÏòÁ¿½øĞĞËõ·Å
-/// @param s  Ëõ·ÅÏµÊı
-/// @param p  ÏòÁ¿
-/// @return sp = s * p Ëõ·ÅºóµÄÏòÁ¿
+/// @brief å¯¹å‘é‡è¿›è¡Œç¼©æ”¾
+/// @param s  ç¼©æ”¾ç³»æ•°
+/// @param p  å‘é‡
+/// @return sp = s * p ç¼©æ”¾åçš„å‘é‡
 SOFASHARED_EXPORT void iauSxp(double s, double p[3], double sp[3]);
 /// @return spv = s * pv
 SOFASHARED_EXPORT void iauSxpv(double s, double pv[2][3], double spv[2][3]);

@@ -3,3 +3,26 @@
 ################################################################################
 
 /.vs
+*.stash
+*.res
+*.obj
+*.pdb
+/build-STK-Desktop_Qt_5_14_1_MSVC2015_64bit-Debug/GisMath/Makefile
+*.Debug
+*.Release
+/build-STK-Desktop_Qt_5_14_1_MSVC2015_64bit-Debug/Makefile
+/build-STK-Desktop_Qt_5_14_1_MSVC2015_64bit-Debug/Math/Makefile
+/build-STK-Desktop_Qt_5_14_1_MSVC2015_64bit-Debug/Satellite/Makefile
+/build-STK-Desktop_Qt_5_14_1_MSVC2015_64bit-Debug/Sofa/debug/Sofa.dll
+*.exp
+*.ilk
+*.lib
+/build-STK-Desktop_Qt_5_14_1_MSVC2015_64bit-Debug/Sofa/Makefile
+/build-STK-Desktop_Qt_5_14_1_MSVC2015_64bit-Release/GisMath/Makefile
+/build-STK-Desktop_Qt_5_14_1_MSVC2015_64bit-Release/Makefile
+/build-STK-Desktop_Qt_5_14_1_MSVC2015_64bit-Release/Math/Makefile
+/build-STK-Desktop_Qt_5_14_1_MSVC2015_64bit-Release/Satellite/Makefile
+/build-STK-Desktop_Qt_5_14_1_MSVC2015_64bit-Release/Sofa/Makefile
+*.dll
+*.h
+*.user

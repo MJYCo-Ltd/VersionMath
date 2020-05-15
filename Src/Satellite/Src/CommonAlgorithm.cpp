@@ -8,6 +8,7 @@
 #include <cstring>
 using namespace std;
 #include "sofam.h"
+#include "GisMath.h"
 
 using namespace Math;
 using namespace Aerospace;
@@ -292,57 +293,6 @@ CMatrix GHAMatrix (double Mjd_UT1)
 CMatrix PoleMatrix (const double& dX, const double& dY)
 {
    return(CVecMat::R_y(-dX) * CVecMat::R_x(-dY));
-}
-
-
-/// 进行数据的判断
-bool IsValid(const CVector& vIn, CVector& vOut)
-{
-    int nInSize = vIn.Size();
-
-    /// 判断数据是否有效
-    if(vOut && nInSize != vOut.Size())
-    {
-        return(false);
-    }
-
-    /// 必须是3的整数倍出现
-    if(1 > nInSize || nInSize%3 != 0)
-    {
-        return(false);
-    }
-
-    /// 如果ecf为空则开辟空间
-    if(!vOut)
-    {
-        vOut.Resize(nInSize);
-    }
-
-    return(true);
-}
-
-/// 计算结果
-bool CalReault(const CMatrix& rMatrix, const CVector& vIn, CVector& vOut)
-{
-    if(!rMatrix)
-    {
-        return(false);
-    }
-
-    CVector tmpVector;
-
-    int nInSize = vIn.Size();
-
-    for(int j=0; j<nInSize; j+=3)
-    {
-        tmpVector = rMatrix * vIn.slice(j,j+2);
-
-        vOut(j)   = tmpVector(0);
-        vOut(j+1) = tmpVector(1);
-        vOut(j+2) = tmpVector(2);
-    }
-
-    return(true);
 }
 
 /// 计算时间
@@ -862,7 +812,7 @@ double Density_HP(const CVector &vecRSun, const CVector& r_tod )
 
     // 卫星高度
     CVector vTemp;
-    CCoorSys::XYZ2LBH(r_tod,vTemp);
+    GisMath::XYZ2LBH(r_tod,vTemp);
     height = vTemp(2)/1000.0;              //  [km]
 
 

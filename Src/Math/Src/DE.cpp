@@ -1,4 +1,4 @@
-﻿#include <cmath>
+#include <cmath>
 #include <iostream>
 #include <limits>
 using namespace std;
@@ -118,7 +118,7 @@ void CDE::Step (double& dX, CVector& vecY, double& dEps, bool& bCrash)
             absh=0.25*sqrt(dEps/sum);
         }
 
-        m_dH    = sign(max(absh, fouru*fabs(dX)), m_dH);
+        m_dH    = sign(fmax(absh, fouru*fabs(dX)), m_dH);
         m_dHold = 0.0;
         hnew = 0.0;
         m_nK    = 1;
@@ -352,7 +352,7 @@ void CDE::Step (double& dX, CVector& vecY, double& dEps, bool& bCrash)
         // Test if order should be lowered
         if (km2 >0)
         {
-            if (max(erkm1,erkm2)<=erk)
+            if (fmax(erkm1,erkm2)<=erk)
             {
                 knew=km1;
             }
@@ -538,7 +538,7 @@ void CDE::Step (double& dX, CVector& vecY, double& dEps, bool& bCrash)
                 // appropriate order for next step
                 if (m_nK>1)
                 {
-                    if ( erkm1<=min(erk,erkp1))
+                    if ( erkm1<=fmin(erk,erkp1))
                     {
                         // lower order
                         m_nK=km1; erk=erkm1;
@@ -583,8 +583,8 @@ void CDE::Step (double& dX, CVector& vecY, double& dEps, bool& bCrash)
         {
             temp2 = m_nK+1;
             r = pow(p5eps/erk, 1.0/temp2);
-            hnew = absh*max(0.5, min(0.9,r));
-            hnew = sign(max(hnew, fouru*fabs(dX)), m_dH);
+            hnew = absh*fmax(0.5, fmin(0.9,r));
+            hnew = sign(fmax(hnew, fouru*fabs(dX)), m_dH);
         }
         else hnew = m_dH;
     }
@@ -675,7 +675,7 @@ void CDE::Integ (double& dt, double dTout, CVector& vecY)
 
     // Test for improper parameters
 
-    eps   = max(m_dRelerr,m_dAbserr);
+    eps   = fmax(m_dRelerr,m_dAbserr);
 
     if ( ( m_dRelerr <  0.0         ) ||      // Negative relative error bound
          ( m_dAbserr <  0.0         ) ||      // Negative absolute error bound
@@ -717,7 +717,7 @@ void CDE::Integ (double& dt, double dTout, CVector& vecY)
         m_dX      = dt;
         m_vecYy   = vecY;
         m_dDelsgn = sign(1.0, del);
-        m_dH      = sign( max(fouru*fabs(m_dX), fabs(dTout-m_dX)), dTout-m_dX );
+        m_dH      = sign( fmax(fouru*fabs(m_dX), fabs(dTout-m_dX)), dTout-m_dX );
     }
 
     while (true)
@@ -761,7 +761,7 @@ void CDE::Integ (double& dt, double dTout, CVector& vecY)
         }
 
         // Limit step size, set weight vector and take a step
-        m_dH  = sign(min(fabs(m_dH), fabs(tend-m_dX)), m_dH);
+        m_dH  = sign(fmin(fabs(m_dH), fabs(tend-m_dX)), m_dH);
 
         for (int l=0; l<m_nEqn; ++l)
         {

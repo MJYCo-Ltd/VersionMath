@@ -1,8 +1,6 @@
 #include "Transit.h"
-#include "CommonAlgorithm.h"
 
 using namespace Math;
-using namespace Satellite;
 
 CTransit::CTransit()
 {

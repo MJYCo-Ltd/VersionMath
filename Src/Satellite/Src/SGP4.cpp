@@ -23,7 +23,7 @@ CSGP4::CSGP4(const char strLine1[], const char strLine2[])
 CSGP4::~CSGP4()
 {
     delete m_pTle;
-    m_pTle = 0;
+    m_pTle = nullptr;
 }
 
 /// 设置TLE数据

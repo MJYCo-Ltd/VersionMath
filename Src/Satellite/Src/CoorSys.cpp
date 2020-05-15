@@ -1,4 +1,4 @@
-﻿#include "CoorSys.h"
+#include "CoorSys.h"
 #include "VecMat.h"
 #include "TimeSys.h"
 #include "IRESInfo.h"
@@ -19,7 +19,7 @@ CCoorSys::CCoorSys()
 bool CCoorSys::ECI2ECF(const double &dMJD, const CVector &vEci, CVector &vEcf)
 {
     /// 判断两个矩阵元素是否相同
-    if(!IsValid(vEci,vEcf))
+    if(!CVecMat::IsValid(vEci,vEcf))
     {
         return(false);
     }
@@ -28,7 +28,7 @@ bool CCoorSys::ECI2ECF(const double &dMJD, const CVector &vEci, CVector &vEcf)
     CMatrix tmpMat = ECI2ECF(dMJD);
 
     /// 进行矩阵运算
-    if(!CalReault(tmpMat,vEci,vEcf))
+    if(!CVecMat::CalReault(tmpMat,vEci,vEcf))
     {
         return(false);
     }
@@ -40,7 +40,7 @@ bool CCoorSys::ECI2ECF(const double &dMJD, const CVector &vEci, CVector &vEcf)
 bool CCoorSys::ECF2ECI(const double &dMJD, const CVector &vEcf, CVector &vEci)
 {
     /// 判断两个矩阵元素是否相同
-    if(!IsValid(vEcf,vEci))
+    if(!CVecMat::IsValid(vEcf,vEci))
     {
         return(false);
     }
@@ -49,7 +49,7 @@ bool CCoorSys::ECF2ECI(const double &dMJD, const CVector &vEcf, CVector &vEci)
     CMatrix tmpMat = ECF2ECI(dMJD);
 
     /// 进行矩阵运算
-    if(!CalReault(tmpMat,vEcf,vEci))
+    if(!CVecMat::CalReault(tmpMat,vEcf,vEci))
     {
         return(false);
     }
@@ -99,7 +99,7 @@ CMatrix CCoorSys::ECF2ECI(const double &dMJD)
 bool CCoorSys::TEME2ECI(const double &dMJD, const CVector &vTeme, CVector &vEci)
 {
     /// 判断两个矩阵元素是否相同
-    if(!IsValid(vTeme,vEci))
+    if(!CVecMat::IsValid(vTeme,vEci))
     {
         return(false);
     }
@@ -107,7 +107,7 @@ bool CCoorSys::TEME2ECI(const double &dMJD, const CVector &vTeme, CVector &vEci)
     CMatrix tmpMat = TEME2ECI(dMJD);
 
     /// 进行矩阵运算
-    if(!CalReault(tmpMat,vTeme,vEci))
+    if(!CVecMat::CalReault(tmpMat,vTeme,vEci))
     {
         return(false);
     }
@@ -119,7 +119,7 @@ bool CCoorSys::TEME2ECI(const double &dMJD, const CVector &vTeme, CVector &vEci)
 bool CCoorSys::ECI2TEME(const double &dMJD, const CVector &vEci, CVector &vTeme)
 {
     /// 判断两个矩阵元素是否相同
-    if(!IsValid(vEci,vTeme))
+    if(!CVecMat::IsValid(vEci,vTeme))
     {
         return(false);
     }
@@ -127,7 +127,7 @@ bool CCoorSys::ECI2TEME(const double &dMJD, const CVector &vEci, CVector &vTeme)
     CMatrix tmpMat = ECI2TEME(dMJD);
 
     /// 进行矩阵运算
-    if(!CalReault(tmpMat,vEci,vTeme))
+    if(!CVecMat::CalReault(tmpMat,vEci,vTeme))
     {
         return(false);
     }
@@ -178,7 +178,7 @@ CMatrix CCoorSys::ECI2TEME(const double &dMJD)
 bool CCoorSys::TEME2ECF(const double &dMJD, const CVector &vTeme, CVector &vEcf)
 {
     /// 判断两个矩阵元素是否相同
-    if(!IsValid(vTeme,vEcf))
+    if(!CVecMat::IsValid(vTeme,vEcf))
     {
         return(false);
     }
@@ -186,7 +186,7 @@ bool CCoorSys::TEME2ECF(const double &dMJD, const CVector &vTeme, CVector &vEcf)
     CMatrix tmpMat = TEME2ECF(dMJD);
 
     /// 进行矩阵运算
-    if(!CalReault(tmpMat,vTeme,vEcf))
+    if(!CVecMat::CalReault(tmpMat,vTeme,vEcf))
     {
         return(false);
     }
@@ -197,7 +197,7 @@ bool CCoorSys::TEME2ECF(const double &dMJD, const CVector &vTeme, CVector &vEcf)
 bool CCoorSys::ECF2TEME(const double &dMJD, const CVector &vEcf, CVector &vTeme)
 {
     /// 判断两个矩阵元素是否相同
-    if(!IsValid(vEcf,vTeme))
+    if(!CVecMat::IsValid(vEcf,vTeme))
     {
         return(false);
     }
@@ -205,7 +205,7 @@ bool CCoorSys::ECF2TEME(const double &dMJD, const CVector &vEcf, CVector &vTeme)
     CMatrix tmpMat = ECF2TEME(dMJD);
 
     /// 进行矩阵运算
-    if(!CalReault(tmpMat,vEcf,vTeme))
+    if(!CVecMat::CalReault(tmpMat,vEcf,vTeme))
     {
         return(false);
     }
@@ -251,7 +251,7 @@ CMatrix CCoorSys::ECF2TEME(const double &dMJD)
 bool CCoorSys::J20002ECF(const double &dMJD, const CVector &vJ2000, CVector &vEcf)
 {
     /// 判断两个矩阵元素是否相同
-    if(!IsValid(vJ2000,vEcf))
+    if(!CVecMat::IsValid(vJ2000,vEcf))
     {
         return(false);
     }
@@ -259,7 +259,7 @@ bool CCoorSys::J20002ECF(const double &dMJD, const CVector &vJ2000, CVector &vEc
     CMatrix tmpMat = J20002ECF(dMJD);
 
     /// 进行矩阵运算
-    if(!CalReault(tmpMat,vJ2000,vEcf))
+    if(!CVecMat::CalReault(tmpMat,vJ2000,vEcf))
     {
         return(false);
     }
@@ -271,7 +271,7 @@ bool CCoorSys::J20002ECF(const double &dMJD, const CVector &vJ2000, CVector &vEc
 bool CCoorSys::ECF2J2000(const double &dMJD, const CVector &vEcf, CVector &vJ2000)
 {
     /// 判断两个矩阵元素是否相同
-    if(!IsValid(vEcf,vJ2000))
+    if(!CVecMat::IsValid(vEcf,vJ2000))
     {
         return(false);
     }
@@ -279,7 +279,7 @@ bool CCoorSys::ECF2J2000(const double &dMJD, const CVector &vEcf, CVector &vJ200
     CMatrix tmpMat = ECF2J2000(dMJD);
 
     /// 进行矩阵运算
-    if(!CalReault(tmpMat,vEcf,vJ2000))
+    if(!CVecMat::CalReault(tmpMat,vEcf,vJ2000))
     {
         return(false);
     }
@@ -327,7 +327,7 @@ CMatrix CCoorSys::ECF2J2000(const double &dMJD)
 bool CCoorSys::VVLH2ECI(const CVector &vKep, const CVector &vVVLH, CVector &vECI)
 {
     /// 判断两个矩阵元素是否相同
-    if(!IsValid(vVVLH,vECI))
+    if(!CVecMat::IsValid(vVVLH,vECI))
     {
         return(false);
     }
@@ -335,7 +335,7 @@ bool CCoorSys::VVLH2ECI(const CVector &vKep, const CVector &vVVLH, CVector &vECI
     CMatrix tmpMat = VVLH2ECI(vKep);
 
     /// 进行矩阵运算
-    if(!CalReault(tmpMat,vVVLH,vECI))
+    if(!CVecMat::CalReault(tmpMat,vVVLH,vECI))
     {
         return(false);
     }
@@ -347,7 +347,7 @@ bool CCoorSys::VVLH2ECI(const CVector &vKep, const CVector &vVVLH, CVector &vECI
 bool CCoorSys::ECI2VVLH(const CVector &vKep, const CVector &vECI, CVector &vVVLH)
 {
     /// 判断两个矩阵元素是否相同
-    if(!IsValid(vECI,vVVLH))
+    if(!CVecMat::IsValid(vECI,vVVLH))
     {
         return(false);
     }
@@ -355,7 +355,7 @@ bool CCoorSys::ECI2VVLH(const CVector &vKep, const CVector &vECI, CVector &vVVLH
     CMatrix tmpMat = ECI2VVLH(vKep);
 
     /// 进行矩阵运算
-    if(!CalReault(tmpMat,vECI,vVVLH))
+    if(!CVecMat::CalReault(tmpMat,vECI,vVVLH))
     {
         return(false);
     }
@@ -384,128 +384,4 @@ CMatrix CCoorSys::ECI2VVLH(const CVector &vKep)
 
     return(CVecMat::R_x(-DPI/2.0)*CVecMat::R_z(dTmp)*
            CVecMat::R_x(vKep(2))*CVecMat::R_z(vKep(3)));
-}
-
-void CCoorSys::LBH2XYZ(double dL, double dB, double dH, double &dX, double &dY, double &dZ)
-{
-    static double dTemp[3];
-
-    iauGd2gc(WGS84,dL,dB,dH,dTemp);
-
-    dX = dTemp[0];
-    dY = dTemp[1];
-    dZ = dTemp[2];
-}
-
-void CCoorSys::XYZ2LBH(double dX, double dY, double dZ, double &dL, double &dB, double &dH)
-{
-    static double dTemp[3];
-    dTemp[0] = dX;
-    dTemp[1] = dY;
-    dTemp[2] = dZ;
-
-    iauGc2gd(WGS84,dTemp,&dL,&dB,&dH);
-}
-
-bool CCoorSys::LBH2XYZ(const CVector &vGeo, CVector &v3D)
-{
-
-    int nGeo = vGeo.Size();
-
-    /// 判断两个矩阵元素是否相同
-    if(!IsValid(vGeo,v3D))
-    {
-        return(false);
-    }
-
-    for(int i=0; i<nGeo; i+=3)
-    {
-        LBH2XYZ(vGeo(i),vGeo(i+1),vGeo(i+2),v3D(i),v3D(i+1),v3D(i+2));
-    }
-
-    return(true);
-}
-
-bool CCoorSys::XYZ2LBH(const CVector &v3D, CVector &vGeo)
-{
-    int n3D = v3D.Size();
-
-    /// 判断两个矩阵元素是否相同
-    if(!IsValid(v3D,vGeo))
-    {
-        return(false);
-    }
-
-    for(int i=0; i<n3D; i+=3)
-    {
-        XYZ2LBH(v3D(i),v3D(i+1),v3D(i+2),vGeo(i),vGeo(i+1),vGeo(i+2));
-    }
-    return(true);
-}
-
-bool CCoorSys::GLOBAL2LOCAL(double dL, double dB, const CVector &vGlobal, CVector &vLocal)
-{
-    /// 判断两个向量元素是否相同
-    if(!IsValid(vGlobal,vLocal))
-    {
-        return(false);
-    }
-
-    CMatrix tmpMat = GLOBAL2LOCAL(dL,dB);
-
-    /// 进行矩阵运算
-    if(!CalReault(tmpMat,vGlobal,vLocal))
-    {
-        return(false);
-    }
-
-    return(true);
-}
-
-bool CCoorSys::LOCAL2GLOBAL(double dL, double dB, const CVector &vLocal, CVector &vGlobal)
-{
-    /// 判断两个矩阵元素是否相同
-    if(!IsValid(vLocal,vGlobal))
-    {
-        return(false);
-    }
-
-    CMatrix tmpMat = LOCAL2GLOBAL(dL,dB);
-    /// 查看矩阵是否有效
-    if(!tmpMat)
-    {
-        return(false);
-    }
-
-    /// 进行矩阵运算
-    if(!CalReault(tmpMat,vLocal,vGlobal))
-    {
-        return(false);
-    }
-
-    return(true);
-}
-
-CMatrix CCoorSys::GLOBAL2LOCAL(double dL, double dB)
-{
-    double  Aux;
-
-    // Transformation to Zenith-East-North System
-    CMatrix M = CVecMat::R_y(-dB)*CVecMat::R_z(dL);
-
-    // Cyclic shift of rows 0,1,2 to 1,2,0 to obtain East-North-Zenith system
-    for (int j=0; j<3; ++j)
-    {
-        Aux=M(0,j);
-        M(0,j)=M(1,j);
-        M(1,j)=M(2,j);
-        M(2,j)= Aux;
-    }
-
-    return(M);
-}
-
-CMatrix CCoorSys::LOCAL2GLOBAL(double dL, double dB)
-{
-    return (CVecMat::Transp(GLOBAL2LOCAL(dL,dB)));
 }

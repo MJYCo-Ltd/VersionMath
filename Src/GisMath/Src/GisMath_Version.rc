@@ -21,16 +21,16 @@ VS_VERSION_INFO     VERSIONINFO
             BLOCK "080404B0"
             BEGIN
                 VALUE "CompanyName","幻视科技有限公司"
-                VALUE "FileDescription","基础数学库"
+                VALUE "FileDescription","基础地理库"
                 VALUE "FileVersion","2.0.0.0"
                 VALUE "InternalName","Base Math Algorithm"
                 VALUE "LegalCopyright","Copyright (c)2008-2020 幻视科技有限公司"
                 #ifdef _DEBUG
-                VALUE "OriginalFilename","MathD.dll"
+                VALUE "OriginalFilename","GisD.dll"
                 #else
-                VALUE "OriginalFilename","Math.dll"
+                VALUE "OriginalFilename","Gis.dll"
                 #endif
-                VALUE "ProductName","基础数学库"
+                VALUE "ProductName","基基础地理库"
                 VALUE "ProductVersion","2.0.0.0"
             END
         END

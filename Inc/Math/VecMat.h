@@ -1,4 +1,4 @@
-﻿#ifndef YTY_VECMAT_H
+#ifndef YTY_VECMAT_H
 #define YTY_VECMAT_H
 /*****************************************
   作用：进行矩阵的运算、向量的运算、矩阵与向量的运算
@@ -30,8 +30,36 @@ class MATH_EXPORT CVecMat
 {
 public:
     //////////////////////////////向量操作///////////////////////////////////////
-    /// 并
-    static CVector Stack     (const CVector& a, const CVector& b);
+
+    /**
+     * @brief 根据输入检查输出是否合理
+     * @param vIn  输入项
+     * @param vOut 输出项
+     * @return 返回检查结果
+     * @attention 1、如果 vOut是一个空的向量，会自动开辟空间
+     *            以匹配 vIn 的输入项
+     *            2、如果 vOut 非空，则判断 vIn.Size() == vOut.Size()
+     */
+    static bool IsValid(const CVector& vIn, CVector& vOut);
+
+    /**
+     * @brief 批量转换 vIn 到 vOut
+     * @param rMatrix 转换矩阵
+     * @param vIn     输入项
+     * @param vOut    输出项
+     * @return 返回处理结果
+     * @attention 没有对 vOut的数据大小进行检查
+     *            必须先调用 IsValid 进行数据校验
+     */
+    static bool CalReault(const CMatrix& rMatrix, const CVector& vIn, CVector& vOut);
+
+    /**
+     * @brief 将两个向量合并成一个向量
+     * @param 向量 a [1,2,3,4]
+     * @param 向量 b [5]
+     * @return 向量 a+b [1,2,3,4,5]
+     */
+    static CVector Stack(const CVector& a, const CVector& b);
 
     /// 通过球极坐标构建向量
     /// azim 方位角(azimuth) [rad]

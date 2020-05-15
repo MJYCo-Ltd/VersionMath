@@ -14,6 +14,55 @@ CVecMat::CVecMat()
 {
 }
 
+
+bool CVecMat::IsValid(const CVector &vIn, CVector &vOut)
+{
+    int nInSize = vIn.Size();
+
+    /// 判断数据是否有效
+    if(vOut && nInSize != vOut.Size())
+    {
+        return(false);
+    }
+
+    /// 必须是3的整数倍出现
+    if(1 > nInSize || nInSize%3 != 0)
+    {
+        return(false);
+    }
+
+    /// 如果ecf为空则开辟空间
+    if(!vOut)
+    {
+        vOut.Resize(nInSize);
+    }
+
+    return(true);
+}
+
+bool CVecMat::CalReault(const CMatrix &rMatrix, const CVector &vIn, CVector &vOut)
+{
+    if(!rMatrix)
+    {
+        return(false);
+    }
+
+    CVector tmpVector;
+
+    int nInSize = vIn.Size();
+
+    for(int j=0; j<nInSize; j+=3)
+    {
+        tmpVector = rMatrix * vIn.slice(j,j+2);
+
+        vOut(j)   = tmpVector(0);
+        vOut(j+1) = tmpVector(1);
+        vOut(j+2) = tmpVector(2);
+    }
+
+    return(true);
+}
+
 /// 合并
 CVector CVecMat::Stack (const CVector& a, const CVector& b)
 {

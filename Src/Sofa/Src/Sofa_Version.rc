@@ -20,17 +20,17 @@ VS_VERSION_INFO     VERSIONINFO
         BEGIN
             BLOCK "080404B0"
             BEGIN
-                VALUE "CompanyName","YTY"
+                VALUE "CompanyName","幻视科技有限公司"
                 VALUE "FileDescription","IAU Sofa"
                 VALUE "FileVersion","2.0.0.0"
-                VALUE "InternalName","Base Algorithm"
-                VALUE "LegalCopyright","Copyright (c)2015 "
+                VALUE "InternalName","IAU 发布的基础算法库"
+                VALUE "LegalCopyright","Copyright (c)2008-2020 幻视科技有限公司"
                 #ifdef _DEBUG
                     VALUE "OriginalFilename","SofaD.dll"
                 #else
                     VALUE "OriginalFilename","Sofa.dll"
                 #endif
-                VALUE "ProductName","Satellite Algorithm"
+                VALUE "ProductName","IAU Sofa"
                 VALUE "ProductVersion","2.0.0.0"
             END
         END

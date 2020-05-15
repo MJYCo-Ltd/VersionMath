@@ -1,10 +1,11 @@
-﻿#include "Vector.h"
+#include "Vector.h"
 #include "Atmosphere.h"
 #include "MathCommonAlgorithm.h"
 #include "CommonAlgorithm.h"
 #include "CoorSys.h"
 #include "NrlMsise_00/nrlmsise-00.h"
 #include "sofam.h"
+#include "GisMath.h"
 using namespace Aerospace;
 using namespace Math;
 using namespace Physical;
@@ -58,7 +59,7 @@ double CAtmosphere::GetDensity(const double &dMJD, const CVector &rSat, const CV
         static nrlmsise_output output;
 
         double dL,dB,dH;
-        CCoorSys::XYZ2LBH(rSat(0),rSat(1),rSat(2),dL,dB,dH);
+        GisMath::XYZ2LBH(rSat(0),rSat(1),rSat(2),dL,dB,dH);
 
         ///  STK对应的大气密度模型的有效范围为 0~1000km
         ///  而本模型有效范围为 >0km，且当低于 0km时，按照0km计算
@@ -130,7 +131,7 @@ double CAtmosphere::GetDensity(const double &dMJD, const CVector &rSat, const CV
         /// 而本模型的有效范围为 0~1000km，且当物体低于0时按照0km计算
         /// 将ECF转换成地理坐标
         double dL,dB,dH;
-        CCoorSys::XYZ2LBH(rSat(0),rSat(1),rSat(2),dL,dB,dH);
+        GisMath::XYZ2LBH(rSat(0),rSat(1),rSat(2),dL,dB,dH);
         return(SA76(dH));
     default:
         return(0.);
