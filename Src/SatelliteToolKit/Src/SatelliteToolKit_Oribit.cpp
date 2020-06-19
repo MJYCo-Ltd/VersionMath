@@ -1,5 +1,5 @@
 #include "VecMat.h"
-#include "sofam.h"
+#include "sofa.h"
 #include "Date.h"
 #include "CoorSys.h"
 #include "Kepler.h"
@@ -214,61 +214,46 @@ bool SGP4(const BJTime &stStartTime, const BJTime &stEndTime, unsigned int nStep
         stSatPos.vECF[nCount+1] = tmpPV;
     }
 
-    /*for(;dMJDCal<dMJDEnd;
-        dMJDCal+=dMJDStep)
+    return(true);
+}
+
+/// 生成卫星星座
+vector<Satellite_Element> CreateConstellatory(Satellite_Element satTemplet,
+                                              int nPlanes,
+                                              int nNumSats)
+{
+    vector<Satellite_Element> vSatElement;
+    vSatElement.reserve(nPlanes*nNumSats);
+
+    double dRAANSpace = D2PI/nPlanes;
+    double dMSpace = D2PI / nNumSats;
+
+    Satellite_Element tmpSatellite=satTemplet;
+    for(int i=0;i<nPlanes;++i)
     {
-        vTEME = calSGP4.CalPV(dMJDCal);
+        for(int j=0; j<nNumSats; ++j)
+        {
+            tmpSatellite.stKepler.dRAAN = satTemplet.stKepler.dRAAN + i*dRAANSpace;
+            tmpSatellite.stKepler.dMA = satTemplet.stKepler.dMA + j*dMSpace;
 
-        CCoorSys::TEME2ECI(dMJDCal,vTEME,vECI);
-        tmpPV.stP.dX = vECI(0);
-        tmpPV.stP.dY = vECI(1);
-        tmpPV.stP.dZ = vECI(2);
-        tmpPV.stV.dX = vECI(3);
-        tmpPV.stV.dY = vECI(4);
-        tmpPV.stV.dZ = vECI(5);
+            while(tmpSatellite.stKepler.dRAAN > DPI)
+            {
+                tmpSatellite.stKepler.dRAAN -= D2PI;
+            }
 
-        CCoorSys::TEME2ECF(dMJDCal,vTEME,vECF);
+            while(tmpSatellite.stKepler.dRAAN < -DPI)
+            {
+                tmpSatellite.stKepler.dRAAN += D2PI;
+            }
 
-        stSatPos.vJ2000.push_back(tmpPV);
-        stSatPos.vTimes.push_back(dMJDCal);
+            while(tmpSatellite.stKepler.dMA > D2PI)
+            {
+                tmpSatellite.stKepler.dMA -= D2PI;
+            }
 
-        tmpPV.stP.dX = vECF(0);
-        tmpPV.stP.dY = vECF(1);
-        tmpPV.stP.dZ = vECF(2);
-        tmpPV.stV.dX = vECF(3);
-        tmpPV.stV.dY = vECF(4);
-        tmpPV.stV.dZ = vECF(5);
-
-        stSatPos.vECF.push_back(tmpPV);
+            vSatElement.push_back(tmpSatellite);
+        }
     }
 
-    /// 如果时间差多于1秒
-    if(stSatPos.vTimes.size() > 0 && fabs(fabs(dMJDCal - dMJDEnd)-dMJDStep) > 1e-9 &&  fabs(dMJDCal - dMJDEnd)> SECDAY)
-    {
-        vTEME = calSGP4.CalPV(dMJDEnd);
-
-        CCoorSys::TEME2ECI(dMJDEnd,vTEME,vECI);
-        tmpPV.stP.dX = vECI(0);
-        tmpPV.stP.dY = vECI(1);
-        tmpPV.stP.dZ = vECI(2);
-        tmpPV.stV.dX = vECI(3);
-        tmpPV.stV.dY = vECI(4);
-        tmpPV.stV.dZ = vECI(5);
-
-        CCoorSys::TEME2ECF(dMJDEnd,vTEME,vECF);
-
-        stSatPos.vJ2000.push_back(tmpPV);
-        stSatPos.vTimes.push_back(dMJDEnd);
-
-        tmpPV.stP.dX = vECF(0);
-        tmpPV.stP.dY = vECF(1);
-        tmpPV.stP.dZ = vECF(2);
-        tmpPV.stV.dX = vECF(3);
-        tmpPV.stV.dY = vECF(4);
-        tmpPV.stV.dZ = vECF(5);
-
-        stSatPos.vECF.push_back(tmpPV);
-    }*/
-
-    return(true);
+    return(vSatElement);
 }
