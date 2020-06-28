@@ -114,6 +114,15 @@ vector<Period> SATELLITETOOLKIT_EXPORT VisiblePeriod(const BJTime& stStartTime,
 SATELLITETOOLKIT_EXPORT bool IsVisible(const Pos& satECFPos, const Pos& station3D, double dVisibleAngle);
 
 /**
+ * @brief 判断两个星是否可见
+ * @param satECIPV        指定卫星的ECI位置 卫星的位置速度[ECI m,m,m m/s,m/s,m/s]
+ * @param satoTherECIPV   观测星的ECI位置  卫星的位置速度[ECI m,m,m m/s,m/s,m/s]
+ * @param dConeAngle      圆锥半角       [弧度][0~π/2]
+ * @return
+ */
+SATELLITETOOLKIT_EXPORT bool IsVisible(const PV& satECIPV, const PV& satoTherECIPV, double dConeAngle);
+
+/**
  * @brief 判断传感器是否可视
  * @param satPV           卫星的位置速度[ECF m,m,m m/s,m/s,m/s]
  * @param stationPos      地面位置     [m,m,m]
@@ -215,6 +224,13 @@ vector<Period> SATELLITETOOLKIT_EXPORT IntersectRectangle(const SatellitePos& st
                                                        float fHAngle,
                                                        float fVAngle);
 
+/**
+ * @brief 根据给定的轨道根数生成卫星星座
+ * @param satTemplet    给定的卫星轨道
+ * @param nPlanes       面数
+ * @param nNumSats      买个面上的卫星数量
+ * @return      卫星轨道星历数组
+ */
 vector<Satellite_Element> CreateConstellatory(Satellite_Element satTemplet,
                                               int nPlanes,
                                               int nNumSats);

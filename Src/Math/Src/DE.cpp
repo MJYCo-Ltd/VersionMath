@@ -16,6 +16,17 @@ static const double umach = std::numeric_limits<double>::epsilon();
 static const double twou   = 2.0*umach;
 static const double fouru  = 4.0*umach;
 
+#if _MSC_VER < 1700
+double fmax(double fa1,double fa2)
+{
+    return(fa1>fa2 ? fa1 : fa2);
+}
+
+double fmin(double fa1,double fa2)
+{
+    return(fa1<fa2 ? fa1 : fa2);
+}
+#endif
 
 CDE::CDE(DEfunct pfDE,int nEqn,void* pAux)
 {
