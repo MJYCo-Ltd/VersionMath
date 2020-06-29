@@ -231,7 +231,7 @@ vector<Period> SATELLITETOOLKIT_EXPORT IntersectRectangle(const SatellitePos& st
  * @param nNumSats      买个面上的卫星数量
  * @return      卫星轨道星历数组
  */
-vector<Satellite_Element> CreateConstellatory(Satellite_Element satTemplet,
+vector<Satellite_Element> SATELLITETOOLKIT_EXPORT CreateConstellatory(Satellite_Element satTemplet,
                                               int nPlanes,
                                               int nNumSats);
 
