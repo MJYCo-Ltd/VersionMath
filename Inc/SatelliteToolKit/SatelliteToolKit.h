@@ -215,7 +215,7 @@ vector<Period> SATELLITETOOLKIT_EXPORT IntersectRectangle(const SatellitePos& st
                                                        float fHAngle,
                                                        float fVAngle);
 
-vector<Satellite_Element> CreateConstellatory(Satellite_Element satTemplet,
+vector<Satellite_Element> SATELLITETOOLKIT_EXPORT CreateConstellatory(Satellite_Element satTemplet,
                                               int nPlanes,
                                               int nNumSats);
 
