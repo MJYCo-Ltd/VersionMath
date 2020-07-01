@@ -51,9 +51,27 @@ bool TwoBody(const BJTime &stStartTime, const BJTime &stEndTime,
     stSatPos.vECF.clear();
     stSatPos.vTimes.clear();
 
-    for(double dCalSec=(dMJDStart-dMJDEpoch)*DAYSEC;
-        dMJDCal<dMJDEnd;
-        dMJDCal+=dMJDStep,dCalSec+=nStep)
+    double dSpace = dMJDEnd - dMJDStart;
+    long long nTimeLenMs = dSpace * DAYSEC * (long long) 1000;
+
+    long long nStepMs = nStep * 1000;
+    long long nCount = nTimeLenMs / nStepMs;
+
+    if(nTimeLenMs % nStepMs != 0)
+    {
+        stSatPos.vJ2000.resize(nCount+2);
+        stSatPos.vECF.resize(nCount+2);
+        stSatPos.vTimes.resize(nCount+2);
+    }
+    else
+    {
+        stSatPos.vJ2000.resize(nCount+1);
+        stSatPos.vECF.resize(nCount+1);
+        stSatPos.vTimes.resize(nCount+1);
+    }
+
+    double dCalSec=0;
+    for(int i=0;i<=nCount;++i,dMJDCal = dMJDStart + i *dMJDStep,dCalSec=nStep*i)
     {
         vECI = CKepler::State(GM_Earth,vKepler,dCalSec);
         tmpPV.stP.dX = vECI(0);
@@ -77,8 +95,7 @@ bool TwoBody(const BJTime &stStartTime, const BJTime &stEndTime,
         stSatPos.vECF.push_back(tmpPV);
     }
 
-    /// 如果时间差多于1秒
-    if(stSatPos.vTimes.size() > 0 && fabs(dMJDCal - dMJDEnd) > SECDAY)
+    if(nTimeLenMs % nStepMs != 0)
     {
         vECI = CKepler::State(GM_Earth,vKepler,(dMJDEnd-dMJDEpoch)*DAYSEC);
         tmpPV.stP.dX = vECI(0);
