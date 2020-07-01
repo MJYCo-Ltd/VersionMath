@@ -2,6 +2,9 @@
 #include <iomanip>
 #include "SatelliteToolKit.h"
 #include "sofam.h"
+#include "Vector.h"
+#include "SGP4.h"
+
 using namespace std;
 
 int main()
@@ -22,9 +25,9 @@ int main()
     startTime.uMSecond=0;
     BJTime endTime;
 
-    endTime.nYear = 2021;
+    endTime.nYear = 2020;
     endTime.uMonth = 3;
-    endTime.uDay = 3;
+    endTime.uDay = 10;
     endTime.uHour = 8;
     endTime.uMinute=15;
     endTime.uSecond = 0;
@@ -97,6 +100,29 @@ int main()
         <<setfill('0')
         <<one.stEnd.uMSecond;
         cout<<" Duration:"<<setprecision(6)<<one.dDurationTime<<endl;
+    }
+
+    Satellite::CSGP4 tmpSGP4(tle.stTLE.sLine1,tle.stTLE.sLine2);
+
+    Math::CVector vKepler = tmpSGP4.ClassicalElements();
+    Satellite_Element tmpElement;
+    tmpElement.elemType = SAT_TWOBODY;
+    tmpElement.stKepler.dA = vKepler(0);
+    tmpElement.stKepler.dE = vKepler(1);
+    tmpElement.stKepler.dI = vKepler(2);
+    tmpElement.stKepler.dRAAN = vKepler(3);
+    tmpElement.stKepler.dW = vKepler(4);
+    tmpElement.stKepler.dMA = vKepler(5);
+    vector<Satellite_Element> vOut = CreateConstellatory(tmpElement,5,6);
+
+    for(Satellite_Element one : vOut)
+    {
+        cout<<"---------------------------\ndA:\t"<<one.stKepler.dA<<'\t'
+            <<"dE:\t"<<one.stKepler.dE<<'\t'
+            <<"dI:\t"<<one.stKepler.dI*DR2D<<'\n'
+            <<"dRAAN:\t"<<one.stKepler.dRAAN*DR2D<<'\t'
+            <<"dW:\t"<<one.stKepler.dW*DR2D<<'\t'
+            <<"dMA:\t"<<one.stKepler.dMA*DR2D<<endl;
     }
 
     //    if(!SGP4(startTime,endTime,60,sLine1,sLine2,stPos))

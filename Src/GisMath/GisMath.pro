@@ -20,7 +20,7 @@ SOURCES += Src/GisMath.cpp
 
 LIBS *= -L$$PWD/Lib
 CONFIG(debug, debug|release) {
-  LIBS *= -lproj_5_0_d
+  LIBS *= -lprojd
 }else{
-  LIBS *= -lproj_5_0
+  LIBS *= -lproj
 }
