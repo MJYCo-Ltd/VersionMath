@@ -110,6 +110,7 @@ struct SatellitePos /// 卫星位置结构体
     vector<double> vTimes;  /// 约简儒略日
     vector<PV> vJ2000;    /// J2000下位置
     vector<PV> vECF;     /// 地固系下位置坐标
+    vector<Pos> vLLA;    /// 经纬高 [deg deg m]
 };
 
 struct Period /// 时间段结构体
