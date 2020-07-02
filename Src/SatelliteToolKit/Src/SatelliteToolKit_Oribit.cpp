@@ -4,6 +4,7 @@
 #include "CoorSys.h"
 #include "Kepler.h"
 #include "SGP4.h"
+#include "GisMath.h"
 #include "SatelliteToolKit.h"
 #include "../Inc/SatelliteToolKitCommon.h"
 
@@ -41,8 +42,6 @@ bool TwoBody(const BJTime &stStartTime, const BJTime &stEndTime,
 
     CVector vECI(6),vECF(6);
 
-    PV tmpPV;
-
     /// 清空原有的数据
     stSatPos.stStart = stStartTime;
     stSatPos.stEnd = stEndTime;
@@ -51,56 +50,80 @@ bool TwoBody(const BJTime &stStartTime, const BJTime &stEndTime,
     stSatPos.vECF.clear();
     stSatPos.vTimes.clear();
 
-    for(double dCalSec=(dMJDStart-dMJDEpoch)*DAYSEC;
-        dMJDCal<dMJDEnd;
-        dMJDCal+=dMJDStep,dCalSec+=nStep)
+    double dSpace = dMJDEnd - dMJDStart;
+    long long nTimeLenMs = dSpace * DAYSEC * (long long) 1000;
+
+    long long nStepMs = nStep * 1000;
+    long long nCount = nTimeLenMs / nStepMs;
+
+    if(nTimeLenMs % nStepMs != 0)
+    {
+        stSatPos.vJ2000.resize(nCount+2);
+        stSatPos.vECF.resize(nCount+2);
+        stSatPos.vTimes.resize(nCount+2);
+        stSatPos.vLLA.resize(nCount+2);
+    }
+    else
+    {
+        stSatPos.vJ2000.resize(nCount+1);
+        stSatPos.vECF.resize(nCount+1);
+        stSatPos.vTimes.resize(nCount+1);
+        stSatPos.vLLA.resize(nCount+1);
+    }
+
+    double dCalSec=0;
+    for(int i=0;i<=nCount;++i,dMJDCal = dMJDStart + i *dMJDStep,dCalSec=nStep*i)
     {
         vECI = CKepler::State(GM_Earth,vKepler,dCalSec);
-        tmpPV.stP.dX = vECI(0);
-        tmpPV.stP.dY = vECI(1);
-        tmpPV.stP.dZ = vECI(2);
-        tmpPV.stV.dX = vECI(3);
-        tmpPV.stV.dY = vECI(4);
-        tmpPV.stV.dZ = vECI(5);
+        stSatPos.vJ2000[i].stP.dX = vECI(0);
+        stSatPos.vJ2000[i].stP.dY = vECI(1);
+        stSatPos.vJ2000[i].stP.dZ = vECI(2);
+        stSatPos.vJ2000[i].stV.dX = vECI(3);
+        stSatPos.vJ2000[i].stV.dY = vECI(4);
+        stSatPos.vJ2000[i].stV.dZ = vECI(5);
 
         CCoorSys::ECI2ECF(dMJDCal,vECI,vECF);
 
-        stSatPos.vJ2000.push_back(tmpPV);
-        stSatPos.vTimes.push_back(dMJDCal);
+        stSatPos.vTimes[i] = dMJDCal;
 
-        tmpPV.stP.dX = vECF(0);
-        tmpPV.stP.dY = vECF(1);
-        tmpPV.stP.dZ = vECF(2);
-        tmpPV.stV.dX = vECF(3);
-        tmpPV.stV.dY = vECF(4);
-        tmpPV.stV.dZ = vECF(5);
-        stSatPos.vECF.push_back(tmpPV);
+        stSatPos.vECF[i].stP.dX = vECF(0);
+        stSatPos.vECF[i].stP.dY = vECF(1);
+        stSatPos.vECF[i].stP.dZ = vECF(2);
+        stSatPos.vECF[i].stV.dX = vECF(3);
+        stSatPos.vECF[i].stV.dY = vECF(4);
+        stSatPos.vECF[i].stV.dZ = vECF(5);
+
+        GisMath::XYZ2LBH(vECF(0),vECF(1),vECF(2),
+                         stSatPos.vLLA[i].dX,stSatPos.vLLA[i].dY,stSatPos.vLLA[i].dZ);
+        stSatPos.vLLA[i].dX *= DR2D;
+        stSatPos.vLLA[i].dY *= DR2D;
     }
 
-    /// 如果时间差多于1秒
-    if(stSatPos.vTimes.size() > 0 && fabs(dMJDCal - dMJDEnd) > SECDAY)
+    if(nTimeLenMs % nStepMs != 0)
     {
         vECI = CKepler::State(GM_Earth,vKepler,(dMJDEnd-dMJDEpoch)*DAYSEC);
-        tmpPV.stP.dX = vECI(0);
-        tmpPV.stP.dY = vECI(1);
-        tmpPV.stP.dZ = vECI(2);
-        tmpPV.stV.dX = vECI(3);
-        tmpPV.stV.dY = vECI(4);
-        tmpPV.stV.dZ = vECI(5);
+        stSatPos.vJ2000[nCount+1].stP.dX = vECI(0);
+        stSatPos.vJ2000[nCount+1].stP.dY = vECI(1);
+        stSatPos.vJ2000[nCount+1].stP.dZ = vECI(2);
+        stSatPos.vJ2000[nCount+1].stV.dX = vECI(3);
+        stSatPos.vJ2000[nCount+1].stV.dY = vECI(4);
+        stSatPos.vJ2000[nCount+1].stV.dZ = vECI(5);
 
         CCoorSys::ECI2ECF(dMJDEnd,vECI,vECF);
 
-        stSatPos.vJ2000.push_back(tmpPV);
-        stSatPos.vTimes.push_back(dMJDEnd);
+        stSatPos.vTimes[nCount+1] = dMJDEnd;
 
-        tmpPV.stP.dX = vECF(0);
-        tmpPV.stP.dY = vECF(1);
-        tmpPV.stP.dZ = vECF(2);
-        tmpPV.stV.dX = vECF(3);
-        tmpPV.stV.dY = vECF(4);
-        tmpPV.stV.dZ = vECF(5);
+        stSatPos.vECF[nCount+1].stP.dX = vECF(0);
+        stSatPos.vECF[nCount+1].stP.dY = vECF(1);
+        stSatPos.vECF[nCount+1].stP.dZ = vECF(2);
+        stSatPos.vECF[nCount+1].stV.dX = vECF(3);
+        stSatPos.vECF[nCount+1].stV.dY = vECF(4);
+        stSatPos.vECF[nCount+1].stV.dZ = vECF(5);
 
-        stSatPos.vECF.push_back(tmpPV);
+        GisMath::XYZ2LBH(vECF(0),vECF(1),vECF(2),
+                         stSatPos.vLLA[nCount+1].dX,stSatPos.vLLA[nCount+1].dY,stSatPos.vLLA[nCount+1].dZ);
+        stSatPos.vLLA[nCount+1].dX *= DR2D;
+        stSatPos.vLLA[nCount+1].dY *= DR2D;
     }
 
     return(true);
@@ -131,8 +154,6 @@ bool SGP4(const BJTime &stStartTime, const BJTime &stEndTime, unsigned int nStep
 
     CVector vTEME(6),vECI(6),vECF(6);
 
-    PV tmpPV;
-
     /// 清空原有的数据
     stSatPos.stStart = stStartTime;
     stSatPos.stEnd = stEndTime;
@@ -152,12 +173,14 @@ bool SGP4(const BJTime &stStartTime, const BJTime &stEndTime, unsigned int nStep
         stSatPos.vJ2000.resize(nCount+2);
         stSatPos.vECF.resize(nCount+2);
         stSatPos.vTimes.resize(nCount+2);
+        stSatPos.vLLA.resize(nCount+2);
     }
     else
     {
         stSatPos.vJ2000.resize(nCount+1);
         stSatPos.vECF.resize(nCount+1);
         stSatPos.vTimes.resize(nCount+1);
+        stSatPos.vLLA.resize(nCount+1);
     }
 
     for(int i=0;i<=nCount;++i,dMJDCal = dMJDStart + i *dMJDStep)
@@ -165,26 +188,28 @@ bool SGP4(const BJTime &stStartTime, const BJTime &stEndTime, unsigned int nStep
         vTEME = calSGP4.CalPV(dMJDCal);
 
         CCoorSys::TEME2ECI(dMJDCal,vTEME,vECI);
-        tmpPV.stP.dX = vECI(0);
-        tmpPV.stP.dY = vECI(1);
-        tmpPV.stP.dZ = vECI(2);
-        tmpPV.stV.dX = vECI(3);
-        tmpPV.stV.dY = vECI(4);
-        tmpPV.stV.dZ = vECI(5);
+        stSatPos.vJ2000[i].stP.dX = vECI(0);
+        stSatPos.vJ2000[i].stP.dY = vECI(1);
+        stSatPos.vJ2000[i].stP.dZ = vECI(2);
+        stSatPos.vJ2000[i].stV.dX = vECI(3);
+        stSatPos.vJ2000[i].stV.dY = vECI(4);
+        stSatPos.vJ2000[i].stV.dZ = vECI(5);
 
         CCoorSys::TEME2ECF(dMJDCal,vTEME,vECF);
 
-        stSatPos.vJ2000[i] = tmpPV;
         stSatPos.vTimes[i] = dMJDCal;
 
-        tmpPV.stP.dX = vECF(0);
-        tmpPV.stP.dY = vECF(1);
-        tmpPV.stP.dZ = vECF(2);
-        tmpPV.stV.dX = vECF(3);
-        tmpPV.stV.dY = vECF(4);
-        tmpPV.stV.dZ = vECF(5);
+        stSatPos.vECF[i].stP.dX = vECF(0);
+        stSatPos.vECF[i].stP.dY = vECF(1);
+        stSatPos.vECF[i].stP.dZ = vECF(2);
+        stSatPos.vECF[i].stV.dX = vECF(3);
+        stSatPos.vECF[i].stV.dY = vECF(4);
+        stSatPos.vECF[i].stV.dZ = vECF(5);
 
-        stSatPos.vECF[i] = tmpPV;
+        GisMath::XYZ2LBH(vECF(0),vECF(1),vECF(2),
+                         stSatPos.vLLA[i].dX,stSatPos.vLLA[i].dY,stSatPos.vLLA[i].dZ);
+        stSatPos.vLLA[i].dX *= DR2D;
+        stSatPos.vLLA[i].dY *= DR2D;
     }
 
     if(nTimeLenMs % nStepMs != 0)
@@ -192,26 +217,28 @@ bool SGP4(const BJTime &stStartTime, const BJTime &stEndTime, unsigned int nStep
         vTEME = calSGP4.CalPV(dMJDEnd);
 
         CCoorSys::TEME2ECI(dMJDEnd,vTEME,vECI);
-        tmpPV.stP.dX = vECI(0);
-        tmpPV.stP.dY = vECI(1);
-        tmpPV.stP.dZ = vECI(2);
-        tmpPV.stV.dX = vECI(3);
-        tmpPV.stV.dY = vECI(4);
-        tmpPV.stV.dZ = vECI(5);
+        stSatPos.vJ2000[nCount+1].stP.dX = vECI(0);
+        stSatPos.vJ2000[nCount+1].stP.dY = vECI(1);
+        stSatPos.vJ2000[nCount+1].stP.dZ = vECI(2);
+        stSatPos.vJ2000[nCount+1].stV.dX = vECI(3);
+        stSatPos.vJ2000[nCount+1].stV.dY = vECI(4);
+        stSatPos.vJ2000[nCount+1].stV.dZ = vECI(5);
 
         CCoorSys::TEME2ECF(dMJDEnd,vTEME,vECF);
 
-        stSatPos.vJ2000[nCount+1] = tmpPV;
         stSatPos.vTimes[nCount+1] = dMJDEnd;
 
-        tmpPV.stP.dX = vECF(0);
-        tmpPV.stP.dY = vECF(1);
-        tmpPV.stP.dZ = vECF(2);
-        tmpPV.stV.dX = vECF(3);
-        tmpPV.stV.dY = vECF(4);
-        tmpPV.stV.dZ = vECF(5);
+        stSatPos.vECF[nCount+1].stP.dX = vECF(0);
+        stSatPos.vECF[nCount+1].stP.dY = vECF(1);
+        stSatPos.vECF[nCount+1].stP.dZ = vECF(2);
+        stSatPos.vECF[nCount+1].stV.dX = vECF(3);
+        stSatPos.vECF[nCount+1].stV.dY = vECF(4);
+        stSatPos.vECF[nCount+1].stV.dZ = vECF(5);
 
-        stSatPos.vECF[nCount+1] = tmpPV;
+        GisMath::XYZ2LBH(vECF(0),vECF(1),vECF(2),
+                         stSatPos.vLLA[nCount+1].dX,stSatPos.vLLA[nCount+1].dY,stSatPos.vLLA[nCount+1].dZ);
+        stSatPos.vLLA[nCount+1].dX *= DR2D;
+        stSatPos.vLLA[nCount+1].dY *= DR2D;
     }
 
     return(true);

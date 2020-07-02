@@ -235,4 +235,18 @@ vector<Satellite_Element> SATELLITETOOLKIT_EXPORT CreateConstellatory(Satellite_
                                               int nPlanes,
                                               int nNumSats);
 
+/**
+ *  根据给定的星历数据，分析指定位置的PDOP值
+ *  vSatellite 卫星根数
+ *  stEndTime   开始时间
+ *  stEndTime   结束时间
+ *  dDeltaTime  步长    [s]
+ *  rPos        地面位置 [经纬高](deg,deg,m)
+ */
+vector<double> SATELLITETOOLKIT_EXPORT CalPDOP(const vector<Satellite_Element>& vSatellite,
+                       const BJTime& stStartTime,
+                       const BJTime& stEndTime,
+                       double dDeltaTime,
+                       const Pos& rPos);
+
 #endif

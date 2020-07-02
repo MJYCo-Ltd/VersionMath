@@ -28,6 +28,7 @@ SOURCES += \
     Src/SatelliteToolKit_Intersect.cpp \
     Src/SatelliteToolKit_Oribit.cpp \
     Src/SatelliteToolKit_Period.cpp \
+    Src/SatelliteToolKit_Positioning.cpp \
     Src/SatelliteToolKit_Rotate.cpp \
     Src/SatelliteToolKit_Visible.cpp
 
