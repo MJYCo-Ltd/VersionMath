@@ -64,7 +64,7 @@ bool SATELLITETOOLKIT_EXPORT SGP4(const BJTime& stStartTime,
  * @param fIncidentMinAngle   最小入射角度[弧度][0~fIncidentMaxAngle)
  * @param fIncidentMaxAngle   最大入射角度[弧度](fIncidentMinAngle,π/2]
  * @param stGeo               地面目标位置
- *                            经度、纬度、高度 [弧度、弧度、米]
+ *                            经度、纬度、高度 [rad,rad,m]
  * @return
  */
 vector<Period> SATELLITETOOLKIT_EXPORT SolarAltitude(const BJTime& stStartTime,
@@ -76,7 +76,7 @@ vector<Period> SATELLITETOOLKIT_EXPORT SolarAltitude(const BJTime& stStartTime,
 /**
  * @brief 计算太阳高度角
  * @param stTime  北京时间
- * @param stGeo   地面目标位置 经度、纬度、高度 [弧度、弧度、米]
+ * @param stGeo   地面目标位置 经度、纬度、高度 [rad,rad,m]
  * @return
  */
 double SATELLITETOOLKIT_EXPORT CalSolarAltitude(const BJTime& stTime,const Pos& stGeo);
@@ -86,7 +86,7 @@ double SATELLITETOOLKIT_EXPORT CalSolarAltitude(const BJTime& stTime,const Pos& 
  * @param stStartTime  开始时间     [北京时间]
  * @param stEndTime    结束时间     [北京时间]
  * @param stSatElement  卫星根数数据
- * @param stPos        地面站位置 经度、纬度、高度 [rad、rad、m]
+ * @param stPos        地面站位置 经度、纬度、高度 [rad,rad,m]
  * @param emRotate     载荷旋转顺序
  * @param stPRY        载荷旋转角度  [rad,rad,rad][绕X轴旋转,绕Y轴旋转,绕Z轴旋转]
  * @param fHAngle      水平视角     [rad] X轴方向

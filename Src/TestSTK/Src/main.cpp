@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <iomanip>
 #include "SatelliteToolKit.h"
 #include "sofam.h"
@@ -10,6 +11,8 @@ using namespace std;
 int main()
 {
     string sErrInfo;
+
+    /// 初始化运算库
     if(!InitSatelliteToolKit(sErrInfo))
     {
         cout<<sErrInfo<<endl;
@@ -27,8 +30,8 @@ int main()
 
     endTime.nYear = 2020;
     endTime.uMonth = 3;
-    endTime.uDay = 10;
-    endTime.uHour = 8;
+    endTime.uDay = 3;
+    endTime.uHour = 10;
     endTime.uMinute=15;
     endTime.uSecond = 0;
     endTime.uMSecond=0;
@@ -102,6 +105,8 @@ int main()
         cout<<" Duration:"<<setprecision(6)<<one.dDurationTime<<endl;
     }
 
+
+    /// 根据SGP4生成六根数
     Satellite::CSGP4 tmpSGP4(tle.stTLE.sLine1,tle.stTLE.sLine2);
 
     Math::CVector vKepler = tmpSGP4.ClassicalElements();
@@ -125,30 +130,35 @@ int main()
             <<"dMA:\t"<<one.stKepler.dMA*DR2D<<endl;
     }
 
-    //    if(!SGP4(startTime,endTime,60,sLine1,sLine2,stPos))
-    //    {
-    //        cout<<"Cal SGP4 faild"<<endl;
-    //    }
+     ifstream inputFile("gps-ops.txt");
 
-    //    double dL,dB,dHeight;
-    //    Aerospace::CCoorSys::XYZ2LBH(-2941580.75, 5963327.50, 1695900.63,
-    //                                 dL,dB,dHeight);
-    //    cout<<dL*DR2D<<'\t'<<dB*DR2D<<'\t'<<dHeight<<endl;
-    //    PV satPv={-2941580.75, 5963327.50, 1695900.63,
-    //             75.5630264, 2130.42725, -7320.25488};
+     char sBuffer[75];
 
-    //    Pos geoPos = {116.3,39.9,0.};
-    //    Pos tgtPos = {-2582857.7500000000,5622775.0000000000,1542029.2500000000};
+     vector<Satellite_Element> vAllSatellite;
+     Satellite_Element tmpSatellite;
+     tmpSatellite.elemType = SAT_TLE;
 
-    //    PV satPv={-3668081.0000000000,-1923860.1250000000,6218450.5000000000 ,
-    //              -4326.4951171875000,5839.6411132812500,-747.25616455078125};
-    //    Pos tgtPos = {-3361188.2500000000,4893817.0000000000,2323193.2500000000};
+     while(inputFile)
+     {
+         inputFile.getline(sBuffer,sizeof(sBuffer));
+         inputFile.getline(sBuffer,sizeof(sBuffer));
+         tmpSatellite.stTLE.sLine1 = sBuffer;
+         inputFile.getline(sBuffer,sizeof (sBuffer));
+         tmpSatellite.stTLE.sLine2 = sBuffer;
+         if(!tmpSatellite.stTLE.sLine1.empty() && !tmpSatellite.stTLE.sLine2.empty())
+         {
+             vAllSatellite.push_back(tmpSatellite);
+         }
+     }
 
-    //    Pos att = {0.00000000000000000,0.00000000000000000,0.00000000000000000 };
-    //    for(int i=0; i<100;++i)
-    //    {
-    //        cout<<RectangleVisible(satPv,tgtPos,att,0.017453292519943295,0.87266462599716477,Rota_PYR)<<'\t';
-    //    }
+     vector<double> vResultPDOP = CalPDOP(vAllSatellite,startTime,endTime,60.0,goundPos);
 
+     for(auto one : vResultPDOP)
+     {
+         cout<<"PDOP:"<<one<<endl;
+     }
+
+    /// 释放资源
+    CloseSatelliteToolKit();
     return 0;
 }
