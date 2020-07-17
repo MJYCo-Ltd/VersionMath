@@ -2,7 +2,6 @@
 #define SATELLITETOOLKITCOMMON_H
 #include <vector>
 #include <VecMat.h>
-//#include "wykobi/wykobi_instantiate.hpp"
 /**
  * @brief 时间和角度
  */

@@ -55,7 +55,7 @@ vector<double> CalPDOP(const vector<Satellite_Element>& vSatellite,
             vSat3D = one.vECF[nIndex].stP;
 
             /// 只有对地面位置可见的星才参与pdop计算
-            if(IsVisible(vSat3D,v3D,5))
+            if(IsVisible(vSat3D,v3D,5*DD2R))
             {
                 Math::CVector vSat(vSat3D.dX,vSat3D.dY,vSat3D.dZ);
                 v3 = vSat-vStation3D;

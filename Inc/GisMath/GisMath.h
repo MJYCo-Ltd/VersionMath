@@ -31,6 +31,15 @@ namespace GisMath
      */
     GISMATHSHARED_EXPORT void InitGis(ELLIPSOID typeEllipsoid);
 
+    /**
+     * @brief 计算椭球和射线的交点
+     * @param pt            射线起点
+     * @param stDir         射线方向
+     * @param rInsertPos    交点
+     * @return
+     */
+    GISMATHSHARED_EXPORT bool CalLineInterEllipsoid(const CVector& pt,const CVector& stDir,CVector& rInsertPos);
+
     /************************ 表述方式的转换 ************************/
     /// @brief 地心笛卡尔坐标 转 地理坐标
     /// @param dX  X轴坐标[m]  dY Y轴坐标[m]  dZ Z轴坐标[m]
