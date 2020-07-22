@@ -5,6 +5,7 @@
 static geod_geodesic PJ_WGS84;
 static GisMath::ELLIPSOID  EM_TYPE;
 static bool          S_INIT(false);
+static double        EARTH_DA(0),EARTH_DB(0),EARTH_DF(0);
 
 /*****************************************************
  * 东北天坐标系 笛卡尔坐标系，以物体的重心为坐标原点，物体的正东方向为X轴正方向，
@@ -26,34 +27,33 @@ inline void CheckInit()
 /// 初始化地理信息系统
 void GisMath::InitGis(ELLIPSOID typeEllipsoid)
 {
-    static double dA,dF;
-
     switch (typeEllipsoid)
     {
     case BJ_54:
-        dA = 6378245;
-        dF = 1/298.3;
+        EARTH_DA = 6378245;
+        EARTH_DF = 1/298.3;
         break;
     case WGS_72:
-        iauEform(WGS72,&dA,&dF);
+        iauEform(WGS72,&EARTH_DA,&EARTH_DF);
         EM_TYPE = typeEllipsoid;
         break;
     case GRS_80:
-        iauEform(GRS80,&dA,&dF);
+        iauEform(GRS80,&EARTH_DA,&EARTH_DF);
         EM_TYPE = typeEllipsoid;
         break;
     case CGCS_2000:
-        dA = 6378137;
-        dF = 1.0 / 298.257222101;
+        EARTH_DA = 6378137;
+        EARTH_DF = 1.0 / 298.257222101;
         break;
     default:
-        iauEform(WGS84,&dA,&dF);
+        iauEform(WGS84,&EARTH_DA,&EARTH_DF);
         EM_TYPE = WGS_84;
         break;
     }
 
+    EARTH_DB = EARTH_DA*(1-EARTH_DF);
     /// 初始化系数
-    geod_init(&PJ_WGS84,dA,dF);
+    geod_init(&PJ_WGS84,EARTH_DA,EARTH_DF);
     S_INIT = true;
 }
 
@@ -544,4 +544,52 @@ int GisMath::CalBaiserF(double dLon1, double dLat1, double dLon2, double dLat2, 
     dAzim2 *= DD2R;
 
     return(0);
+}
+
+/// 求射线与椭球的交点
+bool GisMath::CalLineInterEllipsoid(const CVector &pt, const CVector &stDir, CVector &rInsertPos)
+{
+    CheckInit();
+    /// 椭球参数
+    double a  = EARTH_DA;
+    double b  = EARTH_DB;
+    CVector vDir(stDir);
+    vDir.Normalize();
+
+    double a2 = a*a;
+    double b2 = b*b;
+    double dx = vDir.GetX();
+    double dy = vDir.GetY();
+    double dz = vDir.GetZ();
+    double ex = pt.GetX();
+    double ey = pt.GetY();
+    double ez = pt.GetZ();
+
+    double A   = b2*dx*dx + b2*dy*dy + a2*dz*dz;
+    double B   = 2 * (b2*dx*ex + b2*dy*ey+ a2*dz*ez);
+    double C   = b2*ex*ex + b2*ey*ey + a2*ez*ez - a2*b2;
+
+    /// 求该视线与椭球的两个交点
+    double delta = B*B-4*A*C;
+    if(delta<0) return false; //没有交点
+
+    double deltaS = sqrt(delta);
+    double t1 = (-B + deltaS)/(2*A);
+    double t2 = (-B - deltaS)/(2*A);
+
+    /// 如果t1,t2都小于0，则认为视线与椭球没有交点
+    if(t1<0 && t2<0)
+    {
+        return(false);
+    }
+
+    /// 取t1, t2中绝对值较小的那个
+    double t = fabs(t1)<fabs(t2)? t1:t2;
+
+    ///  根据直线参数方程：X = Dt + E，可得直线与椭球的交点坐标
+    rInsertPos(0) = t * dx + ex;
+    rInsertPos(1) = t * dy + ey;
+    rInsertPos(2) = t * dz + ez;
+
+    return(true);
 }

@@ -490,6 +490,40 @@ vector<Period> VisiblePeriod(const BJTime& stStartTime,
             rBJTime.uSecond = dSecond;
             rBJTime.uMSecond=(dSecond-rBJTime.uSecond)*1000;
 
+
+            vResult[nIndex].vLLa.resize(4);
+            /// 构建卫星本体到全局的转换矩阵
+            CVector Pos(enterPV.stP.dX,enterPV.stP.dY,enterPV.stP.dZ);
+
+            CMatrix tmpMatrix = CalSatRoteMatrix(enterPV,satPRY,emRotate);
+
+            CVector vLocal(0,tan(dVAngle),1);
+            CVector vGlobal(3);
+
+            /// 将局部的坐标转成全局坐标
+            vGlobal = vLocal * tmpMatrix;
+
+            if(GisMath::CalLineInterEllipsoid(Pos,vGlobal,vLocal))
+            {
+                GisMath::XYZ2LBH(vLocal,vGlobal);
+                vResult[nIndex].vLLa[0].dX = vGlobal(0)*DR2D;
+                vResult[nIndex].vLLa[0].dY = vGlobal(1)*DR2D;
+                vResult[nIndex].vLLa[0].dZ = vGlobal(2);
+            }
+
+            vLocal.Set(0,-tan(dVAngle),1);
+            /// 将全局的坐标转成局部坐标
+            vGlobal = vLocal * tmpMatrix;
+
+            if(GisMath::CalLineInterEllipsoid(Pos,vGlobal,vLocal))
+            {
+                GisMath::XYZ2LBH(vLocal,vGlobal);
+                vResult[nIndex].vLLa[3].dX = vGlobal(0)*DR2D;
+                vResult[nIndex].vLLa[3].dY = vGlobal(1)*DR2D;
+                vResult[nIndex].vLLa[3].dZ = vGlobal(2);
+            }
+
+
             dSecond = dInsertTime;
 
 
@@ -541,6 +575,36 @@ vector<Period> VisiblePeriod(const BJTime& stStartTime,
             rEndBJTime.uMinute = nMinute;
             rEndBJTime.uSecond = dSecond;
             rEndBJTime.uMSecond=(dSecond-rEndBJTime.uSecond)*1000;
+
+            /// 构建卫星本体到全局的转换矩阵
+            Pos.Set(enterPV.stP.dX,enterPV.stP.dY,enterPV.stP.dZ);
+
+            tmpMatrix = CalSatRoteMatrix(enterPV,satPRY,emRotate);
+
+            vLocal.Set(0,tan(dVAngle),1);
+
+            /// 将局部的坐标转成全局坐标
+            vGlobal = vLocal * tmpMatrix;
+
+            if(GisMath::CalLineInterEllipsoid(Pos,vGlobal,vLocal))
+            {
+                GisMath::XYZ2LBH(vLocal,vGlobal);
+                vResult[nIndex].vLLa[1].dX = vGlobal(0)*DR2D;
+                vResult[nIndex].vLLa[1].dY = vGlobal(1)*DR2D;
+                vResult[nIndex].vLLa[1].dZ = vGlobal(2);
+            }
+
+            vLocal.Set(0,-tan(dVAngle),1);
+            /// 将全局的坐标转成局部坐标
+            vGlobal = vLocal * tmpMatrix;
+
+            if(GisMath::CalLineInterEllipsoid(Pos,vGlobal,vLocal))
+            {
+                GisMath::XYZ2LBH(vLocal,vGlobal);
+                vResult[nIndex].vLLa[2].dX = vGlobal(0)*DR2D;
+                vResult[nIndex].vLLa[2].dY = vGlobal(1)*DR2D;
+                vResult[nIndex].vLLa[2].dZ = vGlobal(2);
+            }
         }
         else
         {
@@ -593,6 +657,38 @@ vector<Period> VisiblePeriod(const BJTime& stStartTime,
             rBJTime.uSecond = dSecond;
             rBJTime.uMSecond=(dSecond-rBJTime.uSecond)*1000;
 
+            vResult[nIndex].vLLa.resize(4);
+            /// 构建卫星本体到全局的转换矩阵
+            CVector Pos(enterPV.stP.dX,enterPV.stP.dY,enterPV.stP.dZ);
+
+            CMatrix tmpMatrix = CalSatRoteMatrix(enterPV,satPRY,emRotate);
+
+            CVector vLocal(0,tan(dVAngle),1);
+            CVector vGlobal(3);
+
+            /// 将局部的坐标转成全局坐标
+            vGlobal = vLocal * tmpMatrix;
+
+            if(GisMath::CalLineInterEllipsoid(Pos,vGlobal,vLocal))
+            {
+                GisMath::XYZ2LBH(vLocal,vGlobal);
+                vResult[nIndex].vLLa[0].dX = vGlobal(0)*DR2D;
+                vResult[nIndex].vLLa[0].dY = vGlobal(1)*DR2D;
+                vResult[nIndex].vLLa[0].dZ = vGlobal(2);
+            }
+
+            vLocal.Set(0,-tan(dVAngle),1);
+            /// 将全局的坐标转成局部坐标
+            vGlobal = vLocal * tmpMatrix;
+
+            if(GisMath::CalLineInterEllipsoid(Pos,vGlobal,vLocal))
+            {
+                GisMath::XYZ2LBH(vLocal,vGlobal);
+                vResult[nIndex].vLLa[3].dX = vGlobal(0)*DR2D;
+                vResult[nIndex].vLLa[3].dY = vGlobal(1)*DR2D;
+                vResult[nIndex].vLLa[3].dZ = vGlobal(2);
+            }
+
             dSecond = dInsertTime;
 
 
@@ -644,6 +740,36 @@ vector<Period> VisiblePeriod(const BJTime& stStartTime,
             rEndBJTime.uMinute = nMinute;
             rEndBJTime.uSecond = dSecond;
             rEndBJTime.uMSecond=(dSecond-rEndBJTime.uSecond)*1000;
+
+            /// 构建卫星本体到全局的转换矩阵
+            Pos.Set(enterPV.stP.dX,enterPV.stP.dY,enterPV.stP.dZ);
+
+            tmpMatrix = CalSatRoteMatrix(enterPV,satPRY,emRotate);
+
+            vLocal.Set(0,tan(dVAngle),1);
+
+            /// 将局部的坐标转成全局坐标
+            vGlobal = vLocal * tmpMatrix;
+
+            if(GisMath::CalLineInterEllipsoid(Pos,vGlobal,vLocal))
+            {
+                GisMath::XYZ2LBH(vLocal,vGlobal);
+                vResult[nIndex].vLLa[1].dX = vGlobal(0)*DR2D;
+                vResult[nIndex].vLLa[1].dY = vGlobal(1)*DR2D;
+                vResult[nIndex].vLLa[1].dZ = vGlobal(2);
+            }
+
+            vLocal.Set(0,-tan(dVAngle),1);
+            /// 将全局的坐标转成局部坐标
+            vGlobal = vLocal * tmpMatrix;
+
+            if(GisMath::CalLineInterEllipsoid(Pos,vGlobal,vLocal))
+            {
+                GisMath::XYZ2LBH(vLocal,vGlobal);
+                vResult[nIndex].vLLa[2].dX = vGlobal(0)*DR2D;
+                vResult[nIndex].vLLa[2].dY = vGlobal(1)*DR2D;
+                vResult[nIndex].vLLa[2].dZ = vGlobal(2);
+            }
         }
 
         ++nIndex;
