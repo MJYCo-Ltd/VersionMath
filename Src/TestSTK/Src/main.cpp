@@ -29,10 +29,10 @@ int main()
     BJTime endTime;
 
     endTime.nYear = 2020;
-    endTime.uMonth = 3;
-    endTime.uDay = 10;
-    endTime.uHour = 8;
-    endTime.uMinute=15;
+    endTime.uMonth = 7;
+    endTime.uDay = 2;
+    endTime.uHour = 0;
+    endTime.uMinute=0;
     endTime.uSecond = 0;
     endTime.uMSecond=0;
 
