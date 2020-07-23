@@ -69,8 +69,8 @@ int iauEform ( int n, double *a, double *f )
 {
 
 /* Look up a and f for the specified reference ellipsoid. */
-   switch ( n ) {
-
+   switch ( n )
+   {
    case WGS84:
       *a = 6378137.0;
       *f = 1.0 / 298.257223563;
@@ -85,14 +85,20 @@ int iauEform ( int n, double *a, double *f )
       *a = 6378135.0;
       *f = 1.0 / 298.26;
       break;
-
+   case BJ54:
+       *a = 6378245.0;
+       *f = 1 / 298.3;
+       break;
+   case CGCS2000:
+       *a = 6378137.0;
+       *f = 1 / 298.257222101;
+       break;
    default:
 
    /* Invalid identifier. */
       *a = 0.0;
       *f = 0.0;
       return -1;
-
    }
 
 /* OK status. */

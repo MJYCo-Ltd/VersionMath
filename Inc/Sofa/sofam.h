@@ -171,6 +171,8 @@ const double P_Sol       = 4.560E-6;          // [N/m^2] (~1367 W/m^2); IERS 96
 const int WGS84(1);
 const int GRS80(2);
 const int WGS72(3);
+const int BJ54(4);
+const int CGCS2000(5);
 #endif
 
 /*----------------------------------------------------------------------

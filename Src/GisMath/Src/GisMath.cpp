@@ -3,7 +3,7 @@
 #include "../Inc/geodesic.h"
 
 static geod_geodesic PJ_WGS84;
-static GisMath::ELLIPSOID  EM_TYPE;
+static GisMath::ELLIPSOID  EM_TYPE(GisMath::WGS_84);
 static bool          S_INIT(false);
 static double        EARTH_DA(0),EARTH_DB(0),EARTH_DF(0);
 
@@ -30,20 +30,11 @@ void GisMath::InitGis(ELLIPSOID typeEllipsoid)
     switch (typeEllipsoid)
     {
     case BJ_54:
-        EARTH_DA = 6378245;
-        EARTH_DF = 1/298.3;
-        break;
     case WGS_72:
-        iauEform(WGS72,&EARTH_DA,&EARTH_DF);
-        EM_TYPE = typeEllipsoid;
-        break;
     case GRS_80:
-        iauEform(GRS80,&EARTH_DA,&EARTH_DF);
-        EM_TYPE = typeEllipsoid;
-        break;
     case CGCS_2000:
-        EARTH_DA = 6378137;
-        EARTH_DF = 1.0 / 298.257222101;
+        iauEform(typeEllipsoid,&EARTH_DA,&EARTH_DF);
+        EM_TYPE = typeEllipsoid;
         break;
     default:
         iauEform(WGS84,&EARTH_DA,&EARTH_DF);
@@ -61,7 +52,7 @@ void GisMath::LBH2XYZ(double dL, double dB, double dH, double &dX, double &dY, d
 {
     static double dTemp[3];
 
-    iauGd2gc(WGS84,dL,dB,dH,dTemp);
+    iauGd2gc(EM_TYPE,dL,dB,dH,dTemp);
 
     dX = dTemp[0];
     dY = dTemp[1];
@@ -75,7 +66,7 @@ void GisMath::XYZ2LBH(double dX, double dY, double dZ, double &dL, double &dB, d
     dTemp[1] = dY;
     dTemp[2] = dZ;
 
-    iauGc2gd(WGS84,dTemp,&dL,&dB,&dH);
+    iauGc2gd(EM_TYPE,dTemp,&dL,&dB,&dH);
 }
 
 bool GisMath::LBH2XYZ(const CVector &vGeo, CVector &v3D)
