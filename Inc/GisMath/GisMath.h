@@ -41,13 +41,18 @@ namespace GisMath
     GISMATHSHARED_EXPORT bool CalLineInterEllipsoid(const CVector& pt,const CVector& stDir,CVector& rInsertPos);
 
     /************************ 表述方式的转换 ************************/
-    /// @brief 地心笛卡尔坐标 转 地理坐标
-    /// @param dX  X轴坐标[m]  dY Y轴坐标[m]  dZ Z轴坐标[m]
-    /// @param dL  经度[rad] dB 纬度[rad] dH 高度[m]
-    /// @attention 采用的是WGS84椭球参数
-    GISMATHSHARED_EXPORT void XYZ2LBH(double dX, double dY, double dZ, double& dL, double& dB, double& dH);
-    /// @brief 地理坐标 转 地心笛卡尔坐标
-    GISMATHSHARED_EXPORT void LBH2XYZ(double dL, double dB, double dH, double& dX, double& dY, double& dZ);
+    /**
+     * @brief 地心笛卡尔坐标 转 地理坐标
+     * @param dX   X轴坐标[m]
+     * @param dY   Y轴坐标[m]
+     * @param dZ   Z轴坐标[m]
+     * @param dL   经度[rad]
+     * @param dB   纬度[rad]
+     * @param dH   高度[m]
+     */
+    GISMATHSHARED_EXPORT bool XYZ2LBH(double dX, double dY, double dZ, double& dL, double& dB, double& dH);
+    GISMATHSHARED_EXPORT bool LBH2XYZ(double dL, double dB, double dH, double& dX, double& dY, double& dZ);
+
     /// @attention 用向量表示(适合数据为3的倍数) 支持批量处理
     GISMATHSHARED_EXPORT bool XYZ2LBH(const CVector& v3D, CVector& vGeo);
     GISMATHSHARED_EXPORT bool LBH2XYZ(const CVector& vGeo, CVector& v3D);
@@ -57,14 +62,18 @@ namespace GisMath
      * @brief 全局坐标转换成局部东北天坐标
      * @param dL       站的经度            [rad]
      * @param dB       站的纬度            [rad]
-     * @param vGlobal  全局(ECF)下笛卡尔坐标 [m]
-     * @param vLocal   站心坐标系系的坐标    [m]
+     * @param vGlobal  全局(ECF)下笛卡尔坐标 [m,m,m]
+     * @param vLocal   站心坐标系系的坐标    [m,m,m]
      */
     GISMATHSHARED_EXPORT bool GLOBAL2LOCAL(double dL, double dB,const CVector& vGlobal, CVector& vLocal);
-
-    /// @brief 东北天坐标转换成全局坐标
     GISMATHSHARED_EXPORT bool LOCAL2GLOBAL(double dL, double dB,const CVector& vLocal, CVector& vGlobal);
 
+    /**
+     * @brief 全局坐标转换成局部东北天坐标转换的矩阵
+     * @param dL       站的经度            [rad]
+     * @param dB       站的纬度            [rad]
+     * @return
+     */
     GISMATHSHARED_EXPORT CMatrix GLOBAL2LOCAL(double dL, double dB);
     GISMATHSHARED_EXPORT CMatrix LOCAL2GLOBAL(double dL, double dB);
 
@@ -113,8 +122,8 @@ namespace GisMath
      * @param dX       给定点X轴分量     [m]
      * @param dY       给定点Y轴分量     [m]
      * @param dZ       给定点Z轴分量     [m]
-     * @param dAzim  方位角         [rad]
-     * @param dElev    俯仰角         [rad]
+     * @param dAzim    方位角           [rad]
+     * @param dElev    俯仰角           [rad]
      * @param dDist    距离给定点的直线距离 [m]
      * @param dX2      所求点的X轴分量    [m]
      * @param dY2      所求点的Y轴分量    [m]
@@ -180,10 +189,10 @@ namespace GisMath
      *                   方位、距离，求另一个点的经纬度，
      *                  距离：椭球的大地线长度
      * @param dLon      给定点经度      [rad][-π,π)
-     * @param dLat       给定点纬度      [rad][-π/2,π/2]
-     * @param dAzim    方位角             [rad][0,2π)
-     * @param dDist      距离给定点的距离 [m]
-     * @param dLon2    所求的经度值    [rad][-π,π)
+     * @param dLat      给定点纬度      [rad][-π/2,π/2]
+     * @param dAzim     方位角             [rad][0,2π)
+     * @param dDist     距离给定点的距离 [m]
+     * @param dLon2     所求的经度值    [rad][-π,π)
      * @param dLat2     所求的纬度值   [rad][-π/2,π/2]
      * @return 0 表示没有错误
      */

@@ -48,25 +48,31 @@ void GisMath::InitGis(ELLIPSOID typeEllipsoid)
     S_INIT = true;
 }
 
-void GisMath::LBH2XYZ(double dL, double dB, double dH, double &dX, double &dY, double &dZ)
+bool GisMath::LBH2XYZ(double dL, double dB, double dH, double &dX, double &dY, double &dZ)
 {
     static double dTemp[3];
 
-    iauGd2gc(EM_TYPE,dL,dB,dH,dTemp);
-
-    dX = dTemp[0];
-    dY = dTemp[1];
-    dZ = dTemp[2];
+    if(0 == iauGd2gc(EM_TYPE,dL,dB,dH,dTemp))
+    {
+        dX = dTemp[0];
+        dY = dTemp[1];
+        dZ = dTemp[2];
+        return(true);
+    }
+    else
+    {
+        return(false);
+    }
 }
 
-void GisMath::XYZ2LBH(double dX, double dY, double dZ, double &dL, double &dB, double &dH)
+bool GisMath::XYZ2LBH(double dX, double dY, double dZ, double &dL, double &dB, double &dH)
 {
     static double dTemp[3];
     dTemp[0] = dX;
     dTemp[1] = dY;
     dTemp[2] = dZ;
 
-    iauGc2gd(EM_TYPE,dTemp,&dL,&dB,&dH);
+    return(0 == iauGc2gd(EM_TYPE,dTemp,&dL,&dB,&dH));
 }
 
 bool GisMath::LBH2XYZ(const CVector &vGeo, CVector &v3D)
@@ -82,7 +88,10 @@ bool GisMath::LBH2XYZ(const CVector &vGeo, CVector &v3D)
 
     for(int i=0; i<nGeo; i+=3)
     {
-        LBH2XYZ(vGeo(i),vGeo(i+1),vGeo(i+2),v3D(i),v3D(i+1),v3D(i+2));
+        if(!LBH2XYZ(vGeo(i),vGeo(i+1),vGeo(i+2),v3D(i),v3D(i+1),v3D(i+2)))
+        {
+            return(false);
+        }
     }
 
     return(true);
@@ -100,7 +109,10 @@ bool GisMath::XYZ2LBH(const CVector &v3D, CVector &vGeo)
 
     for(int i=0; i<n3D; i+=3)
     {
-        XYZ2LBH(v3D(i),v3D(i+1),v3D(i+2),vGeo(i),vGeo(i+1),vGeo(i+2));
+        if(!XYZ2LBH(v3D(i),v3D(i+1),v3D(i+2),vGeo(i),vGeo(i+1),vGeo(i+2)))
+        {
+            return(false);
+        }
     }
     return(true);
 }
@@ -194,25 +206,8 @@ inline void Local2Globel(double dLon, double dLat, double dAzim, double dElev, d
     /// 需要增加90度
     vTemp = CVecMat::VecPolar(DPI*0.5-dAzim,dElev,dDist);
 
-    static double  dAux;
-
-    /// 计算 世界坐标系 到 局部天东北坐标系 旋转矩阵
-    CMatrix M = CVecMat::R_y(-dLat)*CVecMat::R_z(dLon);
-
-    /// 移动矩阵列 形成 世界坐标系 到 站心坐标系 旋转矩阵
-    for (int j=0; j<3; ++j)
-    {
-        dAux=M(0,j);
-        M(0,j)=M(1,j);
-        M(1,j)=M(2,j);
-        M(2,j)= dAux;
-    }
-
-    /// 求 东北天 到 地心 的 旋转矩阵
-    M = CVecMat::Transp(M);
-
     /// 在世界坐标下 所求位置 相对于给定位置的位置
-    vTemp = M * vTemp;
+    vTemp = vTemp * GisMath::GLOBAL2LOCAL(dLon,dLat);
 
     dX = vTemp(0);
     dY = vTemp(1);
@@ -232,20 +227,8 @@ inline void Local2Globel(double dLon, double dLat, double dAzim, double dElev, d
  */
 inline void Globel2Local(double dLon, double dLat, double dX, double dY, double dZ, double &dAzim, double &dElev, double &dDist)
 {
-    /// 临时变量
-    static double  dAux;
-
     /// 计算 世界坐标系 到 局部天东北坐标系 旋转矩阵
-    CMatrix M = CVecMat::R_y(-dLat)*CVecMat::R_z(dLon);
-
-    /// 移动矩阵列 形成 世界坐标系 到 站心坐标系 旋转矩阵
-    for (int j=0; j<3; ++j)
-    {
-        dAux=M(0,j);
-        M(0,j)=M(1,j);
-        M(1,j)=M(2,j);
-        M(2,j)= dAux;
-    }
+    CMatrix M = GisMath::GLOBAL2LOCAL(dLon,dLat);
 
     /// 用于存放临时数据
     static CVector vTemp(3);
@@ -317,22 +300,8 @@ int GisMath::GeoCalEndGeo(double dLon, double dLat, double dHeight,
 
     offset = tmpMatrix*offset;
 
-    static double  dAux;
-
-    /// 计算 世界坐标系 到 局部天东北坐标系 旋转矩阵
-    CMatrix M = CVecMat::R_y(-dLat)*CVecMat::R_z(dLon);
-
-    /// 移动矩阵列 形成 世界坐标系 到 站心坐标系 旋转矩阵
-    for (int j=0; j<3; ++j)
-    {
-        dAux=M(0,j);
-        M(0,j)=M(1,j);
-        M(1,j)=M(2,j);
-        M(2,j)= dAux;
-    }
-
     /// 求 东北天 到 地心 的 旋转矩阵
-    M = CVecMat::Transp(M);
+    CMatrix M = LOCAL2GLOBAL(dLon,dLat);
 
     /// 在世界坐标下 所求位置 相对于给定位置的位置
     offset = M * offset;
@@ -416,20 +385,8 @@ int GisMath::CalAzElGeo(double dLon1, double dLat1, double dHeight1,
 
     CVector vTemp(dx,dy,dz);
 
-    /// 临时变量
-    static double  dAux;
-
     /// 计算 世界坐标系 到 局部天东北坐标系 旋转矩阵
-    CMatrix M = CVecMat::R_y(-dLat1)*CVecMat::R_z(dLon1);
-
-    /// 移动矩阵列 形成 世界坐标系 到 站心坐标系 旋转矩阵
-    for (int j=0; j<3; ++j)
-    {
-        dAux=M(0,j);
-        M(0,j)=M(1,j);
-        M(1,j)=M(2,j);
-        M(2,j)= dAux;
-    }
+    CMatrix M = LOCAL2GLOBAL(dLon1,dLat1);
 
     /// 将世界坐标转换到站心坐标
     vTemp = M * vTemp;
@@ -443,12 +400,8 @@ int GisMath::CalAzElGeo(double dLon1, double dLat1, double dHeight1,
     /// 横滚旋转
     CMatrix mRoll = CVecMat::R_y(-dRoll);
 
-    CMatrix tmpMatrix = mAzim*mElev*mRoll;
 
-    /// 旋转矩阵的逆为矩阵的转置
-    CMatrix endMatrix = CVecMat::Transp(tmpMatrix);
-
-    vTemp = endMatrix*vTemp;
+    vTemp = vTemp * mAzim * mElev * mRoll;
 
     dX = vTemp(0);
     dY = vTemp(1);
