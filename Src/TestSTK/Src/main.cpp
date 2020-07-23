@@ -17,19 +17,19 @@ int main()
 
     BJTime startTime;
     startTime.nYear = 2020;
-    startTime.uMonth = 3;
-    startTime.uDay = 3;
-    startTime.uHour = 8;
-    startTime.uMinute=15;
+    startTime.uMonth = 7;
+    startTime.uDay = 1;
+    startTime.uHour = 16;
+    startTime.uMinute=0;
     startTime.uSecond = 0;
     startTime.uMSecond=0;
     BJTime endTime;
 
     endTime.nYear = 2020;
-    endTime.uMonth = 3;
-    endTime.uDay = 10;
-    endTime.uHour = 8;
-    endTime.uMinute=15;
+    endTime.uMonth = 7;
+    endTime.uDay = 2;
+    endTime.uHour = 0;
+    endTime.uMinute=0;
     endTime.uSecond = 0;
     endTime.uMSecond=0;
 
@@ -41,7 +41,7 @@ int main()
     tle.stTLE.sLine1 = "1 90004U 10046A   20061.16666667  .00000000  00000-0  00000-0 0 00000";
     tle.stTLE.sLine2 = "2 90004 123.0013 001.3967 0006000 135.4818 255.2335 13.41413563139433";
     vector<Period> tmpPeriod = VisiblePeriod(startTime,endTime,tle,goundPos,Rota_PRY,satPYR,
-                                             0.1*DD2R,30.*DD2R,Rectangle);
+                                             45*DD2R,45*DD2R,Rectangle);
     int nIndex=0;
 
     for(auto one : tmpPeriod)
