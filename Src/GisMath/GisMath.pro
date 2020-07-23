@@ -19,8 +19,16 @@ INCLUDEPATH *= $$SDK_PATH/Inc/GisMath
 SOURCES += Src/GisMath.cpp
 
 LIBS *= -L$$PWD/Lib
-CONFIG(debug, debug|release) {
-  LIBS *= -lproj_5_0_d
+win32-msvc2015{
+    CONFIG(debug, debug|release) {
+      LIBS *= -lproj_5_0_d
+    }else{
+      LIBS *= -lproj_5_0
+    }
 }else{
-  LIBS *= -lproj_5_0
+    CONFIG(debug, debug|release) {
+      LIBS *= -lprojd
+    }else{
+      LIBS *= -lproj
+    }
 }

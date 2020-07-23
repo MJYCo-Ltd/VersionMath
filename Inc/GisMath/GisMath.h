@@ -17,25 +17,25 @@ namespace GisMath
      */
     enum ELLIPSOID
     {
-        BJ_54,
-        WGS_72,
+        WGS_84=1,
         GRS_80,
-        WGS_84,
+        WGS_72,
+        BJ_54,
         CGCS_2000
     };
 
     /**
      * @brief 初始化地理信息系统
-     * @attention 调用坐标转换之前进行初始化，未初始化将按照wgs84处理
+     * @attention 调用坐标转换之前进行初始化，未初始化将按照WGS_84处理
      * @param typeEllipsoid 椭球类型
      */
     GISMATHSHARED_EXPORT void InitGis(ELLIPSOID typeEllipsoid);
 
     /**
      * @brief 计算椭球和射线的交点
-     * @param pt            射线起点
-     * @param stDir         射线方向
-     * @param rInsertPos    交点
+     * @param pt            射线起点 [m,m,m]
+     * @param stDir         射线方向 相对于起点的一个全局坐标系下的方向向量
+     * @param rInsertPos    交点     [m,m,m]
      * @return
      */
     GISMATHSHARED_EXPORT bool CalLineInterEllipsoid(const CVector& pt,const CVector& stDir,CVector& rInsertPos);
