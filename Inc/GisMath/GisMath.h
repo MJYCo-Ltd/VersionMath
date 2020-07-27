@@ -25,6 +25,25 @@ namespace GisMath
     };
 
     /**
+     * @brief 面积类型
+     */
+    enum AREA_TYPE
+    {
+        KM²,
+        M²
+    };
+
+    /**
+     * @brief 长度单位
+     */
+    enum LENGTH_TYPE
+    {
+        KM,
+        M,
+        NMI     /// 海里
+    };
+
+    /**
      * @brief 初始化地理信息系统
      * @attention 调用坐标转换之前进行初始化，未初始化将按照WGS_84处理
      * @param typeEllipsoid 椭球类型
@@ -70,8 +89,9 @@ namespace GisMath
 
     /**
      * @brief 全局坐标转换成局部东北天坐标转换的矩阵
-     * @param dL       站的经度            [rad]
-     * @param dB       站的纬度            [rad]
+     * @param dL 站的经度 [rad]
+     * @param dB 站的纬度 [rad]
+     * @attention vLocal = GLOBAL2LOCAL(dLon,dLat) * vGlobal;
      * @return
      */
     GISMATHSHARED_EXPORT CMatrix GLOBAL2LOCAL(double dL, double dB);
@@ -181,7 +201,8 @@ namespace GisMath
      * @param dLat2    第2个点的纬度 [rad][-π/2,π/2]
      * @return 球面弧长  [m]
      */
-    GISMATHSHARED_EXPORT double CalArcLen(double dLon1, double dLat1, double dLon2, double dLat2);
+    GISMATHSHARED_EXPORT double CalArcLen(double dLon1, double dLat1,
+                                          double dLon2, double dLat2,LENGTH_TYPE lenTYpe);
 
     /**
      * @brief 贝塞尔大地主题解算 正解
@@ -214,6 +235,14 @@ namespace GisMath
      */
     GISMATHSHARED_EXPORT int CalBaiserF(double dLon1, double dLat1, double dLon2, double dLat2
                                  , double& dAzim1, double &dAzim2, double &dDist);
+
+    /**
+     * @brief 根据经纬度计算面积
+     * @param vGeoIn  经纬度类型(lon,lat,lon,lat……)[deg,deg,deg,deg,……]
+     * @param type    输出面积类型
+     * @return
+     */
+    GISMATHSHARED_EXPORT double CalclutaGeoArea(const CVector& vGeoIn,AREA_TYPE type);
 }
 
 #endif // GISMATH_H

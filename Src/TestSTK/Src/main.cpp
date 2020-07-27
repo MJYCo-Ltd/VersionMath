@@ -2,7 +2,7 @@
 #include <fstream>
 #include <iomanip>
 #include "SatelliteToolKit.h"
-#include "sofam.h"
+#include "sofa.h"
 #include "Vector.h"
 #include "SGP4.h"
 

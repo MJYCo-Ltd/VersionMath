@@ -67,12 +67,21 @@ const double DR2D (57.29577951308232087679815);
 const double DD2R(1.745329251994329576923691e-2);
 
 /* Radians to arcseconds */
+/**
+ * @brief 弧度转秒
+ */
 const double DR2AS(206264.8062470963551564734);
 
 /* Arcseconds to radians */
+/**
+ * @brief 秒到弧度的转换
+ */
 const double DAS2R(4.848136811095359935899141e-6);
 
 /* Seconds of time to radians */
+/**
+ * @brief 每秒地球的旋转弧度
+ */
 const double DS2R(7.272205216643039903848712e-5);
 
 /* Arcseconds in a full circle */

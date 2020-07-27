@@ -24,6 +24,7 @@ INCLUDEPATH *= $$SDK_PATH/Inc/SatelliteToolKit
 
 SOURCES += \
     Src/SatelliteToolKitCommon.cpp \
+    Src/SatelliteToolKit_Angle.cpp \
     Src/SatelliteToolKit_Init.cpp \
     Src/SatelliteToolKit_Intersect.cpp \
     Src/SatelliteToolKit_Oribit.cpp \

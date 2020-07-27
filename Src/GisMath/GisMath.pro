@@ -14,9 +14,15 @@ SDK_PATH=$$PWD/../..
 SDK_CONFIG *= SOFA MATH
 include($$PWD/../VersionMath.pri)
 
-INCLUDEPATH *= $$SDK_PATH/Inc/GisMath
+INCLUDEPATH *= $$SDK_PATH/Inc/GisMath Inc
 
-SOURCES += Src/GisMath.cpp
+HEADERS += \
+    Inc/GisMath_Common.h
+
+SOURCES += \
+    Src/GisMath_Common.cpp \
+    Src/GisMath_Geographic.cpp \
+    Src/GisMath_Transform.cpp
 
 LIBS *= -L$$PWD/Lib
 win32-msvc2015{

@@ -29,21 +29,26 @@ extern "C" {
 
 /* Astronomy/历法部分 */
 
-/// 将天数转换成 时分秒
-/// @param ndp 用于指定剩余天数，计算出来的秒之后的数据的位数
-///            如果ndp为负数，输出结果未知
+/**
+ * @brief 将时分秒转换成天
+ * @param s      正负号
+ * @param ihour  时 [0~23]
+ * @param imin   分 [0~59]
+ * @param sec    秒 [0~59.99999]
+ * @param days   对应的天数
+ * @return 0表示没有错误
+ */
+SOFASHARED_EXPORT int  iauTf2d(char s, int ihour, int imin, double sec, double *days);
 SOFASHARED_EXPORT void iauD2tf(int ndp, double days, char *sign, int ihmsf[4]);
-/// 将时分秒转换成天数
-SOFASHARED_EXPORT int iauTf2d(char s, int ihour, int imin, double sec, double *days);
-/// 通过年月日计算儒略日
-/// @param iy 年
-/// @param im 月
-/// @param id 日
-/// @param djm0 约简儒略日起始天数
-/// @param djm  从约简儒略日开始的天数
-SOFASHARED_EXPORT int iauCal2jd(int iy, int im, int id, double *djm0, double *djm);
 
-/// 通过儒略日计算年月日
+/** 通过年月日计算儒略日
+ * @param iy 年
+ * @param im 月
+ * @param id 日
+ * @param djm0 约简儒略日起始天数
+ * @param djm  从约简儒略日开始的天数
+ */
+SOFASHARED_EXPORT int iauCal2jd(int iy, int im, int id, double *djm0, double *djm);
 SOFASHARED_EXPORT int iauJd2cal(double dj1, double dj2,
                                 int *iy, int *im, int *id, double *fd);
 SOFASHARED_EXPORT int iauJdcalf(int ndp, double dj1, double dj2, int iymdf[4]);
@@ -513,12 +518,39 @@ SOFASHARED_EXPORT int iauStarpm(double ra1, double dec1,
               double *pmr2, double *pmd2, double *px2, double *rv2);
 
 /* VectorMatrix/AngleOps */
+
+/**
+ * @brief 将度分秒转成弧度
+ * @param s      正负号
+ * @param ideg   度   [0~359]
+ * @param iamin  分   [0~59]
+ * @param asec   秒   [0~59.9999]
+ * @param rad    计算好的弧度值
+ * @return 0     表示计算完成
+ */
+SOFASHARED_EXPORT int  iauAf2a(char s, int ideg, int iamin, double asec, double *rad);
 SOFASHARED_EXPORT void iauA2af(int ndp, double angle, char *sign, int idmsf[4]);
+
+/**
+ * @brief 将时分秒转成地球旋转角度
+ * @param s      正负号
+ * @param ihour  时 [0~23]
+ * @param imin   分 [0~59]
+ * @param sec    秒 [0~59.99999]
+ * @param rad    地球旋转的弧度值 [rad]
+ * @return 0表示转换成功
+ */
+SOFASHARED_EXPORT int  iauTf2a(char s, int ihour, int imin, double sec, double *rad);
 SOFASHARED_EXPORT void iauA2tf(int ndp, double angle, char *sign, int ihmsf[4]);
-SOFASHARED_EXPORT int iauAf2a(char s, int ideg, int iamin, double asec, double *rad);
+
+/**
+ * @brief iauAnp  将弧度限定到 [0~2π)
+ * @brief iauAnpm 将弧度限定到 [-π~π)
+ * @param a 任意弧度值
+ * @return
+ */
 SOFASHARED_EXPORT double iauAnp(double a);
 SOFASHARED_EXPORT double iauAnpm(double a);
-SOFASHARED_EXPORT int iauTf2a(char s, int ihour, int imin, double sec, double *rad);
 
 
 /* VectorMatrix/BuildRotations */
