@@ -251,9 +251,9 @@ vector<double> SATELLITETOOLKIT_EXPORT CalPDOP(const vector<Satellite_Element>& 
 
 /**
  * @brief 计算两颗卫星和地面站的夹角
- * @param vAx
- * @param vBx
- * @param rGroundStation
+ * @param vAx   卫星A在ecf下的位置速度 [m,m,m m/s,m/s,m/s]
+ * @param vBx   卫星B在ecf下的位置速度 [m,m,m m/s,m/s,m/s]
+ * @param rGroundStation 地面站的位置 [rad,rad,m]
  * @return
  */
 vector<double> Cal2SatGroundAngle(const vector<PV>& vAx,
