@@ -153,8 +153,8 @@ CVector CForce::ZonalHarmonic(const CVector &vecR, const CMatrix &matT,
                                       double dGM, double dR, const CMatrix &matCS,
                                       int nN_Max)
 {
-    static CVector k(0,0,1);
-    static double PL[71];
+    CVector k(0,0,1);
+    double PL[71];
 
     CVector SatPos = matT * vecR;
     SatPos /= dR;
@@ -200,8 +200,8 @@ CVector CForce::TesseralHarmonic(const CVector &vecR, const CMatrix &matT,
                                          int nN_Max)
 {
 
-    static CVector k(0,0,1);
-    static double PLM[71][71]={{0},{0}},SX[71]={0},CX[71]={0};
+    CVector k(0,0,1);
+    double PLM[71][71]={{0},{0}},SX[71]={0},CX[71]={0};
 
     CVector SatPos = matT * vecR;
 

@@ -78,7 +78,7 @@ bool CDate::GetDate(int &nYear, int &nMonth, int &nDay
         dMjd += BJ_UTC;
     }
 
-    static int hms[4];
+    int hms[4];
     iauD2dtf(SCUTC,m_nDecimal,DJM0,dMjd,&nYear,&nMonth,&nDay,hms);
 
     double d = pow(.1,m_nDecimal);

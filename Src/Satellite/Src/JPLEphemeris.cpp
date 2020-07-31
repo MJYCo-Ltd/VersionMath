@@ -90,7 +90,7 @@ CVector CJPLEphemeris::GetPos(const double &dMjdTT, const PLANET_TYPE& planet1
         return tmpVet;
     }
 
-    static double tmpRRD[6];
+    double tmpRRD[6];
     /// 最后一个 如果为 0 则只计算位置； 非0 则计算速度
     int nError = jpl_pleph(m_pJplDate,dMjdTT+DJM0,planet1,centerPlanet,tmpRRD,0);
     if(0 != nError)

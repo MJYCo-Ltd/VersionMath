@@ -3,7 +3,7 @@
 /// 经纬度和xyz的转换
 bool GisMath::LBH2XYZ(double dL, double dB, double dH, double &dX, double &dY, double &dZ)
 {
-    static double dTemp[3];
+    double dTemp[3];
 
     if(0 == iauGd2gc(EM_TYPE,dL,dB,dH,dTemp))
     {
@@ -21,7 +21,7 @@ bool GisMath::LBH2XYZ(double dL, double dB, double dH, double &dX, double &dY, d
 /// 经纬度和xyz的转换
 bool GisMath::XYZ2LBH(double dX, double dY, double dZ, double &dL, double &dB, double &dH)
 {
-    static double dTemp[3];
+    double dTemp[3];
     dTemp[0] = dX;
     dTemp[1] = dY;
     dTemp[2] = dZ;
@@ -113,7 +113,7 @@ int GisMath::CalBaiserF(double dLon1, double dLat1, double dLon2, double dLat2, 
 /// 计算两个地理坐标的弧长
 double GisMath::CalArcLen(double dLon1, double dLat1, double dLon2, double dLat2, GisMath::LENGTH_TYPE lenTYpe)
 {
-    static double dAzim1,dAzim2,dDist;
+    double dAzim1,dAzim2,dDist;
     CalBaiserF(dLon1,dLat1,dLon2,dLat2,dAzim1,dAzim2,dDist);
 
     switch (lenTYpe)
