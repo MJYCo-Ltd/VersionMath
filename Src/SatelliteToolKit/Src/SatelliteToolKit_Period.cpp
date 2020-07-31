@@ -91,11 +91,11 @@ vector<Period> VisiblePeriod(const BJTime& stStartTime,
     pJudgeFun CallJudge;
     switch (emType)
     {
-    case Ellipse:
+    case eEllipse:
         CallFun = EllipseVisible;
         CallJudge = EllipseVisible;
         break;
-    case Rectangle:
+    case eRectangle:
         CallFun = RectangleVisible;
         CallJudge = RectangleVisible;
         break;

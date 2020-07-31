@@ -45,13 +45,13 @@ bool TwoBody(const BJTime &stStartTime, const BJTime &stEndTime,
     /// 清空原有的数据
     stSatPos.stStart = stStartTime;
     stSatPos.stEnd = stEndTime;
-    stSatPos.uStep = nStep;
+    stSatPos.uStepMs = nStep;
     stSatPos.vJ2000.clear();
     stSatPos.vECF.clear();
     stSatPos.vTimes.clear();
 
     double dSpace = dMJDEnd - dMJDStart;
-    long long nTimeLenMs = dSpace * DAYSEC * (long long) 1000;
+    long long nTimeLenMs = dSpace * DAYSEC * (long long)1000;
 
     long long nStepMs = nStep * 1000;
     long long nCount = nTimeLenMs / nStepMs;
@@ -130,7 +130,7 @@ bool TwoBody(const BJTime &stStartTime, const BJTime &stEndTime,
 }
 
 /// 根据两行星历计算轨道
-bool SGP4(const BJTime &stStartTime, const BJTime &stEndTime, unsigned int nStep,
+bool SGP4(const BJTime &stStartTime, const BJTime &stEndTime, unsigned int nStepMs,
           const string& sLine1, const string& sLine2, SatellitePos &stSatPos)
 {
     double dMJDStart,dMJDEnd;
@@ -147,7 +147,7 @@ bool SGP4(const BJTime &stStartTime, const BJTime &stEndTime, unsigned int nStep
         return(false);
     }
 
-    double dMJDStep = nStep*SECDAY,
+    double dMJDStep = (nStepMs/1000.0)*SECDAY,
            dMJDCal = dMJDStart;
 
 
@@ -157,7 +157,7 @@ bool SGP4(const BJTime &stStartTime, const BJTime &stEndTime, unsigned int nStep
     /// 清空原有的数据
     stSatPos.stStart = stStartTime;
     stSatPos.stEnd = stEndTime;
-    stSatPos.uStep = nStep;
+    stSatPos.uStepMs = nStepMs;
     stSatPos.vJ2000.clear();
     stSatPos.vECF.clear();
     stSatPos.vTimes.clear();
@@ -165,7 +165,7 @@ bool SGP4(const BJTime &stStartTime, const BJTime &stEndTime, unsigned int nStep
     double dSpace = dMJDEnd - dMJDStart;
     long long nTimeLenMs = dSpace * DAYSEC * (long long) 1000;
 
-    long long nStepMs = nStep * 1000;
+    //long long nStepMs = nStep * 1000;
     long long nCount = nTimeLenMs / nStepMs;
 
     if(nTimeLenMs % nStepMs != 0)

@@ -40,12 +40,21 @@ enum SatElementType
  */
 enum ShapeType
 {
-    Rectangle,  /// 矩形
-    Ellipse     /// 椭圆
+    eRectangle,  /// 矩形
+    eEllipse     /// 椭圆
 };
 
 struct BJTime   /// 北京时间
-{
+{	
+	BJTime()
+	{
+		nYear = 0;
+		uMonth = uDay = uHour = uMinute = uSecond = uMSecond = 0;
+	}
+	BJTime(short _nYear, unsigned char _uMonth, unsigned char _uDay, unsigned char _uHour, unsigned char _uMinute, unsigned char _uSecond, unsigned char _uMSecond)
+	{
+		nYear = _nYear; uMonth = _uMonth; uDay = _uDay; uHour = _uHour; uMinute = _uMinute; uSecond = _uSecond, uMSecond = _uMSecond;
+	}
     short         nYear;
     unsigned char uMonth;
     unsigned char uDay;
@@ -106,11 +115,11 @@ struct SatellitePos /// 卫星位置结构体
 {
     BJTime stStart;
     BJTime stEnd;
-    unsigned int uStep;    /// 计算步长 [秒]
-    vector<double> vTimes;  /// 约简儒略日
-    vector<PV> vJ2000;    /// J2000下位置
-    vector<PV> vECF;     /// 地固系下位置坐标
-    vector<Pos> vLLA;    /// 经纬高 [deg deg m]
+    unsigned int uStepMs;	/// 计算步长 [毫秒]
+    vector<double> vTimes;	/// 约简儒略日
+    vector<PV> vJ2000;		/// J2000下位置
+    vector<PV> vECF;		/// 地固系下位置坐标
+    vector<Pos> vLLA;		/// 经纬高 [deg deg m]
 };
 
 struct Period /// 时间段结构体
