@@ -5,6 +5,7 @@
 #include "sofa.h"
 #include "Vector.h"
 #include "SGP4.h"
+#include "Date.h"
 
 using namespace std;
 
@@ -44,7 +45,7 @@ int main()
     tle.stTLE.sLine1 = "1 90004U 10046A   20061.16666667  .00000000  00000-0  00000-0 0 00000";
     tle.stTLE.sLine2 = "2 90004 123.0013 001.3967 0006000 135.4818 255.2335 13.41413563139433";
     vector<Period> tmpPeriod = VisiblePeriod(startTime,endTime,tle,goundPos,Rota_PRY,satPYR,
-                                             45*DD2R,45*DD2R,Rectangle);
+                                             45*DD2R,45*DD2R,eRectangle);
     int nIndex=0;
 
     for(auto one : tmpPeriod)
@@ -120,6 +121,12 @@ int main()
     tmpElement.stKepler.dMA = vKepler(5);
     vector<Satellite_Element> vOut = CreateConstellatory(tmpElement,5,6);
 
+    CDate dataBJ(tmpSGP4.GetTLEEpoch(),BJ);
+
+    int nYear,nMonth,nDay,nHour,nMinute;
+    double dSeconds;
+    dataBJ.GetDate(nYear,nMonth,nDay,nHour,nMinute,dSeconds);
+    cout<<dataBJ<<endl;
     for(Satellite_Element one : vOut)
     {
         cout<<"---------------------------\ndA:\t"<<one.stKepler.dA<<'\t'
