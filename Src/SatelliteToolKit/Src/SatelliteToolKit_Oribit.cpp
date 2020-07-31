@@ -263,20 +263,8 @@ vector<Satellite_Element> CreateConstellatory(Satellite_Element satTemplet,
             tmpSatellite.stKepler.dRAAN = satTemplet.stKepler.dRAAN + i*dRAANSpace;
             tmpSatellite.stKepler.dMA = satTemplet.stKepler.dMA + j*dMSpace;
 
-            while(tmpSatellite.stKepler.dRAAN > DPI)
-            {
-                tmpSatellite.stKepler.dRAAN -= D2PI;
-            }
-
-            while(tmpSatellite.stKepler.dRAAN < -DPI)
-            {
-                tmpSatellite.stKepler.dRAAN += D2PI;
-            }
-
-            while(tmpSatellite.stKepler.dMA > D2PI)
-            {
-                tmpSatellite.stKepler.dMA -= D2PI;
-            }
+            tmpSatellite.stKepler.dRAAN = iauAnpm(tmpSatellite.stKepler.dRAAN);
+            tmpSatellite.stKepler.dMA = iauAnp(tmpSatellite.stKepler.dMA);
 
             vSatElement.push_back(tmpSatellite);
         }
