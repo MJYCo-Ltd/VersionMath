@@ -195,19 +195,6 @@ bool SGP4(const BJTime &stStartTime, const BJTime &stEndTime, unsigned int nStep
         stSatPos.vJ2000[i].stV.dY = vECI(4);
         stSatPos.vJ2000[i].stV.dZ = vECI(5);
 
-		if (i > 0)
-		{
-			double dXDiff, dYDiff, dZDiff;
-			dXDiff = stSatPos.vJ2000[i].stP.dX - stSatPos.vJ2000[i - 1].stP.dX;
-			dYDiff = stSatPos.vJ2000[i].stP.dY - stSatPos.vJ2000[i - 1].stP.dY;
-			dZDiff = stSatPos.vJ2000[i].stP.dZ - stSatPos.vJ2000[i - 1].stP.dZ;
-			double dDis = sqrt(dXDiff*dXDiff + dYDiff * dYDiff + dZDiff * dZDiff);
-			if (dDis > 5000000)
-			{
-				int bk = 0;
-			}
-		}
-
         CCoorSys::TEME2ECF(dMJDCal,vTEME,vECF);
 
         stSatPos.vTimes[i] = dMJDCal;
