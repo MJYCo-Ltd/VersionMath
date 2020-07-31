@@ -82,7 +82,7 @@ CMatrix CCoorSys::ECI2ECF(const double &dMJD)
     /// 进行时间转换
     CTimeSys timeSys(dMJD);
 
-    static double dTemp[3][3];
+    double dTemp[3][3];
 
     /// 进行运算
     iauC2t06a(DJM0,timeSys.GetTT(),DJM0,timeSys.GetUT1(),tmpB.dPX*DAS2R,tmpB.dPY*DAS2R,dTemp);
