@@ -241,7 +241,8 @@ CMatrix CalRotateMatrix(const Pos &satPRY, RotateType eRotate)
     case Rota_ZXY:
         return(CYPRAngle::CreateMatrix(satPRY.dX,satPRY.dY,satPRY.dZ,YRP));
     }
-
+	// 默认返回PRY
+	return(CYPRAngle::CreateMatrix(satPRY.dX, satPRY.dY, satPRY.dZ, PRY));
 }
 
 /// 判断载荷和地球是否相交

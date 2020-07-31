@@ -44,7 +44,7 @@ bool SATELLITETOOLKIT_EXPORT TwoBody(const BJTime& stStartTime,
  * @brief 根据两行星历计算卫星轨道
  * @param stStartTime 开始计算时间
  * @param stEndTime   结束时间
- * @param nStep       计算步长 [秒]
+ * @param nStep       计算步长 [毫秒]
  * @param sLine1       第一行星历
  * @param sLine2       第二行星历
  * @param stSatPos    计算出来的卫星轨道数据
@@ -52,7 +52,7 @@ bool SATELLITETOOLKIT_EXPORT TwoBody(const BJTime& stStartTime,
  */
 bool SATELLITETOOLKIT_EXPORT SGP4(const BJTime& stStartTime,
                                   const BJTime& stEndTime,
-                                  unsigned int nStep,
+                                  unsigned int nStepMs,
                                   const string&  sLine1,
                                   const string&  sLine2,
                                   SatellitePos& stSatPos);
