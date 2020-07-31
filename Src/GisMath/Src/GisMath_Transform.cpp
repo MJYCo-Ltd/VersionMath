@@ -76,7 +76,7 @@ void Local2Globel(double dLon, double dLat, double dAzim, double dElev, double d
                   double &dX, double& dY, double& dZ)
 {
     /// 用于存放临时数据
-    static CVector vTemp(3);
+    CVector vTemp(3);
 
     /// 计算在站心坐标系下的位置
     /// 因球坐标以逆时针为正方向，而方位角以顺时针为正方向
@@ -100,7 +100,7 @@ void Globel2Local(double dLon, double dLat, double dX, double dY, double dZ,
     CMatrix M = GisMath::GLOBAL2LOCAL(dLon,dLat);
 
     /// 用于存放临时数据
-    static CVector vTemp(3);
+    CVector vTemp(3);
     vTemp(0) = dX;
     vTemp(1) = dY;
     vTemp(2) = dZ;
@@ -117,7 +117,7 @@ void Globel2Local(double dLon, double dLat, double dX, double dY, double dZ,
 int GisMath::GeoCalEndGeo(double dLon, double dLat, double dHeight, double dAzim, double dElev, double dDist, double &dLon2, double &dLat2, double &dHeight2)
 {
     /// 用于存放世界坐标
-    static double dTemp[3];
+    double dTemp[3];
 
     CheckInit();
 
@@ -145,7 +145,7 @@ int GisMath::GeoCalEndGeo(double dLon, double dLat, double dHeight,
                           double &dLon2, double &dLat2, double &dHeight2)
 {
     /// 用于存放世界坐标
-    static double dTemp[3];
+    double dTemp[3];
 
     CheckInit();
 
@@ -189,7 +189,7 @@ int GisMath::GeoCalEndGeo(double dLon, double dLat, double dHeight,
 int GisMath::XYZCalEndXYZ(double dX, double dY, double dZ, double dAzim, double dElev, double dDist, double &dX2, double &dY2, double &dZ2)
 {
     /// 用于存放世界坐标
-    static double dTemp[3],dLon,dLat,dHeight;
+    double dTemp[3],dLon,dLat,dHeight;
 
     CheckInit();
 
@@ -215,7 +215,7 @@ int GisMath::XYZCalEndXYZ(double dX, double dY, double dZ, double dAzim, double 
 /// 根据两个地理坐标计算第二个相对于第一个的方位角、俯仰角
 int GisMath::CalAzElGeo(double dLon1, double dLat1, double dHeight1, double dLon2, double dLat2, double dHeight2, double &dAzim, double &dElev, double &dDist)
 {
-    static double dTemp1[3],dTemp2[3],dx,dy,dz;
+    double dTemp1[3],dTemp2[3],dx,dy,dz;
 
     CheckInit();
 
@@ -239,7 +239,7 @@ int GisMath::CalAzElGeo(double dLon1, double dLat1, double dHeight1,
                         double dAzim, double dElev, double dRoll,
                         double &dX, double &dY, double &dZ)
 {
-    static double dTemp1[3],dTemp2[3],dx,dy,dz;
+    double dTemp1[3],dTemp2[3],dx,dy,dz;
 
     CheckInit();
 
@@ -282,7 +282,7 @@ int GisMath::CalAzElGeo(double dLon1, double dLat1, double dHeight1,
 /// 根据两个世界坐标计算第二个相对于第一个的方位角、俯仰角
 int GisMath::CalAzElXYZ(double dX1, double dY1, double dZ1, double dX2, double dY2, double dZ2, double &dAzim, double &dElev, double &dDist)
 {
-    static double dTemp[3],dLon,dLat,dHeight,dx,dy;
+    double dTemp[3],dLon,dLat,dHeight,dx,dy;
 
     CheckInit();
 

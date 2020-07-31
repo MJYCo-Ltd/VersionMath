@@ -86,7 +86,7 @@ CVector CSGP4::CalPV(const double &dMJD)
 
     double dMinutes = (dMJD + DJM0 - m_pTle->jdsatepoch)*1440.;
 
-    static double dR[3],dV[3];
+    double dR[3],dV[3];
     if(!sgp4(wgs72,*m_pTle,dMinutes,dR,dV))
     {
         return(tempVector);
