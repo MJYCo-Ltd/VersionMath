@@ -158,7 +158,7 @@ int main()
          }
      }
 
-     vector<double> vResultPDOP = CalPDOP(vAllSatellite,startTime,endTime,60.0,goundPos);
+     vector<double> vResultPDOP = CalPDOP(vAllSatellite,startTime,endTime,60000,goundPos);
 
      for(auto one : vResultPDOP)
      {
