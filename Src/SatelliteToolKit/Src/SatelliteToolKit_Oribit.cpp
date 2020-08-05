@@ -163,7 +163,7 @@ bool SGP4(const BJTime &stStartTime, const BJTime &stEndTime, unsigned int nStep
     stSatPos.vTimes.clear();
 
     double dSpace = dMJDEnd - dMJDStart;
-    long long nTimeLenMs = dSpace * DAYSEC * (long long) 1000;
+    long long nTimeLenMs = dSpace * DAYSEC * (long long) 1000.0 + 0.5;
 
     //long long nStepMs = nStep * 1000;
     long long nCount = nTimeLenMs / nStepMs;
