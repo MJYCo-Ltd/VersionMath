@@ -7,6 +7,12 @@
  *            该坐标系又称站心坐标系，因该坐标常用于地面站观测物体，因此原点又称站心。
  *****************************************************/
 
+geod_geodesic       PJ_GEOD;
+GisMath::ELLIPSOID  EM_TYPE(GisMath::WGS_84);
+bool                S_INIT(false);
+double              EARTH_DA(0);
+double              EARTH_DB(0);
+double              EARTH_DF(0);
 /// 检查是否初始化
 void CheckInit()
 {
@@ -34,9 +40,9 @@ void GisMath::InitGis(ELLIPSOID typeEllipsoid)
         break;
     }
 
-    EARTH_DB = EARTH_DA*(1-EARTH_DF);
     /// 初始化系数
     geod_init(&PJ_GEOD,EARTH_DA,EARTH_DF);
+    EARTH_DB = PJ_GEOD.b;
     S_INIT = true;
 }
 

@@ -22,19 +22,5 @@ HEADERS += \
 SOURCES += \
     Src/GisMath_Common.cpp \
     Src/GisMath_Geographic.cpp \
-    Src/GisMath_Transform.cpp
-
-LIBS *= -L$$PWD/Lib
-win32-msvc2015{
-    CONFIG(debug, debug|release) {
-      LIBS *= -lproj_d
-    }else{
-      LIBS *= -lproj
-    }
-}else{
-    CONFIG(debug, debug|release) {
-      LIBS *= -lprojd
-    }else{
-      LIBS *= -lproj
-    }
-}
+    Src/GisMath_Transform.cpp \
+    Src/geodesic.c

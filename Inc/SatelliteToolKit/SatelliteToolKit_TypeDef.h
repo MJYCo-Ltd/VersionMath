@@ -49,9 +49,10 @@ struct BJTime   /// 北京时间
 	BJTime()
 	{
 		nYear = 0;
-		uMonth = uDay = uHour = uMinute = uSecond = uMSecond = 0;
+		uMonth = uDay = uHour = uMinute = uSecond = 0;
+		uMSecond = 0;
 	}
-	BJTime(short _nYear, unsigned char _uMonth, unsigned char _uDay, unsigned char _uHour, unsigned char _uMinute, unsigned char _uSecond, unsigned char _uMSecond)
+	BJTime(short _nYear, unsigned char _uMonth, unsigned char _uDay, unsigned char _uHour, unsigned char _uMinute, unsigned char _uSecond, unsigned short _uMSecond)
 	{
 		nYear = _nYear; uMonth = _uMonth; uDay = _uDay; uHour = _uHour; uMinute = _uMinute; uSecond = _uSecond, uMSecond = _uMSecond;
 	}

@@ -4,13 +4,15 @@
 #include <sofa.h>
 #include "GisMath.h"
 
-static geod_geodesic       PJ_GEOD;
-static GisMath::ELLIPSOID  EM_TYPE(GisMath::WGS_84);
-static bool                S_INIT(false);
-static double              EARTH_DA(0),EARTH_DB(0),EARTH_DF(0);
-static const double        M2KM(1e-3);    /// 米到千米的转换
-static const double        M2NMI(1/1852.);/// 米到海里的转换
-static const double        M²2KM²(1e-6);  /// 平方米到平方千米的转换
+extern geod_geodesic       PJ_GEOD;
+extern GisMath::ELLIPSOID  EM_TYPE;
+extern bool                S_INIT;
+extern double              EARTH_DA;
+extern double              EARTH_DB;
+extern double              EARTH_DF;
+const double        M2KM(1e-3);    /// 米到千米的转换
+const double        M2NMI(1/1852.);/// 米到海里的转换
+const double        M²2KM²(1e-6);  /// 平方米到平方千米的转换
 
 /**
  * @brief 判断是否初始化
