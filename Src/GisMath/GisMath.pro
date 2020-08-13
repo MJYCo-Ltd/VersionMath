@@ -27,9 +27,9 @@ SOURCES += \
 LIBS *= -L$$PWD/Lib
 win32-msvc2015{
     CONFIG(debug, debug|release) {
-      LIBS *= -lproj_5_0_d
+      LIBS *= -lproj_d
     }else{
-      LIBS *= -lproj_5_0
+      LIBS *= -lproj
     }
 }else{
     CONFIG(debug, debug|release) {
