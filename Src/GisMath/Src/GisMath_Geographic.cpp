@@ -85,6 +85,7 @@ int  GisMath::CalBaiser(double dLon, double dLat, double dAzim, double dDist, do
 
     geod_direct(&PJ_GEOD,dLat,dLon,dAzim,dDist,&dLat2,&dLon2,0);
 
+
     /// 度转成弧度
     dLat2 *= DD2R;
     dLon2 *= DD2R;
