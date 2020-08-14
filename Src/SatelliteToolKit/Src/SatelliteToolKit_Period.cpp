@@ -1,4 +1,5 @@
 #include <iomanip>
+#include <float.h>
 #include "TimeSys.h"
 #include "CoorSys.h"
 #include "GisMath.h"

@@ -156,7 +156,7 @@ double GisMath::CalclutaGeoArea(const CVector &vGeoIn, GisMath::AREA_TYPE type)
     {
     default:
         return(fabs(dArea));
-    case KM²:
-        return(fabs(dArea)*M²2KM²);
+    case KMsqu:
+        return(fabs(dArea)*Msqu2KMsqu);
     }
 }

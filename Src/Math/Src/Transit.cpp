@@ -1,3 +1,4 @@
+#include <cmath>
 #include "Transit.h"
 
 using namespace Math;

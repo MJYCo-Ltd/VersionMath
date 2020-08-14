@@ -1,3 +1,4 @@
+#include <cmath>
 #include "JPLEphemeris.h"
 #include "SatelliteToolKit.h"
 #include "../Inc/SatelliteToolKitCommon.h"

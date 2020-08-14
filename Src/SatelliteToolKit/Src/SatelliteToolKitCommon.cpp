@@ -1,3 +1,4 @@
+#include <cmath>
 #include <Date.h>
 #include <VecMat.h>
 #include <sofam.h>
@@ -251,15 +252,15 @@ bool CanIntersection(const Pos &satPos, const CVector &rDir, const double &dMaxA
     CVector vCenter(0,0,1);
 
     /// 两者夹角
-    double dθ = acos(CVecMat::Dot(rDir,vCenter));
+    double dSigm = acos(CVecMat::Dot(rDir,vCenter));
 
     CVector vSatPos(satPos.dX,satPos.dY,satPos.dZ);
 
-    double dSatθ =  asin(R_Earth/vSatPos.Length());
+    double dSatSigm =  asin(R_Earth/vSatPos.Length());
 
 
     /// 判断是否相交
-    return((dSatθ + dMaxAngle) >= dθ);
+    return((dSatSigm + dMaxAngle) >= dSigm);
 }
 
 bool EllipseVisible(const double &dVisibleHAngle, const double &dVisibleVAngle, const double &dAngle, const CVector &vInsert)

@@ -12,6 +12,7 @@ unix{
     DESTDIR = $${SDK_PATH}/Bin
     VERSION = 2.0.0
     QMAKE_LFLAGS += -Wl,-rpath,.
+    QMAKE_CXXFLAGS += -fvisibility=hidden
 }
 
 LIBS *= -L$$DESTDIR
@@ -19,7 +20,7 @@ LIBS *= -L$$DESTDIR
 contains(SDK_CONFIG,MATH){
     INCLUDEPATH *= $${SDK_PATH}/Inc/Math
     CONFIG(debug, debug|release) {
-      LIBS *= -lMathD
+      LIBS *= -lMathd
     }else{
       LIBS *= -lMath
     }
@@ -28,7 +29,7 @@ contains(SDK_CONFIG,MATH){
 contains(SDK_CONFIG,SOFA){
     INCLUDEPATH *= $${SDK_PATH}/Inc/Sofa
     CONFIG(debug, debug|release) {
-      LIBS *= -lSofaD
+      LIBS *= -lSofad
     }else{
       LIBS *= -lSofa
     }
@@ -37,7 +38,7 @@ contains(SDK_CONFIG,SOFA){
 contains(SDK_CONFIG,SATELLITE){
     INCLUDEPATH *= $${SDK_PATH}/Inc/Satellite
     CONFIG(debug, debug|release) {
-      LIBS *= -lSatelliteD
+      LIBS *= -lSatellited
     }else{
       LIBS *= -lSatellite
     }
@@ -46,7 +47,7 @@ contains(SDK_CONFIG,SATELLITE){
 contains(SDK_CONFIG,GIS_MATH){
     INCLUDEPATH *= $${SDK_PATH}/Inc/GisMath
     CONFIG(debug, debug|release) {
-      LIBS *= -lGisMathD
+      LIBS *= -lGisMathd
     }else{
       LIBS *= -lGisMath
     }
@@ -55,14 +56,14 @@ contains(SDK_CONFIG,GIS_MATH){
 contains(SDK_CONFIG,SATELLITE_TOOL_KIT){
     INCLUDEPATH *= $${SDK_PATH}/Inc/SatelliteToolKit
     CONFIG(debug, debug|release) {
-      LIBS *= -lSatelliteToolKitD
+      LIBS *= -lSatelliteToolKitd
     }else{
       LIBS *= -lSatelliteToolKit
     }
 }
 
 CONFIG(debug, debug|release){
-  TARGET = $$join(TARGET,,,D)
+  TARGET = $$join(TARGET,,,d)
 }
 
 

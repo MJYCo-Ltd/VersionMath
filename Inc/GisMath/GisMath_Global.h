@@ -1,11 +1,11 @@
 #ifndef MY_GISMATH_GLOBAL_H
 #define MY_GISMATH_GLOBAL_H
 
-
+#include "../NoQt.h"
 #if defined(GIS_LIBRARY)
-#  define GISMATHSHARED_EXPORT __declspec(dllexport)
+#  define GISMATHSHARED_EXPORT Q_DECL_EXPORT
 #else
-#  define GISMATHSHARED_EXPORT __declspec(dllimport)
+#  define GISMATHSHARED_EXPORT Q_DECL_IMPORT
 #endif
 
 #endif // MY_GISMATH_GLOBAL_H

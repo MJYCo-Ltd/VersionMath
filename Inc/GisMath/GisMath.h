@@ -29,8 +29,8 @@ namespace GisMath
      */
     enum AREA_TYPE
     {
-        KM²,
-        M²
+        KMsqu,
+        Msqu
     };
 
     /**

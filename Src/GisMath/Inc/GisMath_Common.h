@@ -12,7 +12,7 @@ extern double              EARTH_DB;
 extern double              EARTH_DF;
 const double        M2KM(1e-3);    /// 米到千米的转换
 const double        M2NMI(1/1852.);/// 米到海里的转换
-const double        M²2KM²(1e-6);  /// 平方米到平方千米的转换
+const double        Msqu2KMsqu(1e-6);  /// 平方米到平方千米的转换
 
 /**
  * @brief 判断是否初始化

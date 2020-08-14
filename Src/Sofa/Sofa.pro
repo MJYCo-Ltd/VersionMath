@@ -28,7 +28,7 @@ unix{
 }
 
 CONFIG(debug, debug|release){
-  TARGET = $$join(TARGET,,,D)
+  TARGET = $$join(TARGET,,,d)
 }
 # 目标文件的输出路径  end
 
