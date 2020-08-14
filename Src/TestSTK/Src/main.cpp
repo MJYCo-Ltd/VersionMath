@@ -46,6 +46,8 @@ int main()
     tle.stTLE.sLine2 = "2 90004 123.0013 001.3967 0006000 135.4818 255.2335 13.41413563139433";
     vector<Period> tmpPeriod = VisiblePeriod(startTime,endTime,tle,goundPos,Rota_PRY,satPYR,
                                              45*DD2R,45*DD2R,eRectangle);
+    SatellitePos tmpPos;
+    SGP4(startTime,endTime,1,tle.stTLE.sLine1,tle.stTLE.sLine2,tmpPos);
     int nIndex=0;
 
     for(auto one : tmpPeriod)
