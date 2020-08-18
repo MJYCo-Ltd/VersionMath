@@ -1,4 +1,4 @@
-#ifndef YTY_VECMAT_H
+﻿#ifndef YTY_VECMAT_H
 #define YTY_VECMAT_H
 /*****************************************
   作用：进行矩阵的运算、向量的运算、矩阵与向量的运算
