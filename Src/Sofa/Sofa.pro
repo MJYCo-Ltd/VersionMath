@@ -14,11 +14,13 @@ DEFINES += SOFA_LIBRARY
 SDK_PATH = $$PWD/../..
 
 INCLUDEPATH *= $$SDK_PATH/Inc/Sofa
-win32-msvc:QMAKE_CXXFLAGS += -utf-8
-win32-msvc:QMAKE_CXXFLAGS += /wd"4100"
-win32-msvc:RC_FILE = Src/$${TARGET}_Version.rc
-win32-msvc:DLLDESTDIR = $${SDK_PATH}/../Bin
-win32-msvc:DESTDIR = $${SDK_PATH}/Lib
+win32{
+    QMAKE_CXXFLAGS += -utf-8
+    QMAKE_CXXFLAGS += /wd"4100"
+    RC_FILE = Src/$${TARGET}_Version.rc
+    DLLDESTDIR = $${SDK_PATH}/../Bin
+    DESTDIR = $${SDK_PATH}/Lib
+}
 
 ### Linux 或 Mac 环境
 unix{
@@ -28,7 +30,7 @@ unix{
 }
 
 CONFIG(debug, debug|release){
-  TARGET = $$join(TARGET,,,D)
+  TARGET = $$join(TARGET,,,d)
 }
 # 目标文件的输出路径  end
 

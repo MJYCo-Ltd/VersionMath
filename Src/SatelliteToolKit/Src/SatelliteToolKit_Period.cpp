@@ -296,8 +296,10 @@ vector<Period> VisiblePeriod(const BJTime& stStartTime,
     CVector vMinAngleSatPos(3);
 
     /// 遍历所有的
-    for(auto one : vMinAngle)
+    int nIndexMinAngle(0),nSizeMinAngle(vMinAngle.size());
+    for(;nIndexMinAngle<nSizeMinAngle;++nIndexMinAngle)
     {
+        minAngle& one = vMinAngle[nIndexMinAngle];
         /// 不可见时间点
         dInsertTime = one.dTime;
         dMinAngle = dInsertTime;
@@ -437,8 +439,9 @@ vector<Period> VisiblePeriod(const BJTime& stStartTime,
     int nIndex(0);
 
     --nResultCount;
-    for(auto one : vBestPos)
+    for(nIndexMinAngle=0,nSizeMinAngle=vBestPos.size();nIndexMinAngle<nSizeMinAngle;++nIndexMinAngle)
     {
+        bestPoint& one = vBestPos[nIndexMinAngle];
         if(one.bIsTowPos)
         {
             dEnterStep = dMJDStep*0.5;

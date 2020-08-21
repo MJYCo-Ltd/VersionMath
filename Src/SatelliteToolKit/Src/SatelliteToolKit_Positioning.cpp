@@ -15,9 +15,11 @@ vector<double> CalPDOP(const vector<Satellite_Element>& vSatellite,
     vPos.resize(vSatellite.size());
 
     /// 计算卫星的位置
-    int i=0;
-    for(auto one : vSatellite)
+    int i(0),nSize(vSatellite.size());
+
+    for(;i<nSize;++i)
     {
+        const Satellite_Element& one = vSatellite[i];
         switch(one.elemType)
         {
         case SAT_TLE:
@@ -29,7 +31,6 @@ vector<double> CalPDOP(const vector<Satellite_Element>& vSatellite,
         case SAT_PV:
             break;
         }
-        ++i;
     }
 
     Pos v3D;
@@ -50,9 +51,9 @@ vector<double> CalPDOP(const vector<Satellite_Element>& vSatellite,
     for(int nIndex=0;nIndex<i;++nIndex)
     {
         vAllVisibleSat.clear();
-        for(auto one : vPos)
+        for(int j=0;j<vPos.size();++j)
         {
-            vSat3D = one.vECF[nIndex].stP;
+            vSat3D = vPos[j].vECF[nIndex].stP;
 
             /// 只有对地面位置可见的星才参与pdop计算
             if(IsVisible(vSat3D,v3D,5*DD2R))

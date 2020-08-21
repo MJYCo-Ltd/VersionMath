@@ -46,12 +46,13 @@ int main()
     tle.stTLE.sLine2 = "2 90004 123.0013 001.3967 0006000 135.4818 255.2335 13.41413563139433";
     vector<Period> tmpPeriod = VisiblePeriod(startTime,endTime,tle,goundPos,Rota_PRY,satPYR,
                                              45*DD2R,45*DD2R,eRectangle);
-    int nIndex=0;
+    int nIndex(0),nSize(tmpPeriod.size());
 
-    for(auto one : tmpPeriod)
+    for(;nIndex < nSize;++nIndex)
     {
+        const Period& one = tmpPeriod[nIndex];
         cout<<setw(4)
-           <<++nIndex
+           <<nIndex
            <<" Start:"
            << one.stStart.nYear
            <<'-'
@@ -127,8 +128,9 @@ int main()
     double dSeconds;
     dataBJ.GetDate(nYear,nMonth,nDay,nHour,nMinute,dSeconds);
     cout<<dataBJ<<endl;
-    for(Satellite_Element one : vOut)
+    for(nIndex=0,nSize=vOut.size();nIndex<nSize;++nIndex)
     {
+        const Satellite_Element& one = vOut[nIndex];
         cout<<"---------------------------\ndA:\t"<<one.stKepler.dA<<'\t'
             <<"dE:\t"<<one.stKepler.dE<<'\t'
             <<"dI:\t"<<one.stKepler.dI*DR2D<<'\n'
@@ -160,9 +162,9 @@ int main()
 
      vector<double> vResultPDOP = CalPDOP(vAllSatellite,startTime,endTime,60000,goundPos);
 
-     for(auto one : vResultPDOP)
+     for(nIndex=0,nSize=vResultPDOP.size();nIndex<nSize;++nIndex)
      {
-         cout<<"PDOP:"<<one<<endl;
+         cout<<"PDOP:"<<vResultPDOP[nIndex]<<endl;
      }
 
     /// 释放资源

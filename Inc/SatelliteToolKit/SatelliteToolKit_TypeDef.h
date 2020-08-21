@@ -127,7 +127,7 @@ struct Period /// 时间段结构体
 {
     BJTime stStart;       ///开始时间
     BJTime stEnd;         ///结束时间
-    double dDurationTime=0; ///持续时间
+    double dDurationTime; ///持续时间
     vector<Pos> vLLa;      /// 该段时间对应的地面区域范围
 };
 

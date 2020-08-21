@@ -17,8 +17,10 @@ vector<Pos> Intersect(const PV& satPV,
     vector<Pos> vSatPos;
     Pos tmpPos;
     CVector satPos(3),localPos(3);
-    for(auto one : vAngle)
+    int nSize = vAngle.size();
+    for(int nIndex=0; nIndex < nSize; ++nIndex)
     {
+        const Pos& one = vAngle[nIndex];
         localPos.Set(one.dX,one.dY,one.dZ);
 
         satPos = localPos * rotateMatrix;
