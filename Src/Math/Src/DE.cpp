@@ -15,7 +15,7 @@ static const int    MAXNUM = 500;
 static const double umach = std::numeric_limits<double>::epsilon();
 static const double twou   = 2.0*umach;
 static const double fouru  = 4.0*umach;
-#ifdef Q_OS_WIN
+#ifdef _WIN32
 
 #if _MSC_VER < 1700
 
