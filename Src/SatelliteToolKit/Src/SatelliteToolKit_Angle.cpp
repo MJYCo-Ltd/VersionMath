@@ -1,3 +1,4 @@
+#include <cmath>
 #include "GisMath.h"
 #include "SatelliteToolKit.h"
 

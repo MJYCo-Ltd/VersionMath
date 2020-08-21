@@ -1,3 +1,4 @@
+#include <cmath>
 #include <VecMat.h>
 #include <GisMath.h>
 #include <CoorSys.h>

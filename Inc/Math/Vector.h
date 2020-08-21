@@ -1,4 +1,4 @@
-#ifndef YTY_VECTOR_H
+﻿#ifndef YTY_VECTOR_H
 #define YTY_VECTOR_H
 
 /*****************************************

@@ -1,3 +1,4 @@
+#include <cmath>
 #include <VecMat.h>
 #include <Quaternion.h>
 #include <YPRAngle.h>

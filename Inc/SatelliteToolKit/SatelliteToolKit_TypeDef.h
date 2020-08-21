@@ -1,4 +1,4 @@
-#ifndef SATELLITETOOLKIT_TYPEDEF_H
+﻿#ifndef SATELLITETOOLKIT_TYPEDEF_H
 #define SATELLITETOOLKIT_TYPEDEF_H
 
 /******************************************************

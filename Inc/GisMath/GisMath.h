@@ -1,8 +1,8 @@
-#ifndef MY_GISMATH_H
+﻿#ifndef MY_GISMATH_H
 #define MY_GISMATH_H
 
 #include "GisMath_Global.h"
-#include "VecMat.h"
+#include "../Math/VecMat.h"
 
 /***
  * rad 表示 弧度
@@ -29,8 +29,8 @@ namespace GisMath
      */
     enum AREA_TYPE
     {
-        KM²,
-        M²
+        KMsqu,
+        Msqu
     };
 
     /**

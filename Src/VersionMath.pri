@@ -14,6 +14,7 @@ unix{
     DESTDIR = $${SDK_PATH}/Bin
     VERSION = 2.0.0
     QMAKE_LFLAGS += -Wl,-rpath,.
+    QMAKE_CXXFLAGS += -fvisibility=hidden
 }
 
 LIBS *= -L$$DESTDIR

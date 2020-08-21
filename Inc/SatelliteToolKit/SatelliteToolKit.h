@@ -1,4 +1,4 @@
-#ifndef SATELLITETOOLKIT_H
+﻿#ifndef SATELLITETOOLKIT_H
 #define SATELLITETOOLKIT_H
 
 #include<string>
