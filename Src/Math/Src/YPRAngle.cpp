@@ -235,18 +235,20 @@ void CYPRAngle::CalTransform(const CMatrix &rotateMatrix, YPRROTATE type, YPR_Ro
 /// 根据指定的旋转角度计算旋转矩阵
 CMatrix CYPRAngle::CreateMatrix(double dRoll, double dPitch, double dYaw, YPRROTATE type)
 {
+    return(CreateQuaternion(dRoll,dPitch,dYaw,type).GetMatrix());
+}
+
+CQuaternion CYPRAngle::CreateQuaternion(double dRoll, double dPitch, double dYaw, YPRROTATE type)
+{
     ///////////////////////////绕轴旋转///////////////////////////////////
     //绕X轴旋转
     CQuaternion qX(CVector(1,0,0),dRoll);
-    // CMatrix matRotateX=CVecMat::R_x(dRoll);
 
     //绕Y轴旋转
     CQuaternion qY(CVector(0,1,0),dPitch);
-    // CMatrix matRotateY=CVecMat::R_y(dPitch);
 
     //绕Z轴旋转
     CQuaternion qZ(CVector(0,0,1),dYaw);
-    // CMatrix matRotateZ=CVecMat::R_z(dYaw);
     /////////////////////////////////////////////////////////////////////
 
     CMatrix matrxRotate;
@@ -254,38 +256,32 @@ CMatrix CYPRAngle::CreateMatrix(double dRoll, double dPitch, double dYaw, YPRROT
     {
     case XYZ:
     case RPY:
-        return((qX*qY*qZ).GetMatrix());
-        // return(matRotateX * matRotateY * matRotateZ);
+        return(qX*qY*qZ);
         break;
     case XZY:
     case RYP:
-        return((qX*qZ*qY).GetMatrix());
-        // return(matRotateX * matRotateZ * matRotateY);
+        return(qX*qZ*qY);
         break;
     case YXZ:
     case PRY:
-        return((qY*qX*qZ).GetMatrix());
-        // return(matRotateY * matRotateX * matRotateZ);
+        return(qY*qX*qZ);
         break;
     case YZX:
     case PYR:
-        return((qY*qZ*qX).GetMatrix());
-        // return(matRotateY * matRotateZ * matRotateX);
+        return(qY*qZ*qX);
         break;
     case ZXY:
     case YRP:
-        return((qZ*qX*qY).GetMatrix());
-        // return(matRotateZ * matRotateX * matRotateY);
+        return(qZ*qX*qY);
         break;
     case ZYX:
     case YPR:
-        return((qZ*qY*qX).GetMatrix());
-        // return(matRotateZ * matRotateY * matRotateX);
+        return(qZ*qY*qX);
         break;
     default:
         break;
     }
-    return (matrxRotate);
+    return (CQuaternion());
 }
 
 /// 根据指定的旋转顺序计算 各角度

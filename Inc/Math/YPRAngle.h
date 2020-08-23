@@ -16,6 +16,7 @@
 namespace Math {
 
 class CMatrix;
+class CQuaternion;
 
 /**
  * @brief 俯仰翻滚偏航的旋转类型
@@ -87,6 +88,7 @@ public:
      * @return 旋转矩阵
      */
     static CMatrix CreateMatrix(double dRoll,double dPitch, double dYaw, YPRROTATE type);
+    static CQuaternion CreateQuaternion(double dRoll,double dPitch, double dYaw, YPRROTATE type);
 
 
     /**

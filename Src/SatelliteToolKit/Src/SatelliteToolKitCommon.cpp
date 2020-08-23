@@ -309,12 +309,13 @@ bool RectangleVisible(const double &dVisibleHAngle, const double &dVisibleVAngle
     else
     {
         double dY= tan(dVisibleVAngle),dX=tan(dVisibleHAngle);
-        STK_Point point1={-dX,-dY},
-                  point2={dX,-dY},
-                  point3={dX,dY},
-                  point4={-dX,dY},
-                  pointP={vInsert.GetX(),vInsert.GetY()};
-        return CalCross(point1,point2,pointP) * CalCross(point3,point4,pointP) >= 0
-                && CalCross(point2,point3,pointP) * CalCross(point4,point1,pointP) >= 0;
+        return(fabs(vInsert.GetX())<dX&&fabs(vInsert.GetY())<dY);
+//        STK_Point point1={-dX,-dY},
+//                  point2={dX,-dY},
+//                  point3={dX,dY},
+//                  point4={-dX,dY},
+//                  pointP={vInsert.GetX(),vInsert.GetY()};
+//        return CalCross(point1,point2,pointP) * CalCross(point3,point4,pointP) >= 0
+//                && CalCross(point2,point3,pointP) * CalCross(point4,point1,pointP) >= 0;
     }
 }

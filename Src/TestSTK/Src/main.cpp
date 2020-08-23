@@ -6,6 +6,7 @@
 #include "Vector.h"
 #include "SGP4.h"
 #include "Date.h"
+#include "Quaternion.h"
 
 using namespace std;
 
@@ -18,6 +19,13 @@ int main()
     {
         cout<<sErrInfo<<endl;
     }
+
+    CQuaternion cTest(CVector(1,0,0),0);
+    cout<<setprecision(12)<<cTest.GetX()<<'\t'<<cTest.GetY()<<'\t'<<cTest.GetZ()<<'\t'<<cTest.GetS()<<endl;
+    CQuaternion cTest1(CVector(0,1,0),0);
+    cout<<setprecision(12)<<cTest1.GetX()<<'\t'<<cTest1.GetY()<<'\t'<<cTest1.GetZ()<<'\t'<<cTest1.GetS()<<endl;
+    CQuaternion cTest2(CVector(0,0,1),0);
+    cout<<setprecision(12)<<cTest2.GetX()<<'\t'<<cTest2.GetY()<<'\t'<<cTest2.GetZ()<<'\t'<<cTest2.GetS()<<endl;
 
     BJTime startTime;
     startTime.nYear = 2020;
