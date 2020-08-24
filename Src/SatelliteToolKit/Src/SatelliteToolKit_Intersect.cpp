@@ -2,6 +2,7 @@
 #include "JPLEphemeris.h"
 #include "SatelliteToolKit.h"
 #include "../Inc/SatelliteToolKitCommon.h"
+#include "GisMath.h"
 #include "sofam.h"
 
 const double C_SMaxAngle(DPI*0.5*0.99);
@@ -15,23 +16,27 @@ vector<Pos> Intersect(const PV& satPV,
     vector<Pos> vResult;
 
     /// 将位置点旋转到卫星本体坐标系下
-    vector<Pos> vSatPos;
-    Pos tmpPos;
     CVector satPos(3),localPos(3);
     int nSize = vAngle.size();
+     CMatrix tmpMatrix = CalSatMatrix(satPV);
+     CVector satGlobalPos(satPV.stP.dX,satPV.stP.dY,satPV.stP.dZ);
+     Pos tmpPos;
+
     for(int nIndex=0; nIndex < nSize; ++nIndex)
     {
         const Pos& one = vAngle[nIndex];
         localPos.Set(one.dX,one.dY,one.dZ);
 
-        satPos = localPos * rotateMatrix;
+        satPos = localPos * rotateMatrix * tmpMatrix;
 
-        tmpPos.dX = satPos.GetX();
-        tmpPos.dY = satPos.GetY();
+        GisMath::CalLineInterEllipsoid(satGlobalPos,satPos,localPos);
+        GisMath::XYZ2LBH(localPos,satPos);
+        tmpPos.dX = satPos.GetX() * DR2D;
+        tmpPos.dY = satPos.GetY() * DR2D;
         tmpPos.dZ = satPos.GetZ();
-
-        vSatPos.push_back(tmpPos);
+        vResult.push_back(tmpPos);
     }
+
 
 
 
