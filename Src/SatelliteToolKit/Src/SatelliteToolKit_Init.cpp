@@ -4,7 +4,7 @@
 
 using namespace Aerospace;
 
-bool InitSatelliteToolKit(std::string& sErrorInfo)
+bool InitSatelliteToolKit(const std::string& sPath,std::string& sErrorInfo)
 {
     /// 初始化地球极移数据
     CIRESInfo* pIERS = CIRESInfo::GetInstance();
@@ -17,10 +17,10 @@ bool InitSatelliteToolKit(std::string& sErrorInfo)
 
     if(!pIERS->IsInit())
     {
-        char filePath[] = "STKData/finals2000A.data";
+        string filePath = sPath + "/STKData/finals2000A.data";
         if(!pIERS->Init(filePath))
         {
-            sErrorInfo = "STKData/finals2000A.data does not exist or is malformed!";
+            sErrorInfo = filePath + " does not exist or is malformed!";
             return false;
         }
     }
@@ -35,10 +35,10 @@ bool InitSatelliteToolKit(std::string& sErrorInfo)
 
     if(!pJPL->IsInit())
     {
-        char filePath[] = "STKData/ephem";
+        string filePath = sPath + "/STKData/ephem";
         if(!pJPL->Init(filePath))
         {
-            sErrorInfo = "STKData/ephem does not exist or is malformed!";
+            sErrorInfo = filePath + " does not exist or is malformed!";
             return false;
         }
     }

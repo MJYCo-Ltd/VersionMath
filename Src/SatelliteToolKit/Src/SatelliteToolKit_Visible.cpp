@@ -33,10 +33,10 @@ bool IsVisible(const Pos& satECFPos, const Pos& station3D, double dVisibleAngle)
 /// 判断两个星是否可见
 bool IsVisible(const PV& satECIPV, const PV& satoTherECIPV, double dConeAngle)
 {
-    if(InsertEarth(satECIPV.stP,satoTherECIPV.stP))
-    {
-        return(false);
-    }
+//    if(InsertEarth(satECIPV.stP,satoTherECIPV.stP))
+//    {
+//        return(false);
+//    }
 
     CMatrix tmpMatrix = CalSatMatrix(satECIPV);
     /// 构建卫星本体到全局的转换矩阵
@@ -44,16 +44,26 @@ bool IsVisible(const PV& satECIPV, const PV& satoTherECIPV, double dConeAngle)
 
     CVector StationPos(satoTherECIPV.stP.dX,satoTherECIPV.stP.dY,satoTherECIPV.stP.dZ);
     CVector vGlobal = StationPos - Pos;
+
+    CVector vInsertEarth(3);
+    double dLength = vGlobal.Length();
+    double dInsertLength;
+    if(GisMath::CalLineInterEllipsoid(Pos,vGlobal,vInsertEarth))
+    {
+        dInsertLength = (vInsertEarth-Pos).Length();
+        if(dInsertLength < dLength)
+        {
+            return(false);
+        }
+    }
     /// 将全局的坐标转成局部坐标
     CVector vInsert = tmpMatrix * vGlobal;
-    /// 将全局的坐标转成局部坐标
-    vInsert = tmpMatrix * vGlobal;
 
     CVector Center(0,0,1);
     double dDot = CVecMat::Dot(vInsert,Center);
-    double dAngle = acos(dDot/vInsert.Length());
+    double dAngle = acos(dDot/dLength);
 
-    return(dConeAngle >= dAngle);
+    return(dConeAngle > dAngle);
 }
 
 /// 卫星对地面目标的可见

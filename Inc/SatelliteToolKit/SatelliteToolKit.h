@@ -18,7 +18,7 @@ namespace Math
  * @param sErrorInfo 错误信息
  * @return
  */
-bool SATELLITETOOLKIT_EXPORT InitSatelliteToolKit(string& sErrorInfo);
+bool SATELLITETOOLKIT_EXPORT InitSatelliteToolKit(const string &sPath, string& sErrorInfo);
 
 /**
  * @brief 释放卫星工具包占用的资源
