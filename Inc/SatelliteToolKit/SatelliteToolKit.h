@@ -11,6 +11,7 @@ using namespace  std;
 namespace Math
 {
     class CMatrix;
+    class CVector;
 }
 
 /**
@@ -270,4 +271,13 @@ vector<double> Cal2SatGroundAngle(const vector<PV>& vAx,
 vector<double>CalSat2GroundAngle(const vector<PV>& vAx,
                                  const Pos& rGoundA,
                                  const Pos& rGoundB);
+
+/**
+ * @brief 判断两点是否被地球遮挡
+ * @param rPos1
+ * @param rPos2
+ * @return
+ */
+bool SATELLITETOOLKIT_EXPORT InsertEarth(const Pos& rPos1, const Pos& rPos2);
+bool SATELLITETOOLKIT_EXPORT InsertEarth(const Math::CVector& vR1, const Math::CVector& vR2);
 #endif

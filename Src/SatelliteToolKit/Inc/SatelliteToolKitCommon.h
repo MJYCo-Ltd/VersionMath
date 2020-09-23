@@ -49,14 +49,14 @@ int  JudgeDataTrend(const vector<TimeElev>& vElev, float dMin);
 bool JudgeIsInsert(const PV& satECFPV, const Pos& station3DPos, const Pos& satPRY,
                    RotateType eRotate, CVector& vInsert, double &dAngle);
 
-/**
- * @brief 判断两点是否被地球遮挡
- * @param rPos1
- * @param rPos2
- * @return
- */
-bool  InsertEarth(const Pos& rPos1,const Pos& rPos2);
-bool  InsertEarth(const CVector& vR1, const CVector& vR2);
+///**
+// * @brief 判断两点是否被地球遮挡
+// * @param rPos1
+// * @param rPos2
+// * @return
+// */
+//bool  InsertEarth(const Pos& rPos1,const Pos& rPos2);
+//bool  InsertEarth(const CVector& vR1, const CVector& vR2);
 
 /**
  * @brief 计算卫星的旋转矩阵

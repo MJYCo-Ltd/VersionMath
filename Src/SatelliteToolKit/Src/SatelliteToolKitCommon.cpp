@@ -9,6 +9,7 @@
 #include <GisMath.h>
 
 #include "../Inc/SatelliteToolKitCommon.h"
+#include "SatelliteToolKit.h"
 
 using namespace Aerospace;
 using namespace Math;
