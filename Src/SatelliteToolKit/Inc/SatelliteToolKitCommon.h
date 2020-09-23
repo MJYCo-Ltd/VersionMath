@@ -67,13 +67,13 @@ bool JudgeIsInsert(const PV& satECFPV, const Pos& station3DPos, const Pos& satPR
  */
 CMatrix CalSatRoteMatrix(const PV& satPV, const Pos& satPRY, RotateType eRotate);
 
-/**
- * @brief 通过卫星的位置姿态计算旋转矩阵
- * @param satPV 卫星的位置 速度
- * @return
- */
-CMatrix CalSatMatrix(const PV& satPV);
-CMatrix CalSatMatrix(const CVector& vPV);
+///**
+// * @brief 通过卫星的位置姿态计算旋转矩阵
+// * @param satPV 卫星的位置 速度
+// * @return
+// */
+//CMatrix CalSatMatrix(const PV& satPV);
+//CMatrix CalSatMatrix(const CVector& vPV);
 
 /**
  * @brief 通过旋转模型计算旋转矩阵

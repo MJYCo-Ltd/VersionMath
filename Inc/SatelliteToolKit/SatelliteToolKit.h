@@ -280,4 +280,12 @@ vector<double>CalSat2GroundAngle(const vector<PV>& vAx,
  */
 bool SATELLITETOOLKIT_EXPORT InsertEarth(const Pos& rPos1, const Pos& rPos2);
 bool SATELLITETOOLKIT_EXPORT InsertEarth(const Math::CVector& vR1, const Math::CVector& vR2);
+
+/**
+ * @brief 通过卫星的位置姿态计算旋转矩阵
+ * @param satPV 卫星的位置 速度
+ * @return
+ */
+Math::CMatrix SATELLITETOOLKIT_EXPORT CalSatMatrix(const PV& satPV);
+Math::CMatrix SATELLITETOOLKIT_EXPORT CalSatMatrix(const Math::CVector& vPV);
 #endif
