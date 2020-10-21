@@ -3,15 +3,15 @@
 /* -------------------------------------------------------------------- */
 
 /* This file is part of the NRLMSISE-00  C source code package - release
- * 20020503
+ * 20041227
  *
  * The NRLMSISE-00 model was developed by Mike Picone, Alan Hedin, and
- * Doug Drob. They also wrote a NRLMSISE-00 distribution package in 
+ * Doug Drob. They also wrote a NRLMSISE-00 distribution package in
  * FORTRAN which is available at
  * http://uap-www.nrl.navy.mil/models_web/msis/msis_home.htm
  *
  * Dominik Brodowski implemented and maintains this C version. You can
- * reach him at devel@brodo.de. See the file "DOCUMENTATION" for details,
+ * reach him at mail@brodo.de. See the file "DOCUMENTATION" for details,
  * and check http://www.brodo.de/english/pub/nrlmsise/index.html for
  * updated releases of this package.
  */
@@ -22,7 +22,7 @@
 /* ------------------------------ INCLUDES --------------------------- */
 /* ------------------------------------------------------------------- */
 
-#include "NrlMsise_00/nrlmsise-00.h"   /* header for nrlmsise-00.h */
+#include "../Inc/NrlMsise_00/nrlmsise-00.h"   /* header for nrlmsise-00.h */
 #include <math.h>          /* maths functions */
 #include <stdio.h>         /* for error messages. TBD: remove this */
 #include <stdlib.h>        /* for malloc/free */
@@ -74,46 +74,6 @@ static double s3tloc, c3tloc;
 static double apdf, apt[4];
 
 
-/* ------------------------------------------------------------------- */
-/* --------------------------- PROTOTYPES ---------------------------- */
-/* ------------------------------------------------------------------- */
-
-/* GTD7 */
-/*   Neutral Atmosphere Empircial Model from the surface to lower
- *   exosphere.
- */
-void gtd7 (struct nrlmsise_input *input, \
-           struct nrlmsise_flags *flags, \
-           struct nrlmsise_output *output);
-
-
-/* GTD7D */
-/*   This subroutine provides Effective Total Mass Density for output
- *   d[5] which includes contributions from "anomalous oxygen" which can
- *   affect satellite drag above 500 km. See the section "output" for
- *   additional details.
- */
-void gtd7d(struct nrlmsise_input *input, \
-           struct nrlmsise_flags *flags, \
-           struct nrlmsise_output *output);
-
-
-/* GTS7 */
-/*   Thermospheric portion of NRLMSISE-00
- */
-void gts7 (struct nrlmsise_input *input, \
-	   struct nrlmsise_flags *flags, \
-	   struct nrlmsise_output *output);
-
-
-/* GHP7 */
-/*   To specify outputs at a pressure level (press) rather than at
- *   an altitude.
- */
-void ghp7 (struct nrlmsise_input *input, \
-           struct nrlmsise_flags *flags, \
-           struct nrlmsise_output *output, \
-           double press);
 
 /* ------------------------------------------------------------------- */
 /* ------------------------------ TSELEC ----------------------------- */
@@ -121,7 +81,7 @@ void ghp7 (struct nrlmsise_input *input, \
 
 void tselec(struct nrlmsise_flags *flags) {
 	int i;
-    for (i=0;i<24;++i) {
+	for (i=0;i<24;i++) {
 		if (i!=9) {
 			if (flags->switches[i]==1)
 				flags->sw[i]=1;
@@ -169,7 +129,7 @@ double ccor(double alt, double r, double h1, double zh) {
 	double ex;
 	e = (alt - zh) / h1;
 	if (e>70)
-		return exp(0.0);
+		return exp(0);
 	if (e<-70)
 		return exp(r);
 	ex = exp(e);
@@ -197,7 +157,7 @@ double ccor2(double alt, double r, double h1, double zh, double h2) {
 	e1 = (alt - zh) / h1;
 	e2 = (alt - zh) / h2;
 	if ((e1 > 70) || (e2 > 70))
-		return exp(0.0);
+		return exp(0);
 	if ((e1 < -70) && (e2 < -70))
 		return exp(r);
 	ex1 = exp(e1);
@@ -289,8 +249,8 @@ void splini (double *xa, double *ya, double *y2a, int n, double x, double *y) {
 		a2 = a*a;
 		b2 = b*b;
 		yi += ((1.0 - a2) * ya[klo] / 2.0 + b2 * ya[khi] / 2.0 + ((-(1.0+a2*a2)/4.0 + a2/2.0) * y2a[klo] + (b2*b2/4.0 - b2/2.0) * y2a[khi]) * h * h / 6.0) * h;
-        ++klo;
-        ++khi;
+		klo++;
+		khi++;
 	}
 	*y = yi;
 }
@@ -349,7 +309,7 @@ void spline (double *x, double *y, int n, double yp1, double ypn, double *y2) {
 	double *u;
 	double sig, p, qn, un;
 	int i, k;
-	u=(double*)malloc(sizeof(double)*n);
+	u=malloc(sizeof(double)*(unsigned int)n);
 	if (u==NULL) {
 		printf("Out Of Memory in spline - ERROR");
 		return;
@@ -361,7 +321,7 @@ void spline (double *x, double *y, int n, double yp1, double ypn, double *y2) {
 		y2[0]=-0.5;
 		u[0]=(3.0/(x[1]-x[0]))*((y[1]-y[0])/(x[1]-x[0])-yp1);
 	}
-    for (i=1;i<(n-1);++i) {
+	for (i=1;i<(n-1);i++) {
 		sig = (x[i]-x[i-1])/(x[i+1] - x[i-1]);
 		p = sig * y2[i-1] + 2.0;
 		y2[i] = (sig - 1.0) / p;
@@ -387,7 +347,7 @@ void spline (double *x, double *y, int n, double yp1, double ypn, double *y2) {
 /* ------------------------------- DENSM ----------------------------- */
 /* ------------------------------------------------------------------- */
 
- double zeta(double zz, double zl) {
+__inline_double zeta(double zz, double zl) {
 	return ((zz-zl)*(re+zl)/(re+zz));
 }
 
@@ -424,7 +384,7 @@ double densm (double alt, double d0, double xm, double *tz, int mn3, double *zn3
 	zgdif = zeta(z2, z1);
 
 	/* set up spline nodes */
-    for (k=0;k<mn;++k) {
+	for (k=0;k<mn;k++) {
 		xs[k]=zeta(zn2[k],z1)/zgdif;
 		ys[k]=1.0 / tn2[k];
 	}
@@ -471,7 +431,7 @@ double densm (double alt, double d0, double xm, double *tz, int mn3, double *zn3
 	zgdif=zeta(z2,z1);
 
 	/* set up spline nodes */
-    for (k=0;k<mn;++k) {
+	for (k=0;k<mn;k++) {
 		xs[k] = zeta(zn3[k],z1) / zgdif;
 		ys[k] = 1.0 / tn3[k];
 	}
@@ -515,12 +475,12 @@ double densu (double alt, double dlb, double tinf, double tlb, double xm, double
 /*      Calculate Temperature and Density Profiles for MSIS models
  *      New lower thermo polynomial
  */
-	double yd2, yd1, x, y;
+	double yd2, yd1, x=0, y;
 	double rgas=831.4;
 	double densu_temp=1.0;
 	double za, z, zg2, tt, ta;
-	double dta, z1, z2, t1, t2, zg, zgdif;
-	int mn;
+	double dta, z1=0, z2, t1=0, t2, zg, zgdif=0;
+	int mn=0;
 	int k;
 	double glb;
 	double expl;
@@ -563,7 +523,7 @@ double densu (double alt, double dlb, double tinf, double tlb, double xm, double
 		zg = zeta (z, z1);
 		zgdif = zeta(z2, z1);
 		/* set up spline nodes */
-        for (k=0;k<mn;++k) {
+		for (k=0;k<mn;k++) {
 			xs[k] = zeta(zn1[k], z1) / zgdif;
 			ys[k] = 1.0 / tn1[k];
 		}
@@ -621,17 +581,17 @@ double densu (double alt, double dlb, double tinf, double tlb, double xm, double
 
 /*    3hr Magnetic activity functions */
 /*    Eq. A24d */
-double g0(double a, double *p) {
+__inline_double g0(double a, double *p) {
 	return (a - 4.0 + (p[25] - 1.0) * (a - 4.0 + (exp(-sqrt(p[24]*p[24]) * (a - 4.0)) - 1.0) / sqrt(p[24]*p[24])));
 }
 
 /*    Eq. A24c */
-double sumex(double ex) {
+__inline_double sumex(double ex) {
 	return (1.0 + (1.0 - pow(ex,19.0)) / (1.0 - ex) * pow(ex,0.5));
 }
 
 /*    Eq. A24a */
-double sg0(double ex, double *p, double *ap) {
+__inline_double sg0(double ex, double *p, double *ap) {
 	return (g0(ap[1],p) + (g0(ap[2],p)*ex + g0(ap[3],p)*ex*ex + \
                 g0(ap[4],p)*pow(ex,3.0)	+ (g0(ap[5],p)*pow(ex,4.0) + \
                 g0(ap[6],p)*pow(ex,12.0))*(1.0-pow(ex,8.0))/(1.0-ex)))/sumex(ex);
@@ -642,9 +602,7 @@ double globe7(double *p, struct nrlmsise_input *input, struct nrlmsise_flags *fl
  *       Upper Thermosphere Parameters */
 	double t[15];
 	int i,j;
-	int sw9=1;
 	double apd;
-	double xlong;
 	double tloc;
 	double c, s, c2, c4, s2;
 	double sr = 7.2722E-5;
@@ -652,20 +610,14 @@ double globe7(double *p, struct nrlmsise_input *input, struct nrlmsise_flags *fl
 	double dr = 1.72142E-2;
 	double hr = 0.2618;
 	double cd32, cd18, cd14, cd39;
-	double p32, p18, p14, p39;
-	double df, dfa;
+	double df;
 	double f1, f2;
 	double tinf;
 	struct ap_array *ap;
 
 	tloc=input->lst;
-    for (j=0;j<14;++j)
+	for (j=0;j<14;j++)
 		t[j]=0;
-	if (flags->sw[9]>0)
-		sw9=1;
-	else if (flags->sw[9]<0)
-		sw9=-1;
-	xlong = input->g_long;
 
 	/* calculate legendre polynomials */
 	c = sin(input->g_lat * dgtr);
@@ -713,10 +665,6 @@ double globe7(double *p, struct nrlmsise_input *input, struct nrlmsise_flags *fl
 	cd18 = cos(2.0*dr*(input->doy-p[17]));
 	cd14 = cos(dr*(input->doy-p[13]));
 	cd39 = cos(2.0*dr*(input->doy-p[38]));
-	p32=p[31];
-	p18=p[17];
-	p14=p[13];
-	p39=p[38];
 
 	/* F10.7 EFFECT */
 	df = input->f107 - input->f107A;
@@ -858,8 +806,8 @@ double globe7(double *p, struct nrlmsise_input *input, struct nrlmsise_flags *fl
 
 	/* parms not used: 82, 89, 99, 139-149 */
 	tinf = p[30];
-    for (i=0;i<14;++i)
-		tinf = tinf + abs(flags->sw[i+1])*t[i];
+	for (i=0;i<14;i++)
+		tinf = tinf + fabs(flags->sw[i+1])*t[i];
 	return tinf;
 }
 
@@ -876,7 +824,6 @@ double glob7s(double *p, struct nrlmsise_input *input, struct nrlmsise_flags *fl
 	double t[14];
 	double tt;
 	double cd32, cd18, cd14, cd39;
-	double p32, p18, p14, p39;
 	int i,j;
 	double dr=1.72142E-2;
 	double dgtr=1.74533E-2;
@@ -887,16 +834,12 @@ double glob7s(double *p, struct nrlmsise_input *input, struct nrlmsise_flags *fl
 		printf("Wrong parameter set for glob7s\n");
 		return -1;
 	}
-    for (j=0;j<14;++j)
+	for (j=0;j<14;j++)
 		t[j]=0.0;
 	cd32 = cos(dr*(input->doy-p[31]));
 	cd18 = cos(2.0*dr*(input->doy-p[17]));
 	cd14 = cos(dr*(input->doy-p[13]));
 	cd39 = cos(2.0*dr*(input->doy-p[38]));
-	p32=p[31];
-	p18=p[17];
-	p14=p[13];
-	p39=p[38];
 
 	/* F10.7 */
 	t[0] = p[21]*dfa;
@@ -959,8 +902,8 @@ double glob7s(double *p, struct nrlmsise_input *input, struct nrlmsise_flags *fl
 			)*sin(dgtr*input->g_long));
 	}
 	tt=0;
-    for (i=0;i<14;++i)
-		tt+=abs(flags->sw[i+1])*t[i];
+	for (i=0;i<14;i++)
+		tt+=fabs(flags->sw[i+1])*t[i];
 	return tt;
 }
 
@@ -1016,7 +959,7 @@ void gtd7(struct nrlmsise_input *input, struct nrlmsise_flags *flags, struct nrl
 	output->t[0]=soutput.t[0];
 	output->t[1]=soutput.t[1];
 	if (input->alt>=zn2[0]) {
-        for (i=0;i<9;++i)
+		for (i=0;i<9;i++)
 			output->d[i]=soutput.d[i];
 		return;
 	}
@@ -1033,7 +976,7 @@ void gtd7(struct nrlmsise_input *input, struct nrlmsise_flags *flags, struct nrl
 	meso_tgn2[1]=pavgm[8]*pma[9][0]*(1.0+flags->sw[20]*flags->sw[22]*glob7s(pma[9], input, flags))*meso_tn2[3]*meso_tn2[3]/(pow((pma[2][0]*pavgm[2]),2.0));
 	meso_tn3[0]=meso_tn2[3];
 
-	if (input->alt<zn3[0]) {
+	if (input->alt<=zn3[0]) {
 /*       LOWER STRATOSPHERE AND TROPOSPHERE (below zn3[0])
  *         Temperature at nodes and gradients at end nodes
  *         Inverse temperature a linear function of spherical harmonics
@@ -1101,6 +1044,8 @@ void gtd7(struct nrlmsise_input *input, struct nrlmsise_flags *flags, struct nrl
 void gtd7d(struct nrlmsise_input *input, struct nrlmsise_flags *flags, struct nrlmsise_output *output) {
 	gtd7(input, flags, output);
 	output->d[5] = 1.66E-24 * (4.0 * output->d[0] + 16.0 * output->d[1] + 28.0 * output->d[2] + 32.0 * output->d[3] + 40.0 * output->d[4] + output->d[6] + 14.0 * output->d[7] + 16.0 * output->d[8]);
+	if (flags->sw[0])
+		output->d[5]=output->d[5]/1000;
 }
  
 
@@ -1134,7 +1079,7 @@ void ghp7(struct nrlmsise_input *input, struct nrlmsise_flags *flags, struct nrl
 			zi = 14.28 * (3.64 - pl);
 		else if ((pl>-4) && (pl<=-2))
 			zi = 12.72 * (4.32 -pl);
-		else if (pl<=-4)
+		else
 			zi = 25.3 * (0.11 - pl);
 		cl = input->g_lat/90.0;
 		cl2 = cl*cl;
@@ -1156,7 +1101,7 @@ void ghp7(struct nrlmsise_input *input, struct nrlmsise_flags *flags, struct nrl
 	/* iteration  loop */
 	l = 0;
 	do {
-        ++l;
+		l++;
 		input->alt = z;
 		gtd7(input, flags, output);
 		z = input->alt;
@@ -1204,8 +1149,8 @@ void gts7(struct nrlmsise_input *input, struct nrlmsise_flags *flags, struct nrl
 	int mn1 = 5;
 	double g0;
 	double tlb;
-	double s, z0, t0, tr12;
-	double db01, db04, db14, db16, db28, db32, db40, db48;
+	double s;
+	double db01, db04, db14, db16, db28, db32, db40;
 	double zh28, zh04, zh16, zh32, zh40, zh01, zh14;
 	double zhm28, zhm04, zhm16, zhm32, zhm40, zhm01, zhm14;
 	double xmd;
@@ -1228,7 +1173,7 @@ void gts7(struct nrlmsise_input *input, struct nrlmsise_flags *flags, struct nrl
 	double hc216, hcc232;
 	za = pdl[1][15];
 	zn1[0] = za;
-    for (j=0;j<9;++j)
+	for (j=0;j<9;j++) 
 		output->d[j]=0;
 
 	/* TINF VARIATIONS NOT IMPORTANT BELOW ZA OR ZN1(1) */
@@ -1263,10 +1208,6 @@ void gts7(struct nrlmsise_input *input, struct nrlmsise_flags *flags, struct nrl
 		meso_tn1[4]=ptm[4]*ptl[3][0];
 		meso_tgn1[1]=ptm[8]*pma[8][0]*meso_tn1[4]*meso_tn1[4]/(pow((ptm[4]*ptl[3][0]),2.0));
 	}
-
-	z0 = zn1[3];
-	t0 = meso_tn1[3];
-	tr12 = 1.0;
 
 	/* N2 variation factor at Zlb */
 	g28=flags->sw[21]*globe7(pd[2], input, flags);
@@ -1399,7 +1340,7 @@ void gts7(struct nrlmsise_input *input, struct nrlmsise_flags *flags, struct nrl
         /**** AR DENSITY ****/
 
         /*   Density variation factor at Zlb */
-	g40= flags->sw[20]*globe7(pd[5],input,flags);
+	g40= flags->sw[21]*globe7(pd[5],input,flags);
         /*  Diffusive density at Zlb */
 	db40 = pdm[4][0]*exp(g40)*pd[5][0];
 	/*   Diffusive density at Alt */
@@ -1504,15 +1445,14 @@ void gts7(struct nrlmsise_input *input, struct nrlmsise_flags *flags, struct nrl
 
 	/* total mass density */
 	output->d[5] = 1.66E-24*(4.0*output->d[0]+16.0*output->d[1]+28.0*output->d[2]+32.0*output->d[3]+40.0*output->d[4]+ output->d[6]+14.0*output->d[7]);
-	db48=1.66E-24*(4.0*db04+16.0*db16+28.0*db28+32.0*db32+40.0*db40+db01+14.0*db14);
-
 
 
 	/* temperature */
 	z = sqrt(input->alt*input->alt);
 	ddum = densu(z,1.0, tinf, tlb, 0.0, 0.0, &output->t[1], ptm[5], s, mn1, zn1, meso_tn1, meso_tgn1);
+	(void) ddum; /* silence gcc */
 	if (flags->sw[0]) {
-        for(i=0;i<9;++i)
+		for(i=0;i<9;i++)
 			output->d[i]=output->d[i]*1.0E6;
 		output->d[5]=output->d[5]/1000;
 	}

@@ -176,38 +176,32 @@ int main()
 //     }
 
     CDate mjBein(2020,3,2,1,0,0,UTC);
-    Satellite::CSGP4 spg41("1 91007U          20061.66666667 -.00000102  00000-0 -65164+3 0 00007",
-                          "2 91007 000.9785 124.5021 0000033 253.1263 107.2755 01.00272001000012"),
-            sgp42("1 90002U 09055A   20061.16666667  .00000136  00000-0  44938-4 0 00008",
-                  "2 90002 098.5033 141.9267 0001830 317.3362 227.2961 14.38039522545503");
+    Satellite::CSGP4 spg41("1 91001U          20061.66666667 -.00000001  00000-0 -13106-2 0 00008",
+                          "2 91001 045.0073 000.0048 0004655 268.5152 091.4846 07.15404217000017"),
+            sgp42("1 91004U          20061.66666667 -.00000001  00000-0 -28120-2 0 00003",
+                  "2 91004 045.0073 180.0049 0004655 268.5153 091.4845 07.15404212000015");
 
     double dMJD = mjBein.GetMJD();
     bool bIsVisible=false;
     bool bChanged=false;
 
-    PV pv1,pv2;
+    Pos pv1,pv2;
 
     CVector vPV;
     int nIndex=1;
     for(int i=0;i<86400;++i)
     {
         vPV = spg41.CalPV(dMJD+i*SECDAY);
-        pv1.stP.dX = vPV(0);
-        pv1.stP.dY = vPV(1);
-        pv1.stP.dZ = vPV(2);
-        pv1.stV.dX = vPV(3);
-        pv1.stV.dY = vPV(4);
-        pv1.stV.dZ = vPV(5);
+        pv1.dX = vPV(0);
+        pv1.dY = vPV(1);
+        pv1.dZ = vPV(2);
 
         vPV = sgp42.CalPV(dMJD+i*SECDAY);
-        pv2.stP.dX = vPV(0);
-        pv2.stP.dY = vPV(1);
-        pv2.stP.dZ = vPV(2);
-        pv2.stV.dX = vPV(3);
-        pv2.stV.dY = vPV(4);
-        pv2.stV.dZ = vPV(5);
+        pv2.dX = vPV(0);
+        pv2.dY = vPV(1);
+        pv2.dZ = vPV(2);
 
-        if(bChanged != (bIsVisible = IsVisible(pv1,pv2,0.26179938779914943653855361527329)))
+        if(bChanged != (bIsVisible = !InsertEarth(pv1,pv2)))
         {
             bChanged = bIsVisible;
             if(bChanged)

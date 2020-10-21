@@ -3,7 +3,7 @@
 /* -------------------------------------------------------------------- */
 
 /* This file is part of the NRLMSISE-00  C source code package - release
- * 20020503
+ * 20041227
  *
  * The NRLMSISE-00 model was developed by Mike Picone, Alan Hedin, and
  * Doug Drob. They also wrote a NRLMSISE-00 distribution package in 
@@ -11,7 +11,7 @@
  * http://uap-www.nrl.navy.mil/models_web/msis/msis_home.htm
  *
  * Dominik Brodowski implemented and maintains this C version. You can
- * reach him at devel@brodo.de. See the file "DOCUMENTATION" for details,
+ * reach him at mail@brodo.de. See the file "DOCUMENTATION" for details,
  * and check http://www.brodo.de/english/pub/nrlmsise/index.html for
  * updated releases of this package.
  */
@@ -38,7 +38,7 @@ struct nrlmsise_flags {
  *   switches[i]:
  *    i - explanation
  *   -----------------
- *    0 - output in centimeters instead of meters
+ *    0 - output in meters and kilograms instead of centimeters and grams
  *    1 - F10.7 effect on mean
  *    2 - time independent
  *    3 - symmetrical annual
@@ -86,9 +86,9 @@ struct nrlmsise_input {
 	int year;      /* year, currently ignored */
 	int doy;       /* day of year */
 	double sec;    /* seconds in day (UT) */
-	double alt;    /* altitude in kilometes */
-    double g_lat;  /* geodetic latitude  degree*/
-    double g_long; /* geodetic longitude degree*/
+	double alt;    /* altitude in kilometers */
+	double g_lat;  /* geodetic latitude */
+	double g_long; /* geodetic longitude */
 	double lst;    /* local apparent solar time (hours), see note below */
 	double f107A;  /* 81 day average of F10.7 flux (centered on doy) */
 	double f107;   /* daily F10.7 flux for previous day */
@@ -115,6 +115,7 @@ struct nrlmsise_input {
  *      established below 80 km and these parameters should be set to
  *      150., 150., and 4. respectively.
  */
+
 
 
 /* ------------------------------------------------------------------- */
@@ -159,6 +160,8 @@ struct nrlmsise_output {
  *        in this model, INCLUDING anomalous oxygen.
  */
 
+
+
 /* ------------------------------------------------------------------- */
 /* --------------------------- PROTOTYPES ---------------------------- */
 /* ------------------------------------------------------------------- */
@@ -167,9 +170,6 @@ struct nrlmsise_output {
 /*   Neutral Atmosphere Empircial Model from the surface to lower
  *   exosphere.
  */
-#ifdef __cplusplus
-extern "C" {
-#endif
 void gtd7 (struct nrlmsise_input *input, \
            struct nrlmsise_flags *flags, \
            struct nrlmsise_output *output);
@@ -190,12 +190,10 @@ void gtd7d(struct nrlmsise_input *input, \
 /*   Thermospheric portion of NRLMSISE-00
  */
 void gts7 (struct nrlmsise_input *input, \
-       struct nrlmsise_flags *flags, \
-       struct nrlmsise_output *output);
+	   struct nrlmsise_flags *flags, \
+	   struct nrlmsise_output *output);
 
-#ifdef __cplusplus
-};
-#endif
+
 /* GHP7 */
 /*   To specify outputs at a pressure level (press) rather than at
  *   an altitude.
@@ -205,20 +203,20 @@ void ghp7 (struct nrlmsise_input *input, \
            struct nrlmsise_output *output, \
            double press);
 
-/* -------------------------------------------------------------------- */
-/* ---------  N R L M S I S E - 0 0    M O D E L    2 0 0 1  ---------- */
-/* -------------------------------------------------------------------- */
 
-/* This file is part of the NRLMSISE-00  C source code package - release
- * 20020503
- *
- * The NRLMSISE-00 model was developed by Mike Picone, Alan Hedin, and
- * Doug Drob. They also wrote a NRLMSISE-00 distribution package in
- * FORTRAN which is available at
- * http://uap-www.nrl.navy.mil/models_web/msis/msis_home.htm
- *
- * Dominik Brodowski implemented and maintains this C version. You can
- * reach him at devel@brodo.de. See the file "DOCUMENTATION" for details,
- * and check http://www.brodo.de/english/pub/nrlmsise/index.html for
- * updated releases of this package.
+
+/* ------------------------------------------------------------------- */
+/* ----------------------- COMPILATION TWEAKS ------------------------ */
+/* ------------------------------------------------------------------- */
+
+/* "inlining" of functions */
+/*   Some compilers (e.g. gcc) allow the inlining of functions into the
+ *   calling routine. This means a lot of overhead can be removed, and
+ *   the execution of the program runs much faster. However, the filesize
+ *   and thus the loading time is increased.
  */
+#ifdef INLINE
+#define __inline_double static inline double
+#else
+#define __inline_double double
+#endif
