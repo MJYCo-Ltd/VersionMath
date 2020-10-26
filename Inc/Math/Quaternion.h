@@ -70,7 +70,7 @@ public:
      * @param rVec   旋转轴
      * @param dAngle 旋转角度 单位(弧度)
      */
-    void GetRotate(CVector& rVec, double& dAngle);
+    void GetRotate(CVector& rVec, double& dAngle) const;
 
     /// Set方法
     void SetX(double dX){m_dX = dX;}
@@ -103,11 +103,11 @@ public:
     CQuaternion& operator =(const CQuaternion& rOther);
 
     /// 重载等号运算符
-    bool operator ==(const CQuaternion& rOther);
-    bool operator ==(const CMatrix& rMat);
+    bool operator ==(const CQuaternion& rOther)const;
+    bool operator ==(const CMatrix& rMat)const;
 
     /// 重载bool类型
-    operator bool();
+    operator bool()const;
 private:
     void InitQuat();
 

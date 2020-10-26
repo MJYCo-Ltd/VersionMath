@@ -53,14 +53,14 @@ double iauEqeq94(double date1, double date2)
 **
 **     IAU Resolution C7, Recommendation 3 (1994).
 **
-**     Capitaine, N. & Gontier, A.-M., 1993, Astron. Astrophys., 275,
+**     Capitaine, N. & Gontier, A.-M., 1993, Astron.Astrophys., 275,
 **     645-650.
 **
-**  This revision:  2013 August 31
+**  This revision:  2017 October 12
 **
-**  SOFA release 2016-05-03
+**  SOFA release 2020-07-21
 **
-**  Copyright (C) 2016 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2020 IAU SOFA Board.  See notes at end.
 */
 {
    double t,  om,  dpsi,  deps,  eps0, ee;
@@ -86,7 +86,7 @@ double iauEqeq94(double date1, double date2)
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2016
+**  Copyright (C) 2020
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

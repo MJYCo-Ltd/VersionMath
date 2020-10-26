@@ -474,7 +474,7 @@ bool CMatrix::operator -=(const CMatrix& rM)
     return(true);
 }
 
-bool CMatrix::operator ==(const CMatrix& rM)
+bool CMatrix::operator ==(const CMatrix& rM) const
 {
     /// 如果地址相等则认为是同一个对象
     if(this == &rM)
@@ -503,7 +503,7 @@ bool CMatrix::operator ==(const CMatrix& rM)
     return (true);
 }
 
-bool CMatrix::operator !=(const CMatrix& rM)
+bool CMatrix::operator !=(const CMatrix& rM)const
 {
     /// 直接调用 == 操作符，减少错误的发生
     return(!(this->operator ==(rM)));

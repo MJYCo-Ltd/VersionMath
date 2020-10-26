@@ -11,7 +11,7 @@ void iauIcrs2g ( double dr, double dd, double *dl, double *db )
 **  This function is part of the International Astronomical Union's
 **  SOFA (Standards of Fundamental Astronomy) software collection.
 **
-**  Status:  support routine.
+**  Status:  support function.
 **
 **  Given:
 **     dr     double      ICRS right ascension (radians)
@@ -66,11 +66,11 @@ void iauIcrs2g ( double dr, double dd, double *dl, double *db )
 **     derived from the ESA Hipparcos Space Astrometry Mission.  ESA
 **     Publications Division, Noordwijk, Netherlands.
 **
-**  This revision:   2015 January 20
+**  This revision:   2018 January 2
 **
-**  SOFA release 2016-05-03
+**  SOFA release 2020-07-21
 **
-**  Copyright (C) 2016 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2020 IAU SOFA Board.  See notes at end.
 */
 {
    double v1[3], v2[3];
@@ -115,7 +115,7 @@ void iauIcrs2g ( double dr, double dd, double *dl, double *db )
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2016
+**  Copyright (C) 2020
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **
@@ -208,5 +208,4 @@ void iauIcrs2g ( double dr, double dd, double *dl, double *db )
 **                 United Kingdom
 **
 **--------------------------------------------------------------------*/
-
 }

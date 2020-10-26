@@ -253,7 +253,7 @@ void CVector::operator -= (const CVector& V)
     }
 }
 
-bool CVector::operator ==(const CVector& V)
+bool CVector::operator ==(const CVector& V)const
 {
     /// 判断地址是否相同
     if(&V == this)
@@ -283,7 +283,7 @@ bool CVector::operator ==(const CVector& V)
     }
 }
 
-bool CVector::operator != (const CVector& V)
+bool CVector::operator != (const CVector& V)const
 {
     return !(this->operator ==(V));
 }

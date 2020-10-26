@@ -11,11 +11,11 @@
 **  This file is part of the International Astronomical Union's
 **  SOFA (Standards Of Fundamental Astronomy) software collection.
 **
-**  This revision:   2015 January 28
+**  This revision:   2018 December 5
 **
-**  SOFA release 2015-02-09
+**  SOFA release 2020-07-21
 **
-**  Copyright (C) 2015 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2020 IAU SOFA Board.  See notes at end.
 **
 ** 注意：如果本文件没有说明，向量对应的 笛卡尔坐标系下的向量
 */
@@ -129,6 +129,23 @@ SOFASHARED_EXPORT int iauUt1utc(double ut11, double ut12, double dut1,
                                 double *utc1, double *utc2);
 SOFASHARED_EXPORT int iauUtcut1(double utc1, double utc2, double dut1,
                                 double *ut11, double *ut12);
+/* Astronomy/HorizonEquatorial */
+SOFASHARED_EXPORT void iauAe2hd(double az, double el, double phi,
+              double *ha, double *dec);
+SOFASHARED_EXPORT void iauHd2ae(double ha, double dec, double phi,
+              double *az, double *el);
+SOFASHARED_EXPORT double iauHd2pa(double ha, double dec, double phi);
+/* Astronomy/Gnomonic */
+SOFASHARED_EXPORT int iauTpors(double xi, double eta, double a, double b,
+             double *a01, double *b01, double *a02, double *b02);
+SOFASHARED_EXPORT int iauTporv(double xi, double eta, double v[3],
+             double v01[3], double v02[3]);
+SOFASHARED_EXPORT void iauTpsts(double xi, double eta, double a0, double b0,
+              double *a, double *b);
+SOFASHARED_EXPORT void iauTpstv(double xi, double eta, double v0[3], double v[3]);
+SOFASHARED_EXPORT int iauTpxes(double a, double b, double a0, double b0,
+             double *xi, double *eta);
+SOFASHARED_EXPORT int iauTpxev(double v[3], double v0[3], double *xi, double *eta);
 /* Astronomy/地球自转和恒星时 */
 //////////////////////瞬时春分点与平春分点的计算/////////////
 /// GAST = GMST + EE + CT(可以不要)
@@ -498,10 +515,27 @@ SOFASHARED_EXPORT int iauStarpv(double ra, double dec,
               double pv[2][3]);
 
 /* Astronomy/星表转换 */
+SOFASHARED_EXPORT void iauFk425(double r1950, double d1950,
+              double dr1950, double dd1950,
+              double p1950, double v1950,
+              double *r2000, double *d2000,
+              double *dr2000, double *dd2000,
+              double *p2000, double *v2000);
+SOFASHARED_EXPORT void iauFk45z(double r1950, double d1950, double bepoch,
+              double *r2000, double *d2000);
+SOFASHARED_EXPORT void iauFk524(double r2000, double d2000,
+              double dr2000, double dd2000,
+              double p2000, double v2000,
+              double *r1950, double *d1950,
+              double *dr1950, double *dd1950,
+              double *p1950, double *v1950);
 SOFASHARED_EXPORT void iauFk52h(double r5, double d5,
               double dr5, double dd5, double px5, double rv5,
               double *rh, double *dh,
               double *drh, double *ddh, double *pxh, double *rvh);
+SOFASHARED_EXPORT void iauFk54z(double r2000, double d2000, double bepoch,
+              double *r1950, double *d1950,
+              double *dr1950, double *dd1950);
 SOFASHARED_EXPORT void iauFk5hip(double r5h[3][3], double s5h[3]);
 SOFASHARED_EXPORT void iauFk5hz(double r5, double d5, double date1, double date2,
               double *rh, double *dh);
@@ -734,7 +768,7 @@ SOFASHARED_EXPORT void iauS2xpv(double s1, double s2, double pv[2][3], double sp
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2015
+**  Copyright (C) 2020
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

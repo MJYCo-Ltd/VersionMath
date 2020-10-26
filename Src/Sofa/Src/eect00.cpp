@@ -84,23 +84,23 @@ double iauEect00(double date1, double date2)
 **
 **  References:
 **
-**     Capitaine, N. & Gontier, A.-M., Astron. Astrophys., 275,
+**     Capitaine, N. & Gontier, A.-M., Astron.Astrophys., 275,
 **     645-650 (1993)
 **
 **     Capitaine, N., Wallace, P.T. and McCarthy, D.D., "Expressions to
-**     implement the IAU 2000 definition of UT1", Astronomy &
-**     Astrophysics, 406, 1135-1149 (2003)
+**     implement the IAU 2000 definition of UT1", Astron.Astrophys., 406,
+**     1135-1149 (2003)
 **
 **     IAU Resolution C7, Recommendation 3 (1994)
 **
 **     McCarthy, D. D., Petit, G. (eds.), IERS Conventions (2003),
 **     IERS Technical Note No. 32, BKG (2004)
 **
-**  This revision:  2013 June 18
+**  This revision:  2019 June 23
 **
-**  SOFA release 2016-05-03
+**  SOFA release 2020-07-21
 **
-**  Copyright (C) 2016 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2020 IAU SOFA Board.  See notes at end.
 */
 {
 /* Time since J2000.0, in Julian centuries */
@@ -179,7 +179,7 @@ double iauEect00(double date1, double date2)
    const int NE0 = (int) (sizeof e0 / sizeof (TERM));
    const int NE1 = (int) (sizeof e1 / sizeof (TERM));
 
-/*--------------------------------------------------------------------*/
+/* ------------------------------------------------------------------ */
 
 /* Interval between fundamental epoch J2000.0 and current date (JC). */
    t = ((date1 - DJ00) + date2) / DJC;
@@ -236,7 +236,7 @@ double iauEect00(double date1, double date2)
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2016
+**  Copyright (C) 2020
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

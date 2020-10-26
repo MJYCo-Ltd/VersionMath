@@ -205,7 +205,7 @@ CVector CQuaternion::GetVector() const
     return(vecTmp);
 }
 
-void CQuaternion::GetRotate(CVector &rVec, double &dAngle)
+void CQuaternion::GetRotate(CVector &rVec, double &dAngle)const
 {
     /// 如果数据有效且数据不等于3，则直接返回
     if(rVec && rVec.Size() != 3)
@@ -359,7 +359,7 @@ CQuaternion& CQuaternion::operator =(const CMatrix& rMat)
 }
 
 /// 判等 操作符
-bool CQuaternion::operator ==(const CQuaternion& rOther)
+bool CQuaternion::operator ==(const CQuaternion& rOther) const
 {
 
     /// 判断地址是否相同
@@ -391,13 +391,13 @@ bool CQuaternion::operator ==(const CQuaternion& rOther)
 }
 
 /// 判断是否与旋转矩阵是否相等
-bool CQuaternion::operator ==(const CMatrix& rMat)
+bool CQuaternion::operator ==(const CMatrix& rMat)const
 {
     CQuaternion tmp(rMat);
     return(this->operator ==(tmp));
 }
 
-CQuaternion::operator bool()
+CQuaternion::operator bool()const
 {
     return(m_dX == 0. ? m_dY == 0. ? m_dZ == 0. ? m_dS == 0. ? false : true : true : true : true);
 }

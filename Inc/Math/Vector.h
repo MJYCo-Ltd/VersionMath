@@ -71,8 +71,8 @@ public:
     /// 对向量进行加、减、相等的判断
     void operator += (const CVector& V);
     void operator -= (const CVector& V);
-    bool operator == (const CVector& V);
-    bool operator != (const CVector& V);
+    bool operator == (const CVector& V)const;
+    bool operator != (const CVector& V)const;
 
     /// 对向量进行缩放
     CVector& operator /= (const double value);

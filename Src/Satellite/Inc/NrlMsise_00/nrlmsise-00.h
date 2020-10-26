@@ -170,6 +170,9 @@ struct nrlmsise_output {
 /*   Neutral Atmosphere Empircial Model from the surface to lower
  *   exosphere.
  */
+#ifdef __cplusplus
+extern "C" {
+#endif
 void gtd7 (struct nrlmsise_input *input, \
            struct nrlmsise_flags *flags, \
            struct nrlmsise_output *output);
@@ -204,7 +207,9 @@ void ghp7 (struct nrlmsise_input *input, \
            double press);
 
 
-
+#ifdef __cplusplus
+};
+#endif
 /* ------------------------------------------------------------------- */
 /* ----------------------- COMPILATION TWEAKS ------------------------ */
 /* ------------------------------------------------------------------- */

@@ -15,11 +15,11 @@
 **  the context of the SOFA software, and have no other official IAU
 **  status.  In addition, self consistency is not guaranteed.
 **
-**  This revision:   2013 August 27
+**  This revision:   2020 June 16
 **
-**  SOFA release 2015-02-09
+**  SOFA release 2020-07-21
 **
-**  Copyright (C) 2015 IAU SOFA Board.  See notes at end.
+**  Copyright (C) 2020 IAU SOFA Board.  See notes at end.
 */
 
 /* Star-independent astrometry parameters */
@@ -120,14 +120,14 @@ const double DJM77(43144.0);
 /* TT minus TAI (s) */
 const double TTMTAI(32.184);
 
-/* Astronomical unit (m) */
-const double DAU(149597870e3);
+/* Astronomical unit (m, IAU 2012)*/
+const double DAU(149597870.7e3);
 
 /* Speed of light (m/s) */
 const double CMPS(299792458.0);
 
 /* Light time for 1 au (s) */
-const double AULT(499.004782);
+const double AULT(DAU/CMPS);
 
 /* Speed of light (AU per day) */
 const double DC(DAYSEC / AULT);
@@ -165,7 +165,8 @@ const double P_Sol       = 4.560E-6;          // [N/m^2] (~1367 W/m^2); IERS 96
 #define dint(A) ((A)<0.0?ceil(A):floor(A))
 
 /* dnint(A) - round to nearest whole number (double) */
-#define dnint(A) ((A)<0.0?ceil((A)-0.5):floor((A)+0.5))
+#define dnint(A) (fabs(A)<0.5?0.0\
+                                :((A)<0.0?ceil((A)-0.5):floor((A)+0.5)))
 
 /* dsign(A,B) - magnitude of A with sign of B (double) */
 #define dsign(A,B) ((B)<0.0?-fabs(A):fabs(A))
@@ -186,7 +187,7 @@ const int CGCS2000(5);
 
 /*----------------------------------------------------------------------
 **
-**  Copyright (C) 2015
+**  Copyright (C) 2020
 **  Standards Of Fundamental Astronomy Board
 **  of the International Astronomical Union.
 **

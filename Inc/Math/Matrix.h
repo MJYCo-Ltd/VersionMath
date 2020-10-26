@@ -93,8 +93,8 @@ public:
     /// 如果传入的矩阵的行列不同，则保持原值不变
     bool operator += (const CMatrix& rM);
     bool operator -= (const CMatrix& rM);
-    bool operator == (const CMatrix& rM);
-    bool operator != (const CMatrix& rM);
+    bool operator == (const CMatrix& rM)const;
+    bool operator != (const CMatrix& rM)const;
     /// 对矩阵进行缩放
     CMatrix& operator /= (const double value);
     CMatrix& operator *= (const double value);
