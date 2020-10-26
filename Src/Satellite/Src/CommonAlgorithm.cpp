@@ -292,7 +292,7 @@ CMatrix GHAMatrix (double Mjd_UT1)
 /// 极移矩阵
 CMatrix PoleMatrix (const double& dX, const double& dY)
 {
-   return(CVecMat::R_y(-dX) * CVecMat::R_x(-dY));
+   return(CVecMat::R_x(-dY)*CVecMat::R_y(-dX));
 }
 
 /// 计算时间
