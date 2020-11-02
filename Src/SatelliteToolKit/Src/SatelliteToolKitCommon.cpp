@@ -135,10 +135,10 @@ bool InsertEllipseEarth(const CVector& vR1,const CVector& vR2)
         dInsertLength = (vInsertEarth-vR1).Length();
         if(dInsertLength < dLength)
         {
-            return(false);
+            return(true);
         }
     }
-    return(true);
+    return(false);
 }
 /// 计算旋转矩阵
 CMatrix CalSatRoteMatrix(const PV& satPV, const Pos& satPRY, RotateType eRotate)
