@@ -83,6 +83,13 @@ bool JudgeIsInsert(const PV& satECFPV, const Pos& station3DPos, const Pos& satPR
     }
 }
 
+bool InsertEllipseEarth(const Pos&rPos1, const Pos& rPos2)
+{
+    CVector vR1(rPos1.dX,rPos1.dY,rPos1.dZ);
+    CVector vR2(rPos2.dX,rPos2.dY,rPos2.dZ);
+    return InsertEllipseEarth(vR1,vR2);
+}
+
 /// 判断两点是否在地球之外
 bool InsertEarth(const Pos &rPos1, const Pos &rPos2)
 {
@@ -115,6 +122,23 @@ bool InsertEarth(const CVector &vR1, const CVector &vR2)
     double dR = dS / dC;
 
     return(dR < R_Earth);
+}
+
+bool InsertEllipseEarth(const CVector& vR1,const CVector& vR2)
+{
+    CVector vInsertEarth(3);
+    CVector vGlobal = vR2 - vR1;
+    double dLength = vGlobal.Length();
+    double dInsertLength;
+    if(GisMath::CalLineInterEllipsoid(vR1,vGlobal,vInsertEarth))
+    {
+        dInsertLength = (vInsertEarth-vR1).Length();
+        if(dInsertLength < dLength)
+        {
+            return(false);
+        }
+    }
+    return(true);
 }
 /// 计算旋转矩阵
 CMatrix CalSatRoteMatrix(const PV& satPV, const Pos& satPRY, RotateType eRotate)

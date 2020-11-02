@@ -239,7 +239,7 @@ CMatrix CCoorSys::TEME2ECF(const double &dMJD)
         return(tmpMat);
     }
 
-    return(PoleMatrix(tmpB.dPX*DAS2R,tmpB.dPY*DAS2R)*CVecMat::R_z(GMST(dUt)));
+    return(PoleMatrix(tmpB.dPX*DAS2R,tmpB.dPY*DAS2R)*CVecMat::R_z(GMST(dUt)/*iauGmst06(DJM0,dUt,DJM0,timeSys.GetTT())*/));
 }
 
 CMatrix CCoorSys::ECF2TEME(const double &dMJD)

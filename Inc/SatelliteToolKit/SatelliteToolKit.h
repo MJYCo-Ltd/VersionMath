@@ -280,6 +280,8 @@ vector<double>CalSat2GroundAngle(const vector<PV>& vAx,
  */
 bool SATELLITETOOLKIT_EXPORT InsertEarth(const Pos& rPos1, const Pos& rPos2);
 bool SATELLITETOOLKIT_EXPORT InsertEarth(const Math::CVector& vR1, const Math::CVector& vR2);
+bool SATELLITETOOLKIT_EXPORT InsertEllipseEarth(const Pos&rPos1, const Pos& rPos2);
+bool SATELLITETOOLKIT_EXPORT InsertEllipseEarth(const Math::CVector& vR1, const Math::CVector& vR2);
 
 /**
  * @brief 通过卫星的位置姿态计算旋转矩阵
