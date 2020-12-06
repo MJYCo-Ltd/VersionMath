@@ -21,9 +21,8 @@
  *****************************************/
 
 #include <iostream>
-#include "Math_global.h"
-#include "Vector.h"
-#include "Matrix.h"
+#include <Math/Vector.h>
+#include <Math/Matrix.h>
 
 namespace Math{
 class MATH_EXPORT CVecMat

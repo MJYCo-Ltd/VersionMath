@@ -1,9 +1,9 @@
 #include <cmath>
-#include "JPLEphemeris.h"
-#include "SatelliteToolKit.h"
+#include <VersionMathCommon.h>
+#include <GisMath/GisMath.h>
+#include <Satellite/JPLEphemeris.h>
+#include <SatelliteToolKit/SatelliteToolKit.h>
 #include "../Inc/SatelliteToolKitCommon.h"
-#include "GisMath.h"
-#include "sofam.h"
 
 const double C_SMaxAngle(DPI*0.5*0.99);
 using namespace Aerospace;

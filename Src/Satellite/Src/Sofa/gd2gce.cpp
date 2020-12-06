@@ -1,64 +1,64 @@
-#include "sofa.h"
+#include <cmath>
 
-int iauEform ( int n, double *a, double *f )
+int iauGd2gce ( double a, double f, double elong, double phi,
+                double height, double xyz[3] )
 /*
-**  - - - - - - - - -
-**   i a u E f o r m
-**  - - - - - - - - -
+**  - - - - - - - - - -
+**   i a u G d 2 g c e
+**  - - - - - - - - - -
 **
-**  Earth reference ellipsoids.
+**  Transform geodetic coordinates to geocentric for a reference
+**  ellipsoid of specified form.
 **
 **  This function is part of the International Astronomical Union's
 **  SOFA (Standards of Fundamental Astronomy) software collection.
 **
-**  Status:  canonical.
+**  Status:  support function.
 **
 **  Given:
-**     n    int         ellipsoid identifier (Note 1)
+**     a       double     equatorial radius (Notes 1,4)
+**     f       double     flattening (Notes 2,4)
+**     elong   double     longitude (radians, east +ve)
+**     phi     double     latitude (geodetic, radians, Note 4)
+**     height  double     height above ellipsoid (geodetic, Notes 3,4)
 **
 **  Returned:
-**     a    double      equatorial radius (meters, Note 2)
-**     f    double      flattening (Note 2)
+**     xyz     double[3]  geocentric vector (Note 3)
 **
 **  Returned (function value):
-**          int         status:  0 = OK
-**                              -1 = illegal identifier (Note 3)
-**
+**             int        status:  0 = OK
+**                                -1 = illegal case (Note 4)
 **  Notes:
 **
-**  1) The identifier n is a number that specifies the choice of
-**     reference ellipsoid.  The following are supported:
+**  1) The equatorial radius, a, can be in any units, but meters is
+**     the conventional choice.
 **
-**        n    ellipsoid
+**  2) The flattening, f, is (for the Earth) a value around 0.00335,
+**     i.e. around 1/298.
 **
-**        1     WGS84
-**        2     GRS80
-**        3     WGS72
+**  3) The equatorial radius, a, and the height, height, must be
+**     given in the same units, and determine the units of the
+**     returned geocentric vector, xyz.
 **
-**     The n value has no significance outside the SOFA software.  For
-**     convenience, symbols WGS84 etc. are defined in sofam.h.
+**  4) No validation is performed on individual arguments.  The error
+**     status -1 protects against (unrealistic) cases that would lead
+**     to arithmetic exceptions.  If an error occurs, xyz is unchanged.
 **
-**  2) The ellipsoid parameters are returned in the form of equatorial
-**     radius in meters (a) and flattening (f).  The latter is a number
-**     around 0.00335, i.e. around 1/298.
+**  5) The inverse transformation is performed in the function
+**     iauGc2gde.
 **
-**  3) For the case where an unsupported n value is supplied, zero a and
-**     f are returned, as well as error status.
+**  6) The transformation for a standard ellipsoid (such as WGS84) can
+**     more conveniently be performed by calling iauGd2gc,  which uses a
+**     numerical code to identify the required a and f values.
 **
 **  References:
 **
-**     Department of Defense World Geodetic System 1984, National
-**     Imagery and Mapping Agency Technical Report 8350.2, Third
-**     Edition, p3-2.
-**
-**     Moritz, H., Bull. Geodesique 66-2, 187 (1992).
-**
-**     The Department of Defense World Geodetic System 1972, World
-**     Geodetic System Committee, May 1974.
+**     Green, R.M., Spherical Astronomy, Cambridge University Press,
+**     (1985) Section 4.5, p96.
 **
 **     Explanatory Supplement to the Astronomical Almanac,
 **     P. Kenneth Seidelmann (ed), University Science Books (1992),
-**     p220.
+**     Section 4.22, p202.
 **
 **  This revision:  2013 June 18
 **
@@ -67,41 +67,26 @@ int iauEform ( int n, double *a, double *f )
 **  Copyright (C) 2020 IAU SOFA Board.  See notes at end.
 */
 {
+   double sp, cp, w, d, ac, as, r;
 
-/* Look up a and f for the specified reference ellipsoid. */
-   switch ( n )
-   {
-   case WGS84:
-      *a = 6378137.0;
-      *f = 1.0 / 298.257223563;
-      break;
 
-   case GRS80:
-      *a = 6378137.0;
-      *f = 1.0 / 298.257222101;
-      break;
+/* Functions of geodetic latitude. */
+   sp = sin(phi);
+   cp = cos(phi);
+   w = 1.0 - f;
+   w = w * w;
+   d = cp*cp + w*sp*sp;
+   if ( d <= 0.0 ) return -1;
+   ac = a / sqrt(d);
+   as = w * ac;
 
-   case WGS72:
-      *a = 6378135.0;
-      *f = 1.0 / 298.26;
-      break;
-   case BJ54:
-       *a = 6378245.0;
-       *f = 1 / 298.3;
-       break;
-   case CGCS2000:
-       *a = 6378137.0;
-       *f = 1 / 298.257222101;
-       break;
-   default:
+/* Geocentric vector. */
+   r = (ac + height) * cp;
+   xyz[0] = r * cos(elong);
+   xyz[1] = r * sin(elong);
+   xyz[2] = (as + height) * sp;
 
-   /* Invalid identifier. */
-      *a = 0.0;
-      *f = 0.0;
-      return -1;
-   }
-
-/* OK status. */
+/* Success. */
    return 0;
 
 /*----------------------------------------------------------------------

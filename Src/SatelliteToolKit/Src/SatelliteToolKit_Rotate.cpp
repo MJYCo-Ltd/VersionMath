@@ -1,8 +1,8 @@
 #include <cmath>
-#include <VecMat.h>
-#include <Quaternion.h>
-#include <YPRAngle.h>
-#include "SatelliteToolKit.h"
+#include <Math/VecMat.h>
+#include <Math/Quaternion.h>
+#include <Math/YPRAngle.h>
+#include <SatelliteToolKit/SatelliteToolKit.h>
 #include "../Inc/SatelliteToolKitCommon.h"
 
 /// 计算姿态

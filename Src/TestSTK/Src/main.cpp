@@ -1,12 +1,15 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
-#include "SatelliteToolKit.h"
-#include "sofa.h"
-#include "Vector.h"
-#include "SGP4.h"
-#include "Date.h"
-#include "Quaternion.h"
+
+#include <VersionMathCommon.h>
+#include <Math/Vector.h>
+#include <Math/Quaternion.h>
+
+#include <GisMath/GisMath.h>
+#include <Satellite/SGP4.h>
+#include <Satellite/Date.h>
+#include <SatelliteToolKit/SatelliteToolKit.h>
 
 using namespace std;
 
@@ -174,6 +177,18 @@ int main()
 //     {
 //         cout<<"PDOP:"<<vResultPDOP[nIndex]<<endl;
 //     }
+
+    CVector vPos(121.20115022222222*DD2R,23.15952908814338*DD2R,536.6220480057327);
+    CVector vStation(121.20115022222222*DD2R,23.078261805555556*DD2R,289);
+
+    CVector vPos3D(3),vStation3D(3),vLocal3D(3);
+    GisMath::LBH2XYZ(vPos,vPos3D);
+    GisMath::LBH2XYZ(vStation,vStation3D);
+
+    CVector vGlobal(vPos3D-vStation3D);
+    GisMath::GLOBAL2LOCAL(vStation(0),vStation(1),vGlobal,vLocal3D);
+
+    cout<<setprecision(6)<<setw(12)<<vLocal3D;
 
     CDate mjBein(2020,3,2,1,0,0,UTC);
     Satellite::CSGP4 spg41("1 91001U          20061.66666667 -.00000001  00000-0 -13106-2 0 00008",

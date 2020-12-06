@@ -1,11 +1,10 @@
 #include <string>
 using namespace std;
+#include <Math/VecMat.h>
+#include <Satellite/JPLEphemeris.h>
 #include "jpl_eph/jpleph.h"
 #include "jpl_eph/jpl_int.h"
 #include "sofam.h"
-
-#include "VecMat.h"
-#include "JPLEphemeris.h"
 using namespace Aerospace;
 using namespace Math;
 

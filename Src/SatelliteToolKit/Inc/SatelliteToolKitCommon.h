@@ -1,7 +1,7 @@
 #ifndef SATELLITETOOLKITCOMMON_H
 #define SATELLITETOOLKITCOMMON_H
 #include <vector>
-#include <VecMat.h>
+#include <Math/VecMat.h>
 /**
  * @brief 时间和角度
  */

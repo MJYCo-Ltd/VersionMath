@@ -1,11 +1,12 @@
-#include "Vector.h"
-#include "Atmosphere.h"
-#include "MathCommonAlgorithm.h"
+#include <Math/Vector.h>
+#include <Math/MathCommonAlgorithm.h>
+#include <GisMath/GisMath.h>
+#include <Satellite/Atmosphere.h>
+#include <Satellite/CoorSys.h>
 #include "CommonAlgorithm.h"
-#include "CoorSys.h"
 #include "NrlMsise_00/nrlmsise-00.h"
 #include "sofam.h"
-#include "GisMath.h"
+
 using namespace Aerospace;
 using namespace Math;
 using namespace Physical;

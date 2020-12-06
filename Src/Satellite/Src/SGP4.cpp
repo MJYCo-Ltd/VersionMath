@@ -1,9 +1,10 @@
-#include "VecMat.h"
-#include "SGP4/sgp4io.h"
-#include "SGP4.h"
-#include "sofam.h"
-#include "Date.h"
 #include <iomanip>
+#include <Math/VecMat.h>
+#include <Satellite/Date.h>
+#include <Satellite/SGP4.h>
+
+#include "SGP4/sgp4io.h"
+#include "sofam.h"
 using namespace Satellite;
 using namespace Math;
 

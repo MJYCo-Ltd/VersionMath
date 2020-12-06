@@ -1,14 +1,16 @@
 #include <iomanip>
 #include <float.h>
-#include "TimeSys.h"
-#include "CoorSys.h"
-#include "GisMath.h"
-#include "VecMat.h"
-#include "SatelliteToolKit.h"
+
+#include <VersionMathCommon.h>
+#include <Math/VecMat.h>
+#include <GisMath/GisMath.h>
+#include <Satellite/TimeSys.h>
+#include <Satellite/CoorSys.h>
+#include <Satellite/SGP4.h>
+#include <Satellite/Kepler.h>
+#include <SatelliteToolKit/SatelliteToolKit.h>
 #include "../Inc/SatelliteToolKitCommon.h"
-#include "sofa.h"
-#include "SGP4.h"
-#include "Kepler.h"
+
 using namespace Aerospace;
 using namespace Math;
 using namespace Satellite;

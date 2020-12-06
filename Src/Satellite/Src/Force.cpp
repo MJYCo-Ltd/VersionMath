@@ -1,12 +1,12 @@
 #include <cmath>
 using namespace std;
-#include "VecMat.h"
-#include "Force.h"
-#include "CoorSys.h"
+#include <Math/VecMat.h>
+#include <Math/MathCommonAlgorithm.h>
+#include <GisMath/GisMath.h>
+#include <Satellite/Force.h>
+#include <Satellite/CoorSys.h>
 #include "sofam.h"
-#include "MathCommonAlgorithm.h"
 #include "CommonAlgorithm.h"
-#include "GisMath.h"
 
 using namespace Physical;
 using namespace Math;

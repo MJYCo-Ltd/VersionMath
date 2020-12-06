@@ -1,9 +1,10 @@
-﻿#include "VecMat.h"
-#include "OpticalAlg.h"
-#include "sofam.h"
+﻿#include <Math/VecMat.h>
+#include <Math/Intpol.h>
+#include <Satellite/TimeSys.h>
+#include <Satellite/OpticalAlg.h>
+
 #include "sofa.h"
-#include "Intpol.h"
-#include "TimeSys.h"
+
 using namespace Math;
 using namespace Satellite;
 using namespace Numerical;

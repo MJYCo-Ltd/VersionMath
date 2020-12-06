@@ -23,6 +23,7 @@ include($$PWD/../VersionMath.pri)
 INCLUDEPATH *= $$SDK_PATH/Inc/SatelliteToolKit
 
 SOURCES += \
+    ../Satellite/Src/Sofa/anp.cpp \
     Src/SatelliteToolKitCommon.cpp \
     Src/SatelliteToolKit_Angle.cpp \
     Src/SatelliteToolKit_Init.cpp \

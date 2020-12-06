@@ -1,15 +1,15 @@
 #include <cmath>
-#include <Date.h>
-#include <VecMat.h>
-#include <sofam.h>
-#include <YPRAngle.h>
-#include <JPLEphemeris.h>
-#include <TimeSys.h>
-#include <CoorSys.h>
-#include <GisMath.h>
+#include <VersionMathCommon.h>
+#include <Math/VecMat.h>
+#include <Math/YPRAngle.h>
+#include <Satellite/Date.h>
+#include <Satellite/JPLEphemeris.h>
+#include <Satellite/TimeSys.h>
+#include <Satellite/CoorSys.h>
+#include <GisMath/GisMath.h>
+#include <SatelliteToolKit/SatelliteToolKit.h>
 
 #include "../Inc/SatelliteToolKitCommon.h"
-#include "SatelliteToolKit.h"
 
 using namespace Aerospace;
 using namespace Math;

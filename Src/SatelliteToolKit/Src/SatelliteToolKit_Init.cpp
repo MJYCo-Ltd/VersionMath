@@ -1,6 +1,6 @@
-#include "IRESInfo.h"
-#include "JPLEphemeris.h"
-#include "SatelliteToolKit.h"
+#include <Satellite/IRESInfo.h>
+#include <Satellite/JPLEphemeris.h>
+#include <SatelliteToolKit/SatelliteToolKit.h>
 
 using namespace Aerospace;
 

@@ -1,8 +1,8 @@
 #include <cmath>
-#include <VecMat.h>
-#include <GisMath.h>
-#include <CoorSys.h>
-#include "SatelliteToolKit.h"
+#include <Math/VecMat.h>
+#include <GisMath/GisMath.h>
+#include <Satellite/CoorSys.h>
+#include <SatelliteToolKit/SatelliteToolKit.h>
 #include "../Inc/SatelliteToolKitCommon.h"
 
 using namespace Math;

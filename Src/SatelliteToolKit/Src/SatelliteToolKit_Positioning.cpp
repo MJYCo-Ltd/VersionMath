@@ -1,8 +1,8 @@
 #include <cmath>
-#include <GisMath.h>
-#include <VecMat.h>
-#include <sofam.h>
-#include "SatelliteToolKit.h"
+#include <VersionMathCommon.h>
+#include <Math/VecMat.h>
+#include <GisMath/GisMath.h>
+#include <SatelliteToolKit/SatelliteToolKit.h>
 
 /// 计算
 vector<double> CalPDOP(const vector<Satellite_Element>& vSatellite,

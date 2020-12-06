@@ -1,6 +1,6 @@
 #include <cmath>
-#include "GisMath.h"
-#include "SatelliteToolKit.h"
+#include <GisMath/GisMath.h>
+#include <SatelliteToolKit/SatelliteToolKit.h>
 
 /// 计算两个卫星和地面站的夹角
 vector<double> Cal2SatGroundAngle(const vector<PV>& vAx,

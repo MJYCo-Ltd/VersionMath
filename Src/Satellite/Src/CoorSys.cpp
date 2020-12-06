@@ -1,11 +1,11 @@
-#include "CoorSys.h"
-#include "VecMat.h"
-#include "TimeSys.h"
-#include "IRESInfo.h"
+#include <Math/MathCommonAlgorithm.h>
+#include <Math/VecMat.h>
+#include <Satellite/CoorSys.h>
+#include <Satellite/TimeSys.h>
+#include <Satellite/IRESInfo.h>
+#include <Satellite/Kepler.h>
 #include "sofa.h"
-#include "MathCommonAlgorithm.h"
 #include "CommonAlgorithm.h"
-#include "Kepler.h"
 
 using namespace Math;
 using namespace Aerospace;

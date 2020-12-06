@@ -4,7 +4,7 @@
 #include <fstream>
 #include <cstring>
 using namespace std;
-#include "IRESInfo.h"
+#include <Satellite/IRESInfo.h>
 #include "sofa.h"
 
 //////////////////////////////////////////////////////////////////////

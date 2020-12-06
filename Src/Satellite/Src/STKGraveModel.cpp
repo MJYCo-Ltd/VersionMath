@@ -1,13 +1,14 @@
-﻿#include "VecMat.h"
-
-#include "STKGraveModel.h"
-#include <fstream>
+﻿#include <fstream>
 #include <cstring>
 #include <cstdio>
 #include <sstream>
 #include <cctype>
 #include <cmath>
 #include <iomanip>
+
+#include <Math/VecMat.h>
+#include <Satellite/STKGraveModel.h>
+
 using namespace std;
 using namespace Math;
 using namespace Phycical;

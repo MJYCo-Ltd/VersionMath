@@ -1,9 +1,10 @@
-﻿#include "VecMat.h"
-#include "YPRAngle.h"
-#include "sofam.h"
-#include "Quaternion.h"
-#include <cmath>
+﻿#include <cmath>
 #include <limits>
+#include <VersionMathCommon.h>
+#include <Math/VecMat.h>
+#include <Math/YPRAngle.h>
+#include <Math/Quaternion.h>
+
 using namespace std;
 
 /************************************************************************/

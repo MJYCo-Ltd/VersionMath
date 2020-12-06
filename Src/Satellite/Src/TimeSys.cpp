@@ -1,7 +1,7 @@
 ﻿#include <iostream>
-#include "IRESInfo.h"
-#include "Date.h"
-#include "TimeSys.h"
+#include <Satellite/IRESInfo.h>
+#include <Satellite/Date.h>
+#include <Satellite/TimeSys.h>
 #include "sofa.h"
 #include "CommonAlgorithm.h"
 

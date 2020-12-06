@@ -1,8 +1,8 @@
 ﻿#ifndef MY_GISMATH_H
 #define MY_GISMATH_H
 
-#include "GisMath_Global.h"
-#include "../Math/VecMat.h"
+#include <GisMath/GisMath_Global.h>
+#include <Math/VecMat.h>
 
 /***
  * rad 表示 弧度

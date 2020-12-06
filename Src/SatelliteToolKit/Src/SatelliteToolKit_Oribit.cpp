@@ -1,12 +1,14 @@
-#include "VecMat.h"
-#include "sofa.h"
-#include "Date.h"
-#include "CoorSys.h"
-#include "Kepler.h"
-#include "SGP4.h"
-#include "GisMath.h"
-#include "SatelliteToolKit.h"
+#include <VersionMathCommon.h>
+#include <Math/VecMat.h>
+#include <GisMath/GisMath.h>
+#include <Satellite/Date.h>
+#include <Satellite/CoorSys.h>
+#include <Satellite/Kepler.h>
+#include <Satellite/SGP4.h>
+#include <SatelliteToolKit/SatelliteToolKit.h>
 #include "../Inc/SatelliteToolKitCommon.h"
+
+extern double iauAnp(double a);
 
 using namespace Math;
 using namespace Satellite;
@@ -263,7 +265,7 @@ vector<Satellite_Element> CreateConstellatory(Satellite_Element satTemplet,
             tmpSatellite.stKepler.dRAAN = satTemplet.stKepler.dRAAN + i*dRAANSpace;
             tmpSatellite.stKepler.dMA = satTemplet.stKepler.dMA + j*dMSpace;
 
-            tmpSatellite.stKepler.dRAAN = iauAnpm(tmpSatellite.stKepler.dRAAN);
+            tmpSatellite.stKepler.dRAAN = iauAnp(tmpSatellite.stKepler.dRAAN);
             tmpSatellite.stKepler.dMA = iauAnp(tmpSatellite.stKepler.dMA);
 
             vSatElement.push_back(tmpSatellite);

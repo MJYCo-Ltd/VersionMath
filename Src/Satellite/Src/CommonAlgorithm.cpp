@@ -1,14 +1,15 @@
-#include "VecMat.h"
-#include "MathCommonAlgorithm.h"
-#include "CommonAlgorithm.h"
-#include "CoorSys.h"
 #include <cmath>
 #include <cstdio>
 #include <limits>
 #include <cstring>
+#include <Math/VecMat.h>
+#include <Math/MathCommonAlgorithm.h>
+#include <GisMath/GisMath.h>
+#include <Satellite/CoorSys.h>
+
+#include "CommonAlgorithm.h"
 using namespace std;
-#include "sofam.h"
-#include "GisMath.h"
+#include "sofa.h"
 
 using namespace Math;
 using namespace Aerospace;
@@ -746,11 +747,11 @@ void write_elements_in_tle_format( char buff[2][73], const tle_t *tle)
     // buff += strlen( buff);
     sprintf( buff[1], "2 %05d %8.4lf %8.4lf %07ld %8.4lf %8.4lf %11.8lf%5dZ\n",
              tle->norad_number,
-             double(zero_to_two_pi( tle->xincl) * DR2D),
-             double(zero_to_two_pi( tle->xnodeo) * DR2D),
+             double(iauAnp( tle->xincl) * DR2D),
+             double(iauAnp( tle->xnodeo) * DR2D),
              (long)( tle->eo * 10000000. + .5),
-             double(zero_to_two_pi( tle->omegao) * DR2D),
-             double(zero_to_two_pi( tle->xmo) * DR2D),
+             double(iauAnp( tle->omegao) * DR2D),
+             double(iauAnp( tle->xmo) * DR2D),
              tle->xno,
              tle->revolution_number);
 

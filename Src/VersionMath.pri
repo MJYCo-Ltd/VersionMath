@@ -17,10 +17,10 @@ unix{
     QMAKE_CXXFLAGS += -fvisibility=hidden
 }
 
+INCLUDEPATH *= $${SDK_PATH}/Inc/
 LIBS *= -L$$DESTDIR
 
 contains(SDK_CONFIG,MATH){
-    INCLUDEPATH *= $${SDK_PATH}/Inc/Math
     CONFIG(debug, debug|release) {
       LIBS *= -lMathd
     }else{
@@ -28,17 +28,7 @@ contains(SDK_CONFIG,MATH){
     }
 }
 
-contains(SDK_CONFIG,SOFA){
-    INCLUDEPATH *= $${SDK_PATH}/Inc/Sofa
-    CONFIG(debug, debug|release) {
-      LIBS *= -lSofad
-    }else{
-      LIBS *= -lSofa
-    }
-}
-
 contains(SDK_CONFIG,SATELLITE){
-    INCLUDEPATH *= $${SDK_PATH}/Inc/Satellite
     CONFIG(debug, debug|release) {
       LIBS *= -lSatellited
     }else{
@@ -47,7 +37,6 @@ contains(SDK_CONFIG,SATELLITE){
 }
 
 contains(SDK_CONFIG,GIS_MATH){
-    INCLUDEPATH *= $${SDK_PATH}/Inc/GisMath
     CONFIG(debug, debug|release) {
       LIBS *= -lGisMathd
     }else{
@@ -56,7 +45,6 @@ contains(SDK_CONFIG,GIS_MATH){
 }
 
 contains(SDK_CONFIG,SATELLITE_TOOL_KIT){
-    INCLUDEPATH *= $${SDK_PATH}/Inc/SatelliteToolKit
     CONFIG(debug, debug|release) {
       LIBS *= -lSatelliteToolKitd
     }else{

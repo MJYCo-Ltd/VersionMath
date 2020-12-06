@@ -1,9 +1,11 @@
-﻿#include "VecMat.h"
-#include "MathCommonAlgorithm.h"
-#include <cmath>
+﻿#include <cmath>
 #include <cstdio>
 using namespace std;
-#include "sofam.h"
+
+#include <VersionMathCommon.h>
+#include <Math/VecMat.h>
+#include <Math/MathCommonAlgorithm.h>
+
 using namespace Math;
 
 /// 根据 b的正负设置 a 的正负
@@ -265,7 +267,7 @@ bool Math::LU_Decomp ( CMatrix& A, CVector& Indx )
 /// 将值转换到 [0~2pi]
 double Math::zero_to_two_pi( double angle_in_radians)
 {
-    angle_in_radians = fmod( angle_in_radians, double(D2PI));
+    angle_in_radians = fmod( angle_in_radians, D2PI);
     if( angle_in_radians < 0.)
         angle_in_radians += D2PI;
     return( angle_in_radians);

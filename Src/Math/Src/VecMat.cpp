@@ -2,11 +2,9 @@
 #include <iomanip>
 #include <cmath>
 using namespace std;
-#include "VecMat.h"
-#include "Matrix.h"
-#include "Vector.h"
-#include "sofam.h"
-#include "MathCommonAlgorithm.h"
+#include <VersionMathCommon.h>
+#include <Math/VecMat.h>
+#include <Math/MathCommonAlgorithm.h>
 
 using namespace Math;
 

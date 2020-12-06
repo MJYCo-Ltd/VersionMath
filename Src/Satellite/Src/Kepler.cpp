@@ -2,14 +2,13 @@
 #include <limits>
 #include <iostream>
 using namespace std;
-#include "Kepler.h"
-#include "Vector.h"
-#include "Matrix.h"
-#include "VecMat.h"
+#include <Math/VecMat.h>
+#include <Math/MathCommonAlgorithm.h>
+#include <Satellite/CoorSys.h>
+#include <Satellite/Kepler.h>
+
 #include "sofam.h"
-#include "MathCommonAlgorithm.h"
 #include "CommonAlgorithm.h"
-#include "CoorSys.h"
 
 using namespace Satellite;
 using namespace Aerospace;
