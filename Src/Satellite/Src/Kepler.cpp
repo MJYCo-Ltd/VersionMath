@@ -397,7 +397,7 @@ bool CKepler::Classical2TLE(const CVector &vKep, const double &dJDEpoch,
     tle_t tle;
     /// 计算卫星周期
     const double t0 =
-        vKep(0) * sqrt( vKep(0) / 398600.4415e+9);
+        vKep(0) * sqrt( vKep(0) / GM_Earth);
     double incl = vKep(2);
     double asc_node = vKep(3);
     double arg_per = vKep(4);
@@ -412,7 +412,7 @@ bool CKepler::Classical2TLE(const CVector &vKep, const double &dJDEpoch,
     tle.xnodeo = centralize_angle( asc_node);
     tle.omegao = centralize_angle( arg_per);
     tle.xmo = centralize_angle( mean_anomaly);
-    tle.xno = D2PI*t0/DAYSEC;
+    tle.xno = DAYSEC/D2PI/t0;
     tle.eo = vKep(1);
           /* Address these three values later: */
     tle.xndt2o = tle.xndd6o = tle.bstar = 0.;

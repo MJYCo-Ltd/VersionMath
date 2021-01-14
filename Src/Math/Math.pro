@@ -11,7 +11,6 @@ TEMPLATE = lib
 DEFINES *= MATH_LIBRARY
 
 SDK_PATH=$$PWD/../..
-SDK_CONFIG *= SOFA
 include($$PWD/../VersionMath.pri)
 
 INCLUDEPATH *= $$SDK_PATH/Inc/Math
