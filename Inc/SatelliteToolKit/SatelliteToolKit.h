@@ -257,7 +257,7 @@ vector<double> SATELLITETOOLKIT_EXPORT CalPDOP(const vector<Satellite_Element>& 
  * @param rGroundStation 地面站的位置 [rad,rad,m]
  * @return
  */
-vector<double> Cal2SatGroundAngle(const vector<PV>& vAx,
+vector<double> SATELLITETOOLKIT_EXPORT Cal2SatGroundAngle(const vector<PV>& vAx,
                                   const vector<PV>& vBx,
                                   const Pos& rGroundStation);
 
@@ -268,7 +268,7 @@ vector<double> Cal2SatGroundAngle(const vector<PV>& vAx,
  * @param rGoundB
  * @return
  */
-vector<double>CalSat2GroundAngle(const vector<PV>& vAx,
+vector<double> SATELLITETOOLKIT_EXPORT CalSat2GroundAngle(const vector<PV>& vAx,
                                  const Pos& rGoundA,
                                  const Pos& rGoundB);
 
