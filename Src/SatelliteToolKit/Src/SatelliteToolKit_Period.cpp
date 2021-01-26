@@ -509,7 +509,7 @@ vector<Period> VisiblePeriod(const BJTime& stStartTime,
             /// 将局部的坐标转成全局坐标
             vGlobal = vLocal * tmpMatrix;
 
-            if(GisMath::CalLineInterEllipsoid(Pos,vGlobal,vLocal))
+            if(GisMath::CalLineInterEarth(Pos,vGlobal,vLocal))
             {
                 GisMath::XYZ2LBH(vLocal,vGlobal);
                 vResult[nIndex].vLLa[0].dX = vGlobal(0)*DR2D;
@@ -521,7 +521,7 @@ vector<Period> VisiblePeriod(const BJTime& stStartTime,
             /// 将全局的坐标转成局部坐标
             vGlobal = vLocal * tmpMatrix;
 
-            if(GisMath::CalLineInterEllipsoid(Pos,vGlobal,vLocal))
+            if(GisMath::CalLineInterEarth(Pos,vGlobal,vLocal))
             {
                 GisMath::XYZ2LBH(vLocal,vGlobal);
                 vResult[nIndex].vLLa[3].dX = vGlobal(0)*DR2D;
@@ -592,7 +592,7 @@ vector<Period> VisiblePeriod(const BJTime& stStartTime,
             /// 将局部的坐标转成全局坐标
             vGlobal = vLocal * tmpMatrix;
 
-            if(GisMath::CalLineInterEllipsoid(Pos,vGlobal,vLocal))
+            if(GisMath::CalLineInterEarth(Pos,vGlobal,vLocal))
             {
                 GisMath::XYZ2LBH(vLocal,vGlobal);
                 vResult[nIndex].vLLa[1].dX = vGlobal(0)*DR2D;
@@ -604,7 +604,7 @@ vector<Period> VisiblePeriod(const BJTime& stStartTime,
             /// 将全局的坐标转成局部坐标
             vGlobal = vLocal * tmpMatrix;
 
-            if(GisMath::CalLineInterEllipsoid(Pos,vGlobal,vLocal))
+            if(GisMath::CalLineInterEarth(Pos,vGlobal,vLocal))
             {
                 GisMath::XYZ2LBH(vLocal,vGlobal);
                 vResult[nIndex].vLLa[2].dX = vGlobal(0)*DR2D;
@@ -675,7 +675,7 @@ vector<Period> VisiblePeriod(const BJTime& stStartTime,
             /// 将局部的坐标转成全局坐标
             vGlobal = vLocal * tmpMatrix;
 
-            if(GisMath::CalLineInterEllipsoid(Pos,vGlobal,vLocal))
+            if(GisMath::CalLineInterEarth(Pos,vGlobal,vLocal))
             {
                 GisMath::XYZ2LBH(vLocal,vGlobal);
                 vResult[nIndex].vLLa[0].dX = vGlobal(0)*DR2D;
@@ -687,7 +687,7 @@ vector<Period> VisiblePeriod(const BJTime& stStartTime,
             /// 将全局的坐标转成局部坐标
             vGlobal = vLocal * tmpMatrix;
 
-            if(GisMath::CalLineInterEllipsoid(Pos,vGlobal,vLocal))
+            if(GisMath::CalLineInterEarth(Pos,vGlobal,vLocal))
             {
                 GisMath::XYZ2LBH(vLocal,vGlobal);
                 vResult[nIndex].vLLa[3].dX = vGlobal(0)*DR2D;
@@ -757,7 +757,7 @@ vector<Period> VisiblePeriod(const BJTime& stStartTime,
             /// 将局部的坐标转成全局坐标
             vGlobal = vLocal * tmpMatrix;
 
-            if(GisMath::CalLineInterEllipsoid(Pos,vGlobal,vLocal))
+            if(GisMath::CalLineInterEarth(Pos,vGlobal,vLocal))
             {
                 GisMath::XYZ2LBH(vLocal,vGlobal);
                 vResult[nIndex].vLLa[1].dX = vGlobal(0)*DR2D;
@@ -769,7 +769,7 @@ vector<Period> VisiblePeriod(const BJTime& stStartTime,
             /// 将全局的坐标转成局部坐标
             vGlobal = vLocal * tmpMatrix;
 
-            if(GisMath::CalLineInterEllipsoid(Pos,vGlobal,vLocal))
+            if(GisMath::CalLineInterEarth(Pos,vGlobal,vLocal))
             {
                 GisMath::XYZ2LBH(vLocal,vGlobal);
                 vResult[nIndex].vLLa[2].dX = vGlobal(0)*DR2D;

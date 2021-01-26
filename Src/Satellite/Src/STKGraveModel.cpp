@@ -96,10 +96,7 @@ void CSTKGraveModel::InitBuffer(const streamsize& nSize)
     }
 
     /// 开辟空间
-    m_pBuffer = new char[nSize + 1];
-
-    /// 初始化空间
-    memset(m_pBuffer,0,nSize + 1);
+    m_pBuffer = new char[nSize + 1]();
 }
 
 void CSTKGraveModel::DealBuffer()

@@ -57,7 +57,15 @@ namespace GisMath
      * @param rInsertPos    交点     [m,m,m]
      * @return
      */
-    GISMATHSHARED_EXPORT bool CalLineInterEllipsoid(const CVector& pt,const CVector& stDir,CVector& rInsertPos);
+    GISMATHSHARED_EXPORT bool CalLineInterEarth(const CVector& pt,const CVector& stDir,CVector& rInsertPos);
+
+    /**
+     * @param dA 赤道半径[m]
+     * @param dB 极半径[m]
+     * @return
+     */
+    GISMATHSHARED_EXPORT bool CalLineInterEllipsoid(const CVector& pt,const CVector& stDir,CVector& rInsertPos,
+                                                    double dA,double dB);
 
     /************************ 表述方式的转换 ************************/
     /**

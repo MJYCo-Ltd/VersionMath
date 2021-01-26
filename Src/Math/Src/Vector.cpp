@@ -15,10 +15,7 @@ CVector::CVector (int nSize)
     : m_nDim(nSize)
 {
     /// 开辟空间
-    m_pdV = new double[nSize];
-
-    /// 初始化空间
-    memset(m_pdV,0,sizeof(*m_pdV)*nSize);
+    m_pdV = new double[nSize]();
 }
 
 /// 复制构造

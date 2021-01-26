@@ -130,7 +130,7 @@ bool InsertEllipseEarth(const CVector& vR1,const CVector& vR2)
     CVector vGlobal = vR2 - vR1;
     double dLength = vGlobal.Length();
     double dInsertLength;
-    if(GisMath::CalLineInterEllipsoid(vR1,vGlobal,vInsertEarth))
+    if(GisMath::CalLineInterEarth(vR1,vGlobal,vInsertEarth))
     {
         dInsertLength = (vInsertEarth-vR1).Length();
         if(dInsertLength < dLength)

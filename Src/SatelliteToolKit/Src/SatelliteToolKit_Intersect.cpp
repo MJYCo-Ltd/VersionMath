@@ -29,7 +29,7 @@ vector<Pos> Intersect(const PV& satPV,
 
         satPos = localPos * rotateMatrix * tmpMatrix;
 
-        GisMath::CalLineInterEllipsoid(satGlobalPos,satPos,localPos);
+        GisMath::CalLineInterEarth(satGlobalPos,satPos,localPos);
         GisMath::XYZ2LBH(localPos,satPos);
         tmpPos.dX = satPos.GetX() * DR2D;
         tmpPos.dY = satPos.GetY() * DR2D;

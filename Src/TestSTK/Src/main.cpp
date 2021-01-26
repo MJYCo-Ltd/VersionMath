@@ -255,6 +255,32 @@ int main()
 //            }
 //        }
 //    }
+    GisMath::InitGis(GisMath::WGS_84);
+
+    Math::CVector vEye(3);
+    Math::CVector vDir(3);
+    Math::CVector vOut(3);
+
+    vDir(0) = tan(1*DD2R);
+    vDir(1) = vDir(0);
+    vDir(2) = 1;
+    if(GisMath::CalLineInterEarth(vEye,vDir,vOut))
+    {
+        cout<<setw(20)<<vOut<<endl;
+    }
+    double dEarth_a(6378137);
+    double dEarth_b(6356752.314245179);
+    vDir(0) = 0.;
+    vDir(1) = 0.;
+    vDir(2) = 1.;
+    cout<<dEarth_b<<endl;
+    if(GisMath::CalLineInterEarth(vEye,vDir,vOut))
+    {
+        cout<<setw(20)<<vOut<<endl;
+    }
+
+
+
     /// 释放资源
     CloseSatelliteToolKit();
     return 0;

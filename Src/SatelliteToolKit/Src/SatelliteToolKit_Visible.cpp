@@ -48,7 +48,7 @@ bool IsVisible(const PV& satECIPV, const PV& satoTherECIPV, double dConeAngle)
     CVector vInsertEarth(3);
     double dLength = vGlobal.Length();
     double dInsertLength;
-    if(GisMath::CalLineInterEllipsoid(Pos,vGlobal,vInsertEarth))
+    if(GisMath::CalLineInterEarth(Pos,vGlobal,vInsertEarth))
     {
         dInsertLength = (vInsertEarth-Pos).Length();
         if(dInsertLength < dLength)

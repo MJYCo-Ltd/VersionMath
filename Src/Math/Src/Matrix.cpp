@@ -23,19 +23,11 @@ CMatrix::CMatrix (int dim1, int dim2)
         return;
     }
 
-    int i,j;
     /// 开辟空间
     m_ppdM = new double*[m_nRow];
-    for (i=0; i<m_nRow; ++i)
+    for (int i=0; i<m_nRow; ++i)
     {
-        m_ppdM[i] = new double[m_nCol];
-    }
-
-    j = sizeof(**m_ppdM)*m_nCol;
-    /// 初始化
-    for (i=0; i<m_nRow; ++i)
-    {
-        memset(m_ppdM[i],0,j);
+        m_ppdM[i] = new double[m_nCol]();
     }
 }
 
