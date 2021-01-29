@@ -7,7 +7,7 @@
  ******************************************************/
 
 #include<vector>
-using namespace std;
+#include<string>
 
 /**
  * 绕X轴旋转,又称滚动旋转Roll,简写R (-π~π]
@@ -98,8 +98,8 @@ struct SatellitePV /// 卫星某一时刻的状态
 
 struct SatelliteTle/// 卫星的TLE数据
 {
-    string sLine1;
-    string sLine2;
+    std::string sLine1;
+    std::string sLine2;
 };
 
 
@@ -117,10 +117,10 @@ struct SatellitePos /// 卫星位置结构体
     BJTime stStart;
     BJTime stEnd;
     unsigned int uStepMs;	/// 计算步长 [毫秒]
-    vector<double> vTimes;	/// 约简儒略日
-    vector<PV> vJ2000;		/// J2000下位置
-    vector<PV> vECF;		/// 地固系下位置坐标
-    vector<Pos> vLLA;		/// 经纬高 [deg deg m]
+    std::vector<double> vTimes;	/// 约简儒略日
+    std::vector<PV> vJ2000;		/// J2000下位置
+    std::vector<PV> vECF;		/// 地固系下位置坐标
+    std::vector<Pos> vLLA;		/// 经纬高 [deg deg m]
 };
 
 struct Period /// 时间段结构体
@@ -128,7 +128,7 @@ struct Period /// 时间段结构体
     BJTime stStart;       ///开始时间
     BJTime stEnd;         ///结束时间
     double dDurationTime; ///持续时间
-    vector<Pos> vLLa;      /// 该段时间对应的地面区域范围
+    std::vector<Pos> vLLa;      /// 该段时间对应的地面区域范围
 };
 
 #endif

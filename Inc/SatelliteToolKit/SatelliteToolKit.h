@@ -229,12 +229,31 @@ vector<Period> SATELLITETOOLKIT_EXPORT IntersectRectangle(const SatellitePos& st
  * @brief 根据给定的轨道根数生成卫星星座
  * @param satTemplet    给定的卫星轨道
  * @param nPlanes       面数
- * @param nNumSats      买个面上的卫星数量
+ * @param nNumSats      每个面上的卫星数量
+ * @param nFactor       相位因子 [0~nPlanes-1]
+ * @param dRAANDelt     升交点差值 [弧度][0~2π]
  * @return      卫星轨道星历数组
  */
 vector<Satellite_Element> SATELLITETOOLKIT_EXPORT CreateConstellatory(Satellite_Element satTemplet,
                                               int nPlanes,
-                                              int nNumSats);
+                                              int nNumSats,
+                                              int nFactor,
+                                              double dRAANDelt);
+
+/**
+ * @brief 根据给定的轨道根数生成卫星星座
+ * @param satTemplet    给定的卫星轨道
+ * @param nPlanes       面数
+ * @param nNumSats      每个面上的卫星数量
+ * @param dDelt         相位差值   [rad]
+ * @param dRAANDelt     升交点差值 [弧度][0~2π]
+ * @return      卫星轨道星历数组
+ */
+vector<Satellite_Element> SATELLITETOOLKIT_EXPORT CreateConstellatoryBase(Satellite_Element satTemplet,
+                                              int nPlanes,
+                                              int nNumSats,
+                                              double dDelt,
+                                              double dRAANDelt);
 
 /**
  *  根据给定的星历数据，分析指定位置的PDOP值

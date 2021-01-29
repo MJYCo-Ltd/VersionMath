@@ -18,6 +18,16 @@ CSGP4::CSGP4(const string &strLine1, const string &strLine2):
 CSGP4::CSGP4(const char strLine1[], const char strLine2[])
 {
     m_pTle = new elsetrec;
+    if(nullptr == strLine1 || nullptr == strLine2)
+    {
+        memset(m_strTLE[0],0,TLELENGTH);
+        memset(m_strTLE[1],0,TLELENGTH);
+        m_dEpochMJD = -1;
+        m_Oribit.Resize(0);
+
+        m_bValid = false;
+        return;
+    }
     SetTLE(strLine1,strLine2);
 }
 
@@ -40,6 +50,7 @@ bool CSGP4::SetTLE(const string &strLine1, const string &strLine2)
         m_Oribit.Resize(0);
 
         m_bValid = false;
+        return(m_bValid);
     }
     else
     {

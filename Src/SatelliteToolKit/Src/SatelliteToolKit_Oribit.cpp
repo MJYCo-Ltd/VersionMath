@@ -249,25 +249,107 @@ bool SGP4(const BJTime &stStartTime, const BJTime &stEndTime, unsigned int nStep
 /// 生成卫星星座
 vector<Satellite_Element> CreateConstellatory(Satellite_Element satTemplet,
                                               int nPlanes,
-                                              int nNumSats)
+                                              int nNumSats,
+                                              int nFactor,
+                                              double dRAANDelt)
+{
+    static vector<Satellite_Element> vSatElement;
+    if(nFactor<0 || (nFactor+1 > nPlanes))
+    {
+        return(vSatElement);
+    }
+    double dDelt = nFactor * D2PI/(nPlanes*nNumSats);
+
+    return(CreateConstellatoryBase(satTemplet,nPlanes,nNumSats,dDelt,dRAANDelt));
+}
+
+/// 生成卫星星座
+vector<Satellite_Element> CreateConstellatoryBase(Satellite_Element satTemplet,
+                                              int nPlanes,
+                                              int nNumSats,
+                                              double dDelt,
+                                              double dRAANDelt)
 {
     vector<Satellite_Element> vSatElement;
-    vSatElement.reserve(nPlanes*nNumSats);
 
-    double dRAANSpace = D2PI/nPlanes;
+    double dRAANSpace = dRAANDelt/nPlanes;
     double dMSpace = D2PI / nNumSats;
 
-    Satellite_Element tmpSatellite=satTemplet;
+    Math::CVector kepler(6);
+    Satellite::CSGP4 tmpSGP4(nullptr,nullptr);
+    switch(satTemplet.elemType)
+    {
+    case SAT_TLE:
+        tmpSGP4.SetTLE(satTemplet.stTLE.sLine1,satTemplet.stTLE.sLine2);
+        if(!tmpSGP4) return(vSatElement);
+        kepler = tmpSGP4.ClassicalElements();
+        break;
+    case SAT_PV:
+    {
+        Math::CVector vPV(6);
+        vPV(0) = satTemplet.stSatPV.stPV.stP.dX;
+        vPV(1) = satTemplet.stSatPV.stPV.stP.dY;
+        vPV(2) = satTemplet.stSatPV.stPV.stP.dZ;
+        vPV(3) = satTemplet.stSatPV.stPV.stV.dX;
+        vPV(4) = satTemplet.stSatPV.stPV.stV.dY;
+        vPV(5) = satTemplet.stSatPV.stPV.stV.dZ;
+        kepler = Satellite::CKepler::ClassicalElements(GM_Earth,vPV);
+    }
+        break;
+    case SAT_TWOBODY:
+        kepler(0) = satTemplet.stKepler.dA;
+        kepler(1) = satTemplet.stKepler.dE;
+        kepler(2) = satTemplet.stKepler.dI;
+        kepler(3) = satTemplet.stKepler.dRAAN;
+        kepler(4) = satTemplet.stKepler.dW;
+        kepler(5) = satTemplet.stKepler.dMA;
+        break;
+    }
+
+    vSatElement.reserve(nPlanes*nNumSats);
+    Math::CVector tempKepler(kepler);
+
+    Satellite_Element tmpSatellite = satTemplet;
+    char tleOut[2][73];
     for(int i=0;i<nPlanes;++i)
     {
         for(int j=0; j<nNumSats; ++j)
         {
-            tmpSatellite.stKepler.dRAAN = satTemplet.stKepler.dRAAN + i*dRAANSpace;
-            tmpSatellite.stKepler.dMA = satTemplet.stKepler.dMA + j*dMSpace;
+            tempKepler(3) = kepler(3) + i*dRAANSpace;
+            tempKepler(5) = kepler(5) + j*dMSpace + i*dDelt;
 
-            tmpSatellite.stKepler.dRAAN = iauAnp(tmpSatellite.stKepler.dRAAN);
-            tmpSatellite.stKepler.dMA = iauAnp(tmpSatellite.stKepler.dMA);
+            tempKepler(3) = iauAnp(tempKepler(3));
+            tempKepler(5) = iauAnp(tempKepler(5));
 
+            switch (tmpSatellite.elemType)
+            {
+            case SAT_TLE:
+                Satellite::CKepler::Classical2TLE(tempKepler,tmpSGP4.GetTLEEpoch()+DJM0,99,tleOut);
+                tmpSatellite.stTLE.sLine1=std::string(tleOut[0],73);
+                tmpSatellite.stTLE.sLine1=std::string(tleOut[1],73);
+                break;
+            case SAT_PV:
+            {
+                Math::CVector vPV = Satellite::CKepler::State(GM_Earth,tempKepler);
+                tmpSatellite.stSatPV.stPV.stP.dX=vPV(0);
+                tmpSatellite.stSatPV.stPV.stP.dY=vPV(1);
+                tmpSatellite.stSatPV.stPV.stP.dZ=vPV(2);
+                tmpSatellite.stSatPV.stPV.stV.dX=vPV(3);
+                tmpSatellite.stSatPV.stPV.stV.dY=vPV(4);
+                tmpSatellite.stSatPV.stPV.stV.dZ=vPV(5);
+            }
+                break;
+            case SAT_TWOBODY:
+            {
+                tmpSatellite.stKepler.dA=tempKepler(0);
+                tmpSatellite.stKepler.dE=tempKepler(1);
+                tmpSatellite.stKepler.dI=tempKepler(2);
+                tmpSatellite.stKepler.dRAAN=tempKepler(3);
+                tmpSatellite.stKepler.dW=tempKepler(4);
+                tmpSatellite.stKepler.dMA=tempKepler(5);
+            }
+                break;
+            }
             vSatElement.push_back(tmpSatellite);
         }
     }

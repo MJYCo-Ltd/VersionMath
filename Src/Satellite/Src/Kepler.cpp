@@ -406,8 +406,8 @@ bool CKepler::Classical2TLE(const CVector &vKep, const double &dJDEpoch,
     tle.epoch = dJDEpoch;
           /* The elements are in J2000,  but TLEs are given  */
           /* in epoch of date: */
-    convert_elements( 2000., (dJDEpoch - J0) / DJY,
-                     &incl, &asc_node, &arg_per);     /* conv_ele.cpp */
+//    convert_elements( 2000., (dJDEpoch - J0) / DJY,
+//                     &incl, &asc_node, &arg_per);     /* conv_ele.cpp */
     tle.xincl = centralize_angle( incl);
     tle.xnodeo = centralize_angle( asc_node);
     tle.omegao = centralize_angle( arg_per);

@@ -124,32 +124,32 @@ int main()
     Satellite::CSGP4 tmpSGP4(tle.stTLE.sLine1,tle.stTLE.sLine2);
 
     Math::CVector vKepler = tmpSGP4.ClassicalElements();
-//    Satellite_Element tmpElement;
-//    tmpElement.elemType = SAT_TWOBODY;
-//    tmpElement.stKepler.dA = vKepler(0);
-//    tmpElement.stKepler.dE = vKepler(1);
-//    tmpElement.stKepler.dI = vKepler(2);
-//    tmpElement.stKepler.dRAAN = vKepler(3);
-//    tmpElement.stKepler.dW = vKepler(4);
-//    tmpElement.stKepler.dMA = vKepler(5);
-//    vector<Satellite_Element> vOut = CreateConstellatory(tmpElement,5,6);
+    Satellite_Element tmpElement;
+    tmpElement.elemType = SAT_TWOBODY;
+    tmpElement.stKepler.dA = vKepler(0);
+    tmpElement.stKepler.dE = vKepler(1);
+    tmpElement.stKepler.dI = vKepler(2);
+    tmpElement.stKepler.dRAAN = vKepler(3);
+    tmpElement.stKepler.dW = vKepler(4);
+    tmpElement.stKepler.dMA = vKepler(5);
+    vector<Satellite_Element> vOut = CreateConstellatory(tmpElement,5,6,1,D2PI);
 
-//    CDate dataBJ(tmpSGP4.GetTLEEpoch(),BJ);
+    CDate dataBJ(tmpSGP4.GetTLEEpoch(),BJ);
 
-//    int nYear,nMonth,nDay,nHour,nMinute;
-//    double dSeconds;
-//    dataBJ.GetDate(nYear,nMonth,nDay,nHour,nMinute,dSeconds);
-//    cout<<dataBJ<<endl;
-//    for(int nIndex=0,nSize=vOut.size();nIndex<nSize;++nIndex)
-//    {
-//        const Satellite_Element& one = vOut[nIndex];
-//        cout<<"---------------------------\ndA:\t"<<one.stKepler.dA<<'\t'
-//            <<"dE:\t"<<one.stKepler.dE<<'\t'
-//            <<"dI:\t"<<one.stKepler.dI*DR2D<<'\n'
-//            <<"dRAAN:\t"<<one.stKepler.dRAAN*DR2D<<'\t'
-//            <<"dW:\t"<<one.stKepler.dW*DR2D<<'\t'
-//            <<"dMA:\t"<<one.stKepler.dMA*DR2D<<endl;
-//    }
+    int nYear,nMonth,nDay,nHour,nMinute;
+    double dSeconds;
+    dataBJ.GetDate(nYear,nMonth,nDay,nHour,nMinute,dSeconds);
+    cout<<dataBJ<<endl;
+    for(int nIndex=0,nSize=vOut.size();nIndex<nSize;++nIndex)
+    {
+        const Satellite_Element& one = vOut[nIndex];
+        cout<<"-------------"<<nIndex<<"-------------\ndA:\t"<<one.stKepler.dA<<'\t'
+            <<"dE:\t"<<one.stKepler.dE<<'\t'
+            <<"dI:\t"<<one.stKepler.dI*DR2D<<'\n'
+            <<"dRAAN:\t"<<one.stKepler.dRAAN*DR2D<<'\t'
+            <<"dW:\t"<<one.stKepler.dW*DR2D<<'\t'
+            <<"dMA:\t"<<one.stKepler.dMA*DR2D<<endl;
+    }
 
 
     cout<<"=============================\ndA:\t"<<vKepler(0)<<'\t'
@@ -255,29 +255,29 @@ int main()
 //            }
 //        }
 //    }
-    GisMath::InitGis(GisMath::WGS_84);
+//    GisMath::InitGis(GisMath::WGS_84);
 
-    Math::CVector vEye(3);
-    Math::CVector vDir(3);
-    Math::CVector vOut(3);
+//    Math::CVector vEye(3);
+//    Math::CVector vDir(3);
+//    Math::CVector vOut(3);
 
-    vDir(0) = tan(1*DD2R);
-    vDir(1) = vDir(0);
-    vDir(2) = 1;
-    if(GisMath::CalLineInterEarth(vEye,vDir,vOut))
-    {
-        cout<<setw(20)<<vOut<<endl;
-    }
-    double dEarth_a(6378137);
-    double dEarth_b(6356752.314245179);
-    vDir(0) = 0.;
-    vDir(1) = 0.;
-    vDir(2) = 1.;
-    cout<<dEarth_b<<endl;
-    if(GisMath::CalLineInterEarth(vEye,vDir,vOut))
-    {
-        cout<<setw(20)<<vOut<<endl;
-    }
+//    vDir(0) = tan(1*DD2R);
+//    vDir(1) = vDir(0);
+//    vDir(2) = 1;
+//    if(GisMath::CalLineInterEarth(vEye,vDir,vOut))
+//    {
+//        cout<<setw(20)<<vOut<<endl;
+//    }
+//    double dEarth_a(6378137);
+//    double dEarth_b(6356752.314245179);
+//    vDir(0) = 1.;
+//    vDir(1) = 0.;
+//    vDir(2) = 0.;
+//    cout<<dEarth_a<<endl;
+//    if(GisMath::CalLineInterEarth(vEye,vDir,vOut))
+//    {
+//        cout<<setw(20)<<vOut<<endl;
+//    }
 
 
 
