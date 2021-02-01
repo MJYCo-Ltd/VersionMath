@@ -260,7 +260,7 @@ vector<Satellite_Element> CreateConstellatory(Satellite_Element satTemplet,
     }
     double dDelt = nFactor * D2PI/(nPlanes*nNumSats);
 
-    return(CreateConstellatoryBase(satTemplet,nPlanes,nNumSats,dDelt,dRAANDelt));
+    return(CreateConstellatoryBase(satTemplet,nPlanes,nNumSats,dDelt,dRAANDelt/nPlanes));
 }
 
 /// 生成卫星星座
@@ -272,7 +272,6 @@ vector<Satellite_Element> CreateConstellatoryBase(Satellite_Element satTemplet,
 {
     vector<Satellite_Element> vSatElement;
 
-    double dRAANSpace = dRAANDelt/nPlanes;
     double dMSpace = D2PI / nNumSats;
 
     Math::CVector kepler(6);
@@ -315,7 +314,7 @@ vector<Satellite_Element> CreateConstellatoryBase(Satellite_Element satTemplet,
     {
         for(int j=0; j<nNumSats; ++j)
         {
-            tempKepler(3) = kepler(3) + i*dRAANSpace;
+            tempKepler(3) = kepler(3) + i*dRAANDelt;
             tempKepler(5) = kepler(5) + j*dMSpace + i*dDelt;
 
             tempKepler(3) = iauAnp(tempKepler(3));
