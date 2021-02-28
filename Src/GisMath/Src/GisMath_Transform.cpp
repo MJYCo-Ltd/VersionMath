@@ -304,3 +304,29 @@ int GisMath::CalAzElXYZ(double dX1, double dY1, double dZ1, double dX2, double d
 
     return(0);
 }
+
+bool GisMath::WGS842GJC02(double& dLon,double& dLat)
+{
+    double x=dLon - 105.0;
+    double y=dLat - 35.0;
+
+    double dTempLat = -100.0 + 2.0 * x + 3.0 * y + 0.2 * y * y + 0.1 * x * y + 0.2 * sqrt(abs(x));
+    dTempLat += (20.0 * sin(6.0 * x * DPI) + 20.0 * sin(2.0 * x * DPI)) * 2.0 / 3.0;
+    dTempLat += (20.0 * sin(y * DPI) + 40.0 * sin(y / 3.0 * DPI)) * 2.0 / 3.0;
+    dTempLat += (160.0 * sin(y / 12.0 * DPI) + 320 * sin(y * DPI / 30.0)) * 2.0 / 3.0;
+
+    double dTempLon = 300.0 + x + 2.0 * y + 0.1 * x * x + 0.1 * x * y + 0.1 * sqrt(abs(x));
+    dTempLon += (20.0 * sin(6.0 * x * DPI) + 20.0 * sin(2.0 * x * DPI)) * 2.0 / 3.0;
+    dTempLon += (20.0 * sin(x * DPI) + 40.0 * sin(x / 3.0 * DPI)) * 2.0 / 3.0;
+    dTempLon += (150.0 * sin(x / 12.0 * DPI) + 300.0 * sin(x / 30.0 * DPI)) * 2.0 / 3.0;
+
+    double radLat = dLat *DD2R;
+    double magic = sin(radLat);
+    magic = 1 - 0.00669342162296594323 * magic * magic;
+    double sqrtMagic = sqrt(magic);
+    dTempLat = (dTempLat * 180.0) / ((6378245.0 * (1 - 0.00669342162296594323)) / (magic * sqrtMagic) * DPI);
+    dTempLon = (dTempLon * 180.0) / (6378245.0 / sqrtMagic * cos(radLat) * DPI);
+    dLat += dTempLat;
+    dLon += dTempLon;
+    return(true);
+}

@@ -59,7 +59,12 @@ bool CSGP4::SetTLE(const string &strLine1, const string &strLine2)
 
         /// 解析tle数据信息
         twoline2rv(m_strTLE[0],m_strTLE[1],wgs72,*m_pTle);
-        m_bValid = true;
+        m_bValid = m_pTle != nullptr;
+
+        if(!m_bValid)
+        {
+            return(m_bValid);
+        }
     }
 
     if(m_Oribit.Size() < 6)

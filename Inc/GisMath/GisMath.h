@@ -251,6 +251,14 @@ namespace GisMath
      * @return
      */
     GISMATHSHARED_EXPORT double CalclutaGeoArea(const CVector& vGeoIn,AREA_TYPE type);
+
+    /**
+     * @brief JC02 到wgs84的转换
+     * @param dLon [deg]
+     * @param dLat [deg]
+     * @return
+     */
+    GISMATHSHARED_EXPORT bool WGS842GJC02(double& dLon,double& dLat);
 }
 
 #endif // GISMATH_H
