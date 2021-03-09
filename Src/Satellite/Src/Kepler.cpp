@@ -395,6 +395,7 @@ bool CKepler::Classical2TLE(const CVector &vKep, const double &dJDEpoch,
     }
 
     tle_t tle;
+    memset(&tle,0,sizeof(tle));
     /// 计算卫星周期
     const double t0 =
         vKep(0) * sqrt( vKep(0) / GM_Earth);

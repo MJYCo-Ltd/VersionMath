@@ -24,173 +24,173 @@ static const double eps_mach(numeric_limits<double>::epsilon());
 /// 计算黄赤交角
 double MeanObliquity (double Mjd_TT)
 {
-  const double T = (Mjd_TT-DJM00)/36525.0;
+    const double T = (Mjd_TT-DJM00)/36525.0;
 
-  return(DD2R *( 23.43929111-(46.8150+(0.00059-0.001813*T)*T)*T/3600.0 ));
+    return(DD2R *( 23.43929111-(46.8150+(0.00059-0.001813*T)*T)*T/3600.0 ));
 }
 
 /// 计算章动角度
 void NutAngles (double Mjd_TT, double& dpsi, double& deps)
 {
 
-  // Constants
+    // Constants
 
-  const double T  = (Mjd_TT-DJM00)/36525.0;
-  const double T2 = T*T;
-  const double T3 = T2*T;
-  const double rev = 360.0*3600.0;  // arcsec/revolution
+    const double T  = (Mjd_TT-DJM00)/36525.0;
+    const double T2 = T*T;
+    const double T3 = T2*T;
+    const double rev = 360.0*3600.0;  // arcsec/revolution
 
-  const int  N_coeff = 106;
-  const long C[N_coeff][9] =
-  {
-   //
-   // l  l' F  D Om    dpsi    *T     deps     *T       #
-   //
-    {  0, 0, 0, 0, 1,-1719960,-1742,  920250,   89 },   //   1
-    {  0, 0, 0, 0, 2,   20620,    2,   -8950,    5 },   //   2
-    { -2, 0, 2, 0, 1,     460,    0,    -240,    0 },   //   3
-    {  2, 0,-2, 0, 0,     110,    0,       0,    0 },   //   4
-    { -2, 0, 2, 0, 2,     -30,    0,      10,    0 },   //   5
-    {  1,-1, 0,-1, 0,     -30,    0,       0,    0 },   //   6
-    {  0,-2, 2,-2, 1,     -20,    0,      10,    0 },   //   7
-    {  2, 0,-2, 0, 1,      10,    0,       0,    0 },   //   8
-    {  0, 0, 2,-2, 2, -131870,  -16,   57360,  -31 },   //   9
-    {  0, 1, 0, 0, 0,   14260,  -34,     540,   -1 },   //  10
-    {  0, 1, 2,-2, 2,   -5170,   12,    2240,   -6 },   //  11
-    {  0,-1, 2,-2, 2,    2170,   -5,    -950,    3 },   //  12
-    {  0, 0, 2,-2, 1,    1290,    1,    -700,    0 },   //  13
-    {  2, 0, 0,-2, 0,     480,    0,      10,    0 },   //  14
-    {  0, 0, 2,-2, 0,    -220,    0,       0,    0 },   //  15
-    {  0, 2, 0, 0, 0,     170,   -1,       0,    0 },   //  16
-    {  0, 1, 0, 0, 1,    -150,    0,      90,    0 },   //  17
-    {  0, 2, 2,-2, 2,    -160,    1,      70,    0 },   //  18
-    {  0,-1, 0, 0, 1,    -120,    0,      60,    0 },   //  19
-    { -2, 0, 0, 2, 1,     -60,    0,      30,    0 },   //  20
-    {  0,-1, 2,-2, 1,     -50,    0,      30,    0 },   //  21
-    {  2, 0, 0,-2, 1,      40,    0,     -20,    0 },   //  22
-    {  0, 1, 2,-2, 1,      40,    0,     -20,    0 },   //  23
-    {  1, 0, 0,-1, 0,     -40,    0,       0,    0 },   //  24
-    {  2, 1, 0,-2, 0,      10,    0,       0,    0 },   //  25
-    {  0, 0,-2, 2, 1,      10,    0,       0,    0 },   //  26
-    {  0, 1,-2, 2, 0,     -10,    0,       0,    0 },   //  27
-    {  0, 1, 0, 0, 2,      10,    0,       0,    0 },   //  28
-    { -1, 0, 0, 1, 1,      10,    0,       0,    0 },   //  29
-    {  0, 1, 2,-2, 0,     -10,    0,       0,    0 },   //  30
-    {  0, 0, 2, 0, 2,  -22740,   -2,    9770,   -5 },   //  31
-    {  1, 0, 0, 0, 0,    7120,    1,     -70,    0 },   //  32
-    {  0, 0, 2, 0, 1,   -3860,   -4,    2000,    0 },   //  33
-    {  1, 0, 2, 0, 2,   -3010,    0,    1290,   -1 },   //  34
-    {  1, 0, 0,-2, 0,   -1580,    0,     -10,    0 },   //  35
-    { -1, 0, 2, 0, 2,    1230,    0,    -530,    0 },   //  36
-    {  0, 0, 0, 2, 0,     630,    0,     -20,    0 },   //  37
-    {  1, 0, 0, 0, 1,     630,    1,    -330,    0 },   //  38
-    { -1, 0, 0, 0, 1,    -580,   -1,     320,    0 },   //  39
-    { -1, 0, 2, 2, 2,    -590,    0,     260,    0 },   //  40
-    {  1, 0, 2, 0, 1,    -510,    0,     270,    0 },   //  41
-    {  0, 0, 2, 2, 2,    -380,    0,     160,    0 },   //  42
-    {  2, 0, 0, 0, 0,     290,    0,     -10,    0 },   //  43
-    {  1, 0, 2,-2, 2,     290,    0,    -120,    0 },   //  44
-    {  2, 0, 2, 0, 2,    -310,    0,     130,    0 },   //  45
-    {  0, 0, 2, 0, 0,     260,    0,     -10,    0 },   //  46
-    { -1, 0, 2, 0, 1,     210,    0,    -100,    0 },   //  47
-    { -1, 0, 0, 2, 1,     160,    0,     -80,    0 },   //  48
-    {  1, 0, 0,-2, 1,    -130,    0,      70,    0 },   //  49
-    { -1, 0, 2, 2, 1,    -100,    0,      50,    0 },   //  50
-    {  1, 1, 0,-2, 0,     -70,    0,       0,    0 },   //  51
-    {  0, 1, 2, 0, 2,      70,    0,     -30,    0 },   //  52
-    {  0,-1, 2, 0, 2,     -70,    0,      30,    0 },   //  53
-    {  1, 0, 2, 2, 2,     -80,    0,      30,    0 },   //  54
-    {  1, 0, 0, 2, 0,      60,    0,       0,    0 },   //  55
-    {  2, 0, 2,-2, 2,      60,    0,     -30,    0 },   //  56
-    {  0, 0, 0, 2, 1,     -60,    0,      30,    0 },   //  57
-    {  0, 0, 2, 2, 1,     -70,    0,      30,    0 },   //  58
-    {  1, 0, 2,-2, 1,      60,    0,     -30,    0 },   //  59
-    {  0, 0, 0,-2, 1,     -50,    0,      30,    0 },   //  60
-    {  1,-1, 0, 0, 0,      50,    0,       0,    0 },   //  61
-    {  2, 0, 2, 0, 1,     -50,    0,      30,    0 },   //  62
-    {  0, 1, 0,-2, 0,     -40,    0,       0,    0 },   //  63
-    {  1, 0,-2, 0, 0,      40,    0,       0,    0 },   //  64
-    {  0, 0, 0, 1, 0,     -40,    0,       0,    0 },   //  65
-    {  1, 1, 0, 0, 0,     -30,    0,       0,    0 },   //  66
-    {  1, 0, 2, 0, 0,      30,    0,       0,    0 },   //  67
-    {  1,-1, 2, 0, 2,     -30,    0,      10,    0 },   //  68
-    { -1,-1, 2, 2, 2,     -30,    0,      10,    0 },   //  69
-    { -2, 0, 0, 0, 1,     -20,    0,      10,    0 },   //  70
-    {  3, 0, 2, 0, 2,     -30,    0,      10,    0 },   //  71
-    {  0,-1, 2, 2, 2,     -30,    0,      10,    0 },   //  72
-    {  1, 1, 2, 0, 2,      20,    0,     -10,    0 },   //  73
-    { -1, 0, 2,-2, 1,     -20,    0,      10,    0 },   //  74
-    {  2, 0, 0, 0, 1,      20,    0,     -10,    0 },   //  75
-    {  1, 0, 0, 0, 2,     -20,    0,      10,    0 },   //  76
-    {  3, 0, 0, 0, 0,      20,    0,       0,    0 },   //  77
-    {  0, 0, 2, 1, 2,      20,    0,     -10,    0 },   //  78
-    { -1, 0, 0, 0, 2,      10,    0,     -10,    0 },   //  79
-    {  1, 0, 0,-4, 0,     -10,    0,       0,    0 },   //  80
-    { -2, 0, 2, 2, 2,      10,    0,     -10,    0 },   //  81
-    { -1, 0, 2, 4, 2,     -20,    0,      10,    0 },   //  82
-    {  2, 0, 0,-4, 0,     -10,    0,       0,    0 },   //  83
-    {  1, 1, 2,-2, 2,      10,    0,     -10,    0 },   //  84
-    {  1, 0, 2, 2, 1,     -10,    0,      10,    0 },   //  85
-    { -2, 0, 2, 4, 2,     -10,    0,      10,    0 },   //  86
-    { -1, 0, 4, 0, 2,      10,    0,       0,    0 },   //  87
-    {  1,-1, 0,-2, 0,      10,    0,       0,    0 },   //  88
-    {  2, 0, 2,-2, 1,      10,    0,     -10,    0 },   //  89
-    {  2, 0, 2, 2, 2,     -10,    0,       0,    0 },   //  90
-    {  1, 0, 0, 2, 1,     -10,    0,       0,    0 },   //  91
-    {  0, 0, 4,-2, 2,      10,    0,       0,    0 },   //  92
-    {  3, 0, 2,-2, 2,      10,    0,       0,    0 },   //  93
-    {  1, 0, 2,-2, 0,     -10,    0,       0,    0 },   //  94
-    {  0, 1, 2, 0, 1,      10,    0,       0,    0 },   //  95
-    { -1,-1, 0, 2, 1,      10,    0,       0,    0 },   //  96
-    {  0, 0,-2, 0, 1,     -10,    0,       0,    0 },   //  97
-    {  0, 0, 2,-1, 2,     -10,    0,       0,    0 },   //  98
-    {  0, 1, 0, 2, 0,     -10,    0,       0,    0 },   //  99
-    {  1, 0,-2,-2, 0,     -10,    0,       0,    0 },   // 100
-    {  0,-1, 2, 0, 1,     -10,    0,       0,    0 },   // 101
-    {  1, 1, 0,-2, 1,     -10,    0,       0,    0 },   // 102
-    {  1, 0,-2, 2, 0,     -10,    0,       0,    0 },   // 103
-    {  2, 0, 0, 2, 0,      10,    0,       0,    0 },   // 104
-    {  0, 0, 2, 4, 2,     -10,    0,       0,    0 },   // 105
-    {  0, 1, 0, 1, 0,      10,    0,       0,    0 }    // 106
-   };
+    const int  N_coeff = 106;
+    const long C[N_coeff][9] =
+    {
+        //
+        // l  l' F  D Om    dpsi    *T     deps     *T       #
+        //
+        {  0, 0, 0, 0, 1,-1719960,-1742,  920250,   89 },   //   1
+        {  0, 0, 0, 0, 2,   20620,    2,   -8950,    5 },   //   2
+        { -2, 0, 2, 0, 1,     460,    0,    -240,    0 },   //   3
+        {  2, 0,-2, 0, 0,     110,    0,       0,    0 },   //   4
+        { -2, 0, 2, 0, 2,     -30,    0,      10,    0 },   //   5
+        {  1,-1, 0,-1, 0,     -30,    0,       0,    0 },   //   6
+        {  0,-2, 2,-2, 1,     -20,    0,      10,    0 },   //   7
+        {  2, 0,-2, 0, 1,      10,    0,       0,    0 },   //   8
+        {  0, 0, 2,-2, 2, -131870,  -16,   57360,  -31 },   //   9
+        {  0, 1, 0, 0, 0,   14260,  -34,     540,   -1 },   //  10
+        {  0, 1, 2,-2, 2,   -5170,   12,    2240,   -6 },   //  11
+        {  0,-1, 2,-2, 2,    2170,   -5,    -950,    3 },   //  12
+        {  0, 0, 2,-2, 1,    1290,    1,    -700,    0 },   //  13
+        {  2, 0, 0,-2, 0,     480,    0,      10,    0 },   //  14
+        {  0, 0, 2,-2, 0,    -220,    0,       0,    0 },   //  15
+        {  0, 2, 0, 0, 0,     170,   -1,       0,    0 },   //  16
+        {  0, 1, 0, 0, 1,    -150,    0,      90,    0 },   //  17
+        {  0, 2, 2,-2, 2,    -160,    1,      70,    0 },   //  18
+        {  0,-1, 0, 0, 1,    -120,    0,      60,    0 },   //  19
+        { -2, 0, 0, 2, 1,     -60,    0,      30,    0 },   //  20
+        {  0,-1, 2,-2, 1,     -50,    0,      30,    0 },   //  21
+        {  2, 0, 0,-2, 1,      40,    0,     -20,    0 },   //  22
+        {  0, 1, 2,-2, 1,      40,    0,     -20,    0 },   //  23
+        {  1, 0, 0,-1, 0,     -40,    0,       0,    0 },   //  24
+        {  2, 1, 0,-2, 0,      10,    0,       0,    0 },   //  25
+        {  0, 0,-2, 2, 1,      10,    0,       0,    0 },   //  26
+        {  0, 1,-2, 2, 0,     -10,    0,       0,    0 },   //  27
+        {  0, 1, 0, 0, 2,      10,    0,       0,    0 },   //  28
+        { -1, 0, 0, 1, 1,      10,    0,       0,    0 },   //  29
+        {  0, 1, 2,-2, 0,     -10,    0,       0,    0 },   //  30
+        {  0, 0, 2, 0, 2,  -22740,   -2,    9770,   -5 },   //  31
+        {  1, 0, 0, 0, 0,    7120,    1,     -70,    0 },   //  32
+        {  0, 0, 2, 0, 1,   -3860,   -4,    2000,    0 },   //  33
+        {  1, 0, 2, 0, 2,   -3010,    0,    1290,   -1 },   //  34
+        {  1, 0, 0,-2, 0,   -1580,    0,     -10,    0 },   //  35
+        { -1, 0, 2, 0, 2,    1230,    0,    -530,    0 },   //  36
+        {  0, 0, 0, 2, 0,     630,    0,     -20,    0 },   //  37
+        {  1, 0, 0, 0, 1,     630,    1,    -330,    0 },   //  38
+        { -1, 0, 0, 0, 1,    -580,   -1,     320,    0 },   //  39
+        { -1, 0, 2, 2, 2,    -590,    0,     260,    0 },   //  40
+        {  1, 0, 2, 0, 1,    -510,    0,     270,    0 },   //  41
+        {  0, 0, 2, 2, 2,    -380,    0,     160,    0 },   //  42
+        {  2, 0, 0, 0, 0,     290,    0,     -10,    0 },   //  43
+        {  1, 0, 2,-2, 2,     290,    0,    -120,    0 },   //  44
+        {  2, 0, 2, 0, 2,    -310,    0,     130,    0 },   //  45
+        {  0, 0, 2, 0, 0,     260,    0,     -10,    0 },   //  46
+        { -1, 0, 2, 0, 1,     210,    0,    -100,    0 },   //  47
+        { -1, 0, 0, 2, 1,     160,    0,     -80,    0 },   //  48
+        {  1, 0, 0,-2, 1,    -130,    0,      70,    0 },   //  49
+        { -1, 0, 2, 2, 1,    -100,    0,      50,    0 },   //  50
+        {  1, 1, 0,-2, 0,     -70,    0,       0,    0 },   //  51
+        {  0, 1, 2, 0, 2,      70,    0,     -30,    0 },   //  52
+        {  0,-1, 2, 0, 2,     -70,    0,      30,    0 },   //  53
+        {  1, 0, 2, 2, 2,     -80,    0,      30,    0 },   //  54
+        {  1, 0, 0, 2, 0,      60,    0,       0,    0 },   //  55
+        {  2, 0, 2,-2, 2,      60,    0,     -30,    0 },   //  56
+        {  0, 0, 0, 2, 1,     -60,    0,      30,    0 },   //  57
+        {  0, 0, 2, 2, 1,     -70,    0,      30,    0 },   //  58
+        {  1, 0, 2,-2, 1,      60,    0,     -30,    0 },   //  59
+        {  0, 0, 0,-2, 1,     -50,    0,      30,    0 },   //  60
+        {  1,-1, 0, 0, 0,      50,    0,       0,    0 },   //  61
+        {  2, 0, 2, 0, 1,     -50,    0,      30,    0 },   //  62
+        {  0, 1, 0,-2, 0,     -40,    0,       0,    0 },   //  63
+        {  1, 0,-2, 0, 0,      40,    0,       0,    0 },   //  64
+        {  0, 0, 0, 1, 0,     -40,    0,       0,    0 },   //  65
+        {  1, 1, 0, 0, 0,     -30,    0,       0,    0 },   //  66
+        {  1, 0, 2, 0, 0,      30,    0,       0,    0 },   //  67
+        {  1,-1, 2, 0, 2,     -30,    0,      10,    0 },   //  68
+        { -1,-1, 2, 2, 2,     -30,    0,      10,    0 },   //  69
+        { -2, 0, 0, 0, 1,     -20,    0,      10,    0 },   //  70
+        {  3, 0, 2, 0, 2,     -30,    0,      10,    0 },   //  71
+        {  0,-1, 2, 2, 2,     -30,    0,      10,    0 },   //  72
+        {  1, 1, 2, 0, 2,      20,    0,     -10,    0 },   //  73
+        { -1, 0, 2,-2, 1,     -20,    0,      10,    0 },   //  74
+        {  2, 0, 0, 0, 1,      20,    0,     -10,    0 },   //  75
+        {  1, 0, 0, 0, 2,     -20,    0,      10,    0 },   //  76
+        {  3, 0, 0, 0, 0,      20,    0,       0,    0 },   //  77
+        {  0, 0, 2, 1, 2,      20,    0,     -10,    0 },   //  78
+        { -1, 0, 0, 0, 2,      10,    0,     -10,    0 },   //  79
+        {  1, 0, 0,-4, 0,     -10,    0,       0,    0 },   //  80
+        { -2, 0, 2, 2, 2,      10,    0,     -10,    0 },   //  81
+        { -1, 0, 2, 4, 2,     -20,    0,      10,    0 },   //  82
+        {  2, 0, 0,-4, 0,     -10,    0,       0,    0 },   //  83
+        {  1, 1, 2,-2, 2,      10,    0,     -10,    0 },   //  84
+        {  1, 0, 2, 2, 1,     -10,    0,      10,    0 },   //  85
+        { -2, 0, 2, 4, 2,     -10,    0,      10,    0 },   //  86
+        { -1, 0, 4, 0, 2,      10,    0,       0,    0 },   //  87
+        {  1,-1, 0,-2, 0,      10,    0,       0,    0 },   //  88
+        {  2, 0, 2,-2, 1,      10,    0,     -10,    0 },   //  89
+        {  2, 0, 2, 2, 2,     -10,    0,       0,    0 },   //  90
+        {  1, 0, 0, 2, 1,     -10,    0,       0,    0 },   //  91
+        {  0, 0, 4,-2, 2,      10,    0,       0,    0 },   //  92
+        {  3, 0, 2,-2, 2,      10,    0,       0,    0 },   //  93
+        {  1, 0, 2,-2, 0,     -10,    0,       0,    0 },   //  94
+        {  0, 1, 2, 0, 1,      10,    0,       0,    0 },   //  95
+        { -1,-1, 0, 2, 1,      10,    0,       0,    0 },   //  96
+        {  0, 0,-2, 0, 1,     -10,    0,       0,    0 },   //  97
+        {  0, 0, 2,-1, 2,     -10,    0,       0,    0 },   //  98
+        {  0, 1, 0, 2, 0,     -10,    0,       0,    0 },   //  99
+        {  1, 0,-2,-2, 0,     -10,    0,       0,    0 },   // 100
+        {  0,-1, 2, 0, 1,     -10,    0,       0,    0 },   // 101
+        {  1, 1, 0,-2, 1,     -10,    0,       0,    0 },   // 102
+        {  1, 0,-2, 2, 0,     -10,    0,       0,    0 },   // 103
+        {  2, 0, 0, 2, 0,      10,    0,       0,    0 },   // 104
+        {  0, 0, 2, 4, 2,     -10,    0,       0,    0 },   // 105
+        {  0, 1, 0, 1, 0,      10,    0,       0,    0 }    // 106
+    };
 
-  // Variables
+    // Variables
 
-  double  l, lp, F, D, Om;
-  double  arg;
+    double  l, lp, F, D, Om;
+    double  arg;
 
 
-  // Mean arguments of luni-solar motion
-  //
-  //   l   mean anomaly of the Moon                              月球平近点角
-  //   l'  mean anomaly of the Sun                               太阳平近点角
-  //   F   mean argument of latitude                             月球平升交角距
-  //   D   mean longitude elongation of the Moon from the Sun    月球平角距
-  //   Om  mean longitude of the ascending node                  月球轨道升交点黄经
+    // Mean arguments of luni-solar motion
+    //
+    //   l   mean anomaly of the Moon                              月球平近点角
+    //   l'  mean anomaly of the Sun                               太阳平近点角
+    //   F   mean argument of latitude                             月球平升交角距
+    //   D   mean longitude elongation of the Moon from the Sun    月球平角距
+    //   Om  mean longitude of the ascending node                  月球轨道升交点黄经
 
-  l  = Modulo (  485866.733 + (1325.0*rev +  715922.633)*T
-                                 + 31.310*T2 + 0.064*T3, rev );
-  lp = Modulo ( 1287099.804 + (  99.0*rev + 1292581.224)*T
-                                 -  0.577*T2 - 0.012*T3, rev );
-  F  = Modulo (  335778.877 + (1342.0*rev +  295263.137)*T
-                                 - 13.257*T2 + 0.011*T3, rev );
-  D  = Modulo ( 1072261.307 + (1236.0*rev + 1105601.328)*T
-                                 -  6.891*T2 + 0.019*T3, rev );
-  Om = Modulo (  450160.280 - (   5.0*rev +  482890.539)*T
-                                 +  7.455*T2 + 0.008*T3, rev );
+    l  = Modulo (  485866.733 + (1325.0*rev +  715922.633)*T
+                   + 31.310*T2 + 0.064*T3, rev );
+    lp = Modulo ( 1287099.804 + (  99.0*rev + 1292581.224)*T
+                  -  0.577*T2 - 0.012*T3, rev );
+    F  = Modulo (  335778.877 + (1342.0*rev +  295263.137)*T
+                   - 13.257*T2 + 0.011*T3, rev );
+    D  = Modulo ( 1072261.307 + (1236.0*rev + 1105601.328)*T
+                  -  6.891*T2 + 0.019*T3, rev );
+    Om = Modulo (  450160.280 - (   5.0*rev +  482890.539)*T
+                   +  7.455*T2 + 0.008*T3, rev );
 
-  // Nutation in longitude and obliquity [rad]
+    // Nutation in longitude and obliquity [rad]
 
-  deps = dpsi = 0.0;
-  for (int i=0; i<N_coeff; ++i)
-  {
-    arg  =  ( C[i][0]*l+C[i][1]*lp+C[i][2]*F+C[i][3]*D+C[i][4]*Om ) * DAS2R;
-    dpsi += ( C[i][5]+C[i][6]*T ) * sin(arg);
-    deps += ( C[i][7]+C[i][8]*T ) * cos(arg);
-  };
+    deps = dpsi = 0.0;
+    for (int i=0; i<N_coeff; ++i)
+    {
+        arg  =  ( C[i][0]*l+C[i][1]*lp+C[i][2]*F+C[i][3]*D+C[i][4]*Om ) * DAS2R;
+        dpsi += ( C[i][5]+C[i][6]*T ) * sin(arg);
+        deps += ( C[i][7]+C[i][8]*T ) * cos(arg);
+    };
 
-  dpsi = 1.0E-5 * dpsi*DAS2R;
-  deps = 1.0E-5 * deps*DAS2R;
+    dpsi = 1.0E-5 * dpsi*DAS2R;
+    deps = 1.0E-5 * deps*DAS2R;
 
 }
 
@@ -198,26 +198,26 @@ void NutAngles (double Mjd_TT, double& dpsi, double& deps)
 CMatrix PrecMatrix (double Mjd_1, double Mjd_2)
 {
 
-  // Constants
+    // Constants
 
-  const double T  = (Mjd_1-DJM00)/36525.0;
-  const double dT = (Mjd_2-Mjd_1)/36525.0;
+    const double T  = (Mjd_1-DJM00)/36525.0;
+    const double dT = (Mjd_2-Mjd_1)/36525.0;
 
-  // Variables
+    // Variables
 
-  double zeta,z,theta;
+    double zeta,z,theta;
 
-  // Precession angles IAU1976
+    // Precession angles IAU1976
 
-  zeta  =  ( (2306.2181+(1.39656-0.000139*T)*T)+
-                ((0.30188-0.000344*T)+0.017998*dT)*dT )*dT*DAS2R;
-  z     =  zeta + ( (0.79280+0.000411*T)+0.000205*dT)*dT*dT*DAS2R;
-  theta =  ( (2004.3109-(0.85330+0.000217*T)*T)-
-                ((0.42665+0.000217*T)+0.041833*dT)*dT )*dT*DAS2R;
+    zeta  =  ( (2306.2181+(1.39656-0.000139*T)*T)+
+               ((0.30188-0.000344*T)+0.017998*dT)*dT )*dT*DAS2R;
+    z     =  zeta + ( (0.79280+0.000411*T)+0.000205*dT)*dT*dT*DAS2R;
+    theta =  ( (2004.3109-(0.85330+0.000217*T)*T)-
+               ((0.42665+0.000217*T)+0.041833*dT)*dT )*dT*DAS2R;
 
-  // Precession matrix
+    // Precession matrix
 
-  return(CVecMat::R_z(-z) * CVecMat::R_y(theta) * CVecMat::R_z(-zeta));
+    return(CVecMat::R_z(-z) * CVecMat::R_y(theta) * CVecMat::R_z(-zeta));
 
 }
 
@@ -225,34 +225,34 @@ CMatrix PrecMatrix (double Mjd_1, double Mjd_2)
 CMatrix NutMatrix (double Mjd_TT)
 {
 
-  double dpsi, deps, eps;
+    double dpsi, deps, eps;
 
-  // Mean obliquity of the ecliptic
+    // Mean obliquity of the ecliptic
 
-  eps = MeanObliquity(Mjd_TT);
+    eps = MeanObliquity(Mjd_TT);
 
-  // Nutation in longitude and obliquity
+    // Nutation in longitude and obliquity
 
-  NutAngles (Mjd_TT, dpsi,deps);
+    NutAngles (Mjd_TT, dpsi,deps);
 
-  // Transformation from mean to true equator and equinox
+    // Transformation from mean to true equator and equinox
 
-  return(CVecMat::R_x(-eps-deps)*CVecMat::R_z(-dpsi)*CVecMat::R_x(+eps));
+    return(CVecMat::R_x(-eps-deps)*CVecMat::R_z(-dpsi)*CVecMat::R_x(+eps));
 
 }
 
 /// 瞬时真春分点与平春分点的差值
 double EqnEquinox (double Mjd_TT)
 {
-  double dpsi, deps;              // Nutation angles
+    double dpsi, deps;              // Nutation angles
 
-  // Nutation in longitude and obliquity
+    // Nutation in longitude and obliquity
 
-  NutAngles (Mjd_TT, dpsi,deps );
+    NutAngles (Mjd_TT, dpsi,deps );
 
-  // Equation of the equinoxes
+    // Equation of the equinoxes
 
-  return  dpsi * cos( MeanObliquity(Mjd_TT) );
+    return  dpsi * cos( MeanObliquity(Mjd_TT) );
 
 }
 
@@ -260,50 +260,50 @@ double EqnEquinox (double Mjd_TT)
 double GMST (double Mjd_UT1)
 {
 
-  // Variables
+    // Variables
 
-  double Mjd_0,UT1,T_0,T,gmst;
+    double Mjd_0,UT1,T_0,T,gmst;
 
-  // Mean Sidereal Time
+    // Mean Sidereal Time
 
-  Mjd_0 = floor(Mjd_UT1);
-  UT1   = DAYSEC*(Mjd_UT1-Mjd_0);          // [s]
-  T_0   = (Mjd_0  -DJM00)/DJC;
-  T     = (Mjd_UT1-DJM00)/DJC;
+    Mjd_0 = floor(Mjd_UT1);
+    UT1   = DAYSEC*(Mjd_UT1-Mjd_0);          // [s]
+    T_0   = (Mjd_0  -DJM00)/DJC;
+    T     = (Mjd_UT1-DJM00)/DJC;
 
-  gmst  = 24110.54841 + 8640184.812866*T_0 + 1.002737909350795*UT1
-          + (0.093104-6.2e-6*T)*T*T; // [s]
+    gmst  = 24110.54841 + 8640184.812866*T_0 + 1.002737909350795*UT1
+            + (0.093104-6.2e-6*T)*T*T; // [s]
 
-  return  (D2PI*Frac(gmst/DAYSEC));       // [rad], 0..2pi
+    return  (D2PI*Frac(gmst/DAYSEC));       // [rad], 0..2pi
 
 }
 
 /// 格林尼治真恒星时
 double GAST (double Mjd_UT1)
 {
-  return(Modulo ( GMST(Mjd_UT1) + EqnEquinox(Mjd_UT1), D2PI ));
+    return(Modulo ( GMST(Mjd_UT1) + EqnEquinox(Mjd_UT1), D2PI ));
 }
 
 /// 地球旋转矩阵
 CMatrix GHAMatrix (double Mjd_UT1)
 {
-  return(CVecMat::R_z ( GAST(Mjd_UT1) ));
+    return(CVecMat::R_z ( GAST(Mjd_UT1) ));
 }
 
 /// 极移矩阵
 CMatrix PoleMatrix (const double& dX, const double& dY)
 {
-   return(CVecMat::R_x(-dY)*CVecMat::R_y(-dX));
+    return(CVecMat::R_x(-dY)*CVecMat::R_y(-dX));
 }
 
 /// 计算时间
 double CalP(double dT)
 {
     return (0.0016568*sin((35999.37*dT+357.5)*DD2R)
-           +0.0000224*sin((32964.5*dT+246)*DD2R)
-           +0.0000138*sin((71998.7*dT+355)*DD2R)
-           +0.0000048*sin((3034.9*dT+25)*DD2R)
-           +0.0000047*sin((34777.3*dT+230)*DD2R));
+            +0.0000224*sin((32964.5*dT+246)*DD2R)
+            +0.0000138*sin((71998.7*dT+355)*DD2R)
+            +0.0000048*sin((3034.9*dT+25)*DD2R)
+            +0.0000047*sin((34777.3*dT+230)*DD2R));
 }
 
 /// 解开普勒方程
@@ -344,8 +344,8 @@ void Short2(const CVector & MElem,double ZS[6],double & AS2)
     double WE2 = 1.0 - E2;                  // 1 - e^2
     double GE2 = sqrt(WE2);                 // sqrt(1-e^2)
     double F1e = 1.0 / (1.0 + GE2);         // F1e = 1/( 1+sqrt(1-e^2) )
-// 这部分计算u，见《航天器轨道理论》P174下半页
-// 这里定义 ksi = e*cos(w) , eta = e*sin(w) 与刘林书上差个负号，相应的公式均加个负号
+    // 这部分计算u，见《航天器轨道理论》P174下半页
+    // 这里定义 ksi = e*cos(w) , eta = e*sin(w) 与刘林书上差个负号，相应的公式均加个负号
     double UE = KeplerFunc2(M_ksi,M_eta,M_lamda); // E + w
     double SU = sin(UE);                         // sin(E+w)
     double CU = cos(UE);                         // cos(E+w)
@@ -366,13 +366,13 @@ void Short2(const CVector & MElem,double ZS[6],double & AS2)
     //double C1u = RA*(-M_eta*(M_lamda-UE)*F1e + CU - M_ksi);
     //double U = atan2(S1u,C1u);
     //double UJMw = U - M_lamda; // u-lamda
-/////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////
     double S2u = 2.0 * S1u * C1u;  // sin(2u)
     double C2u = 2.0*C1u*C1u-1.0;  // cos(2u)
     double SI = sin(M_i);          // sin(i)
     double S2 = SI * SI;           // sin(i)^2
     ZS[0] = A2/M_a * ( (2.0/3.0-S2) * (RA3-pow(WE2,-1.5)) + S2*RA3*C2u );   // a的短周期项as
-//--ZS[0] END----------------------------------------------------
+    //--ZS[0] END----------------------------------------------------
     double P = M_a * WE2;   // p = a(1-e^2)
     double P2 = P * P;      // p^2
     double A2P2 = A2/P2;    // A2/p^2
@@ -397,28 +397,28 @@ void Short2(const CVector & MElem,double ZS[6],double & AS2)
     ZS[2] = -A2/P2*CI*(UJMw+0.5*(M_ksi*S1u-3.0*M_eta*C1u)-0.5*S2u-(M_ksi*S3u-M_eta*C3u)/6.0-Wkc4*F2e/3.0);
 
     ZS[3] = A2P2*(-W25i*UJMw*M_eta+((1.0+0.25*Wkc1+2.25*Wkc2)*C1u-Wkc4*S1u
-            +0.5*M_ksi*C2u+M_eta*S2u+(Wkc1-3.0*Wkc2)*C3u/12.0+Wkc4*S3u/3.0+(1.0-E2*F2e/12.0)*M_ksi
-            -(Wkc1-3.0*Wkc2)*M_ksi*F2e/12.0)+S2*((-1.25+0.375*Wkc1-3.125*Wkc2)*C1u+0.25*Wkc4*S1u
-            +0.5*M_ksi*C2u-2.0*M_eta*S2u+(7.0/12.0+11.0/48.0*Wkc1+25.0/48.0*Wkc2)*C3u
-            -7.0/24.0*Wkc4*S3u+0.375*(M_ksi*C4u+M_eta*S4u)+Wkc3*C5u/16.0+Wkc4*S5u/8.0-(1.25-E2*F2e/6.0)*M_ksi
-            +(0.25*F2e-F3e/6.0)*(Wkc1-3.0*Wkc2)*M_ksi));
+                                    +0.5*M_ksi*C2u+M_eta*S2u+(Wkc1-3.0*Wkc2)*C3u/12.0+Wkc4*S3u/3.0+(1.0-E2*F2e/12.0)*M_ksi
+                                    -(Wkc1-3.0*Wkc2)*M_ksi*F2e/12.0)+S2*((-1.25+0.375*Wkc1-3.125*Wkc2)*C1u+0.25*Wkc4*S1u
+                                                                         +0.5*M_ksi*C2u-2.0*M_eta*S2u+(7.0/12.0+11.0/48.0*Wkc1+25.0/48.0*Wkc2)*C3u
+                                                                         -7.0/24.0*Wkc4*S3u+0.375*(M_ksi*C4u+M_eta*S4u)+Wkc3*C5u/16.0+Wkc4*S5u/8.0-(1.25-E2*F2e/6.0)*M_ksi
+                                                                         +(0.25*F2e-F3e/6.0)*(Wkc1-3.0*Wkc2)*M_ksi));
 
     ZS[4] = A2P2*(W25i*UJMw*M_ksi+((1.0+1.25*Wkc1+0.25*Wkc2)*S1u-2.0*Wkc4*C1u
-            -0.5*M_eta*C2u-E2*S3u/12.0+(1.0-E2*F2e/12.0)*M_eta
-            +(Wkc2-3.0*Wkc1)*M_eta*F2e/12.0)+S2*((-1.75-1.125*E2)*S1u+3.25*Wkc4*C1u
-            +0.5*M_ksi*S2u+2.0*M_eta*C2u+(7.0/12.0+13.0/48.0*Wkc1+23.0/48.0*Wkc2)*S3u
-            +5.0/24.0*Wkc4*C3u+0.375*(M_ksi*S4u-M_eta*C4u)
-            +Wkc3*S5u/16.0-Wkc4*C5u/8.0-(1.25-E2*F2e/6.0)*M_eta+(0.25*F2e-F3e/6.0)*(3.0*Wkc1-Wkc2)*M_eta));
+                                   -0.5*M_eta*C2u-E2*S3u/12.0+(1.0-E2*F2e/12.0)*M_eta
+                                   +(Wkc2-3.0*Wkc1)*M_eta*F2e/12.0)+S2*((-1.75-1.125*E2)*S1u+3.25*Wkc4*C1u
+                                                                        +0.5*M_ksi*S2u+2.0*M_eta*C2u+(7.0/12.0+13.0/48.0*Wkc1+23.0/48.0*Wkc2)*S3u
+                                                                        +5.0/24.0*Wkc4*C3u+0.375*(M_ksi*S4u-M_eta*C4u)
+                                                                        +Wkc3*S5u/16.0-Wkc4*C5u/8.0-(1.25-E2*F2e/6.0)*M_eta+(0.25*F2e-F3e/6.0)*(3.0*Wkc1-Wkc2)*M_eta));
 
     ZS[5] = -CI*ZS[2]+A2P2*(W23i*UJMw+(M_ksi*S1u-M_eta*C1u)+F1e*((1.0-0.25*E2)*(M_ksi*S1u-M_eta*C1u)+0.5*Wkc3*S2u
-            -Wkc4*C2u+(Wkc1-3.0*Wkc2)*M_ksi*S3u/12.0+(Wkc2-3.0*Wkc1)*M_eta*C3u/12.0))
+                                                                 -Wkc4*C2u+(Wkc1-3.0*Wkc2)*M_ksi*S3u/12.0+(Wkc2-3.0*Wkc1)*M_eta*C3u/12.0))
             +A2P2*S2*(-(2.0*M_ksi*S1u-M_eta*C1u)+0.75*S2u-(M_ksi*S3u-M_eta*C3u)/6.0+0.5*Wkc4*F2e
-            +F1e*((-0.5+1.25*GE2+0.125*Wkc3)*M_ksi*S1u+(2.5+1.25*GE2-0.125*(7.0*Wkc1+5.0*Wkc2))*M_ksi*C1u
-            -0.75*Wkc3*S2u+1.5*Wkc4*C2u+(1.0+5.0*GE2/12.0-7.0*Wkc1/48.0+17.0*Wkc2/48.0)*M_ksi*S3u
-            -(1.0+5.0*GE2/12.0-19.0*Wkc1/48.0+5.0*Wkc2/48.0)*M_eta*C3u
-            +0.375*Wkc3*S4u-0.75*Wkc4*C4u+(Wkc1-3.0*Wkc2)*M_ksi*S5u/16.0
-            -(3.0*Wkc1-Wkc2)*M_eta*C5u/16.0-(0.25+(1.0+0.5*E2)*F2e/3.0)*Wkc4));
-//--ZS[1]--ZS[5] END----------------------------------------------------
+                      +F1e*((-0.5+1.25*GE2+0.125*Wkc3)*M_ksi*S1u+(2.5+1.25*GE2-0.125*(7.0*Wkc1+5.0*Wkc2))*M_ksi*C1u
+                            -0.75*Wkc3*S2u+1.5*Wkc4*C2u+(1.0+5.0*GE2/12.0-7.0*Wkc1/48.0+17.0*Wkc2/48.0)*M_ksi*S3u
+                            -(1.0+5.0*GE2/12.0-19.0*Wkc1/48.0+5.0*Wkc2/48.0)*M_eta*C3u
+                            +0.375*Wkc3*S4u-0.75*Wkc4*C4u+(Wkc1-3.0*Wkc2)*M_ksi*S5u/16.0
+                            -(3.0*Wkc1-Wkc2)*M_eta*C5u/16.0-(0.25+(1.0+0.5*E2)*F2e/3.0)*Wkc4));
+    //--ZS[1]--ZS[5] END----------------------------------------------------
     double A2a = 2.0*A2/M_a;   // 2*A2/a
     double RA4 = RA * RA3;     // (a/r)^4
     double RA5 = RA * RA4;     // (a/r)^5
@@ -430,19 +430,19 @@ void Short2(const CVector & MElem,double ZS[6],double & AS2)
     double Wkc6 = Wkc2 * Wkc2;  // eta^4
     double Wkc7 = Wkc1 * Wkc2;  // ksi^2 * eta^2
     double AS21 = -2.0*(ZS[0]/M_a+A2P2*GE2*W23i)*ZS[0]-A2a*(SI*CI*RA3*(1.0-C2u))*ZS[1]
-                -A2a*(RA4/GE2*(M_ksi*S1u-M_eta*C1u)*(1.0-1.5*S2*(1.0-C2u))+GE2*RA5*S2*S2u)*ZS[5]
-                +A2a*(RA4*(1.0-1.5*S2*(1.0-C2u))*(C1u+F4e*(Wkc2*C1u-Wkc4*S1u))
-                +RA3*S2*S2u*pow(WE2,-1.5)*(-F5e*M_eta-2.0*S1u-0.5*(M_ksi*S2u-M_eta*C2u)+0.5*F1e*M_ksi
-                *(4.0*(M_ksi*S1u-M_eta*C1u)+Wkc3*S2u-2.0*Wkc4*C2u)))*ZS[3]
-                +A2a*(RA4*(1.0-1.5*S2*(1.0-C2u))*(S1u+F4e*(Wkc1*S1u-Wkc4*C1u))
-                +RA3*S2*S2u*pow(WE2,-1.5)*(F5e*M_ksi+2.0*C1u+0.5*(M_ksi*C2u+M_eta*S2u)-0.5*F1e*M_eta
-                *(4.0*(M_ksi*S1u-M_eta*C1u)+Wkc3*S2u-2.0*Wkc4*C2u)))*ZS[4];
+            -A2a*(RA4/GE2*(M_ksi*S1u-M_eta*C1u)*(1.0-1.5*S2*(1.0-C2u))+GE2*RA5*S2*S2u)*ZS[5]
+            +A2a*(RA4*(1.0-1.5*S2*(1.0-C2u))*(C1u+F4e*(Wkc2*C1u-Wkc4*S1u))
+                  +RA3*S2*S2u*pow(WE2,-1.5)*(-F5e*M_eta-2.0*S1u-0.5*(M_ksi*S2u-M_eta*C2u)+0.5*F1e*M_ksi
+                                             *(4.0*(M_ksi*S1u-M_eta*C1u)+Wkc3*S2u-2.0*Wkc4*C2u)))*ZS[3]
+            +A2a*(RA4*(1.0-1.5*S2*(1.0-C2u))*(S1u+F4e*(Wkc1*S1u-Wkc4*C1u))
+                  +RA3*S2*S2u*pow(WE2,-1.5)*(F5e*M_ksi+2.0*C1u+0.5*(M_ksi*C2u+M_eta*S2u)-0.5*F1e*M_eta
+                                             *(4.0*(M_ksi*S1u-M_eta*C1u)+Wkc3*S2u-2.0*Wkc4*C2u)))*ZS[4];
     double AS22 = A2P2*A2P2*M_a*GE2*(W23i*W23i*((16.0+19.0*E2)/9.0+35.0*E4/(18.0*WE2)+2.0*GE2/9.0)
-                +S2*(1.0+2.0*E2/3.0)+S4*(25.0*E2/24.0-5.0/6.0+35.0*E4/(16.0*WE2)
-                +(Wkc5-6.0*Wkc7+Wkc6)/(32.0*WE2))+S2*(5.0/6.0-1.75*S2-2.0*W25i*F2e/3.0
-                +E2*(7.0/3.0-3.5*S2)/WE2)*Wkc3);
+                                     +S2*(1.0+2.0*E2/3.0)+S4*(25.0*E2/24.0-5.0/6.0+35.0*E4/(16.0*WE2)
+                                                              +(Wkc5-6.0*Wkc7+Wkc6)/(32.0*WE2))+S2*(5.0/6.0-1.75*S2-2.0*W25i*F2e/3.0
+                                                                                                    +E2*(7.0/3.0-3.5*S2)/WE2)*Wkc3);
     AS2 = AS21 - AS22;
-//--AS2-END-------------------------------------------------------------
+    //--AS2-END-------------------------------------------------------------
     ZS[0] *= 6378245.;
     AS2 *= 6378245.;
 }
@@ -564,22 +564,22 @@ double FindEta (const CVector& r_a, const CVector& r_b, double tau)
 
 double remaining_terms( const double ival)
 {
-   double rval = 0., z = 1;
-   const double tolerance = 1e-30;
-   int i = 2;
+    double rval = 0., z = 1;
+    const double tolerance = 1e-30;
+    int i = 2;
 
-   do
-      {
-      z *= ival / (double)( i * (i + 1));
-      rval += z;
-      i += 2;
-      } while( fabs( z) > tolerance);
-   return( rval);
+    do
+    {
+        z *= ival / (double)( i * (i + 1));
+        rval += z;
+        i += 2;
+    } while( fabs( z) > tolerance);
+    return( rval);
 }
 
 /// 计算岁差的几个角度值
 void compute_ecliptic_precession_angles( const double epoch_from,
-                                                const double epoch_to, double *eta, double *pi, double *p)
+                                         const double epoch_to, double *eta, double *pi, double *p)
 {
     const double big_t = (epoch_from - 2000.) / 100.;
     const double big_t2 = big_t * big_t;
@@ -726,11 +726,11 @@ void write_elements_in_tle_format( char buff[2][73], const tle_t *tle)
     }
     while( day_of_year < 1.);
     sprintf( buff[0],
-             /*                                     xndt2o    xndd6o   bstar  eph bull */
-             "1 %05d%c %-8s %02ld%12.8lf -.00000000 +00000-0 +00000-0 %c %4dZ\n",
-             tle->norad_number, tle->classification, tle->intl_desig,
-             year % 100L, day_of_year,
-             tle->ephemeris_type, tle->bulletin_number);
+            /*                                     xndt2o    xndd6o   bstar  eph bull */
+            "1 %05d%c %-8s %02ld%12.8lf -.00000000 +00000-0 +00000-0 %c %4dZ\n",
+            tle->norad_number, tle->classification, tle->intl_desig,
+            year % 100L, day_of_year,
+            tle->ephemeris_type, tle->bulletin_number);
     if( buff[0][20] == ' ')       /* fill in leading zeroes for day of year */
         buff[0][20] = '0';
     if( buff[0][21] == ' ')
@@ -746,14 +746,14 @@ void write_elements_in_tle_format( char buff[2][73], const tle_t *tle)
     add_tle_checksum_data( buff[0]);
     // buff += strlen( buff);
     sprintf( buff[1], "2 %05d %8.4lf %8.4lf %07ld %8.4lf %8.4lf %11.8lf%5dZ\n",
-             tle->norad_number,
-             double(iauAnp( tle->xincl) * DR2D),
-             double(iauAnp( tle->xnodeo) * DR2D),
-             (long)( tle->eo * 10000000. + .5),
-             double(iauAnp( tle->omegao) * DR2D),
-             double(iauAnp( tle->xmo) * DR2D),
-             tle->xno,
-             tle->revolution_number);
+            tle->norad_number,
+            double(iauAnp( tle->xincl) * DR2D),
+            double(iauAnp( tle->xnodeo) * DR2D),
+            (long)( tle->eo * 10000000. + .5),
+            double(iauAnp( tle->omegao) * DR2D),
+            double(iauAnp( tle->xmo) * DR2D),
+            tle->xno,
+            tle->revolution_number);
 
     add_tle_checksum_data( buff[1]);
 }

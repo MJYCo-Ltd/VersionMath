@@ -54,8 +54,8 @@ int main()
 
     Satellite_Element tle;
     tle.elemType = SAT_TLE;
-    tle.stTLE.sLine1 = "1 90004U 10046A   20061.16666667  .00000000  00000-0  00000-0 0 00000";
-    tle.stTLE.sLine2 = "2 90004 123.0013 001.3967 0006000 135.4818 255.2335 13.41413563139433";
+    tle.stTLE.sLine1 = "1 90101U          20061.16666667  .00000000   00000- +00000-0 0   872";
+    tle.stTLE.sLine2 = "2 90101  98.5033 141.9267 0001830 317.3362 227.2961 14.38038875-1795754448Z";
 //    vector<Period> tmpPeriod = VisiblePeriod(startTime,endTime,tle,goundPos,Rota_PRY,satPYR,
 //                                             45*DD2R,45*DD2R,eRectangle);
 //    int nIndex(0),nSize(tmpPeriod.size());
@@ -123,6 +123,12 @@ int main()
     /// 根据SGP4生成六根数
     Satellite::CSGP4 tmpSGP4(tle.stTLE.sLine1,tle.stTLE.sLine2);
 
+//    cout<<tmpSGP4<<endl;
+//    for(int i=0;i<100;++i)
+//    {
+//        cout<<setprecision(6)<<tmpSGP4.CalPV(58909.0000000000000000)<<endl;
+//    }
+
     Math::CVector vKepler = tmpSGP4.ClassicalElements();
     Satellite_Element tmpElement;
     tmpElement.elemType = SAT_TWOBODY;
@@ -161,10 +167,21 @@ int main()
     cout<<"DMJD:\t"<<tmpSGP4.GetTLEEpoch()<<endl;
 
     char tleOut[2][73];
-    Satellite::CKepler::Classical2TLE(vKepler,tmpSGP4.GetTLEEpoch()+DJM0,99,tleOut);
+    CDate dataTemp(2020,3,1,0,0,0,UTC);
+    vKepler(0)=6814585.9394080322;
+    vKepler(1)=0.00029999999999999997;
+    vKepler(2)=0.69868322484136203;
+    vKepler(3)=5.1470178520333256;
+    vKepler(4)=0.88560449707145072;
+    vKepler(5)=4.2943616805810239;
+
+    Satellite::CKepler::Classical2TLE(vKepler,dataTemp.GetJD(),90103,tleOut);
     cout<<tleOut[0]<<tleOut[1]<<endl;
 
     tmpSGP4.SetTLE(tleOut[0],tleOut[1]);
+    cout<<tmpSGP4<<endl;
+
+    cout<<setprecision(6)<<tmpSGP4.CalPV(58909.0000000000000000)<<endl;
 
     vKepler = tmpSGP4.ClassicalElements();
     cout<<"=============================\ndA:\t"<<vKepler(0)<<'\t'
