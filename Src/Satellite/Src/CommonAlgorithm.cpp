@@ -742,7 +742,7 @@ void write_elements_in_tle_format( char buff[2][73], const tle_t *tle)
     sprintf( buff[0]+35, "%08ld", (long)deriv_mean_motion);
     buff[0][43] = ' ';
     put_sci( buff[0]+44, tle->xndd6o * MINUTES_PER_DAY_CUBED / D2PI);
-    put_sci( buff[0]+45, tle->bstar / AE);
+    put_sci( buff[0]+53, tle->bstar / AE);
     add_tle_checksum_data( buff[0]);
     // buff += strlen( buff);
     sprintf( buff[1], "2 %05d %8.4lf %8.4lf %07ld %8.4lf %8.4lf %11.8lf%5dZ\n",
