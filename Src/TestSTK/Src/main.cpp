@@ -24,6 +24,9 @@ int main()
         cout<<sErrInfo<<endl;
     }
 
+    Math::CVector vCalArea(109.006,38.3493,113.45,39.703,114.27,34.9285);
+    cout<<GisMath::CalclutaGeoArea(vCalArea,GisMath::Msqu)<<endl;
+
 //    CQuaternion cTest(CVector(1,0,0),0);
 //    cout<<setprecision(12)<<cTest.GetX()<<'\t'<<cTest.GetY()<<'\t'<<cTest.GetZ()<<'\t'<<cTest.GetS()<<endl;
 //    CQuaternion cTest1(CVector(0,1,0),0);

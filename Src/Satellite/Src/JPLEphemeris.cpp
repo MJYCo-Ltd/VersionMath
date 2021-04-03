@@ -89,6 +89,12 @@ CVector CJPLEphemeris::GetPos(const double &dMjdTT, const PLANET_TYPE& planet1
         return tmpVet;
     }
 
+    tmpVet.Resize(3);
+    if(planet1 == centerPlanet)
+    {
+        return(tmpVet);
+    }
+
     double tmpRRD[6];
     /// 最后一个 如果为 0 则只计算位置； 非0 则计算速度
     int nError = jpl_pleph(m_pJplDate,dMjdTT+DJM0,planet1,centerPlanet,tmpRRD,0);
@@ -96,9 +102,6 @@ CVector CJPLEphemeris::GetPos(const double &dMjdTT, const PLANET_TYPE& planet1
     {
         return (tmpVet);
     }
-
-    /// 开辟空间
-    tmpVet.Resize(3);
 
     /// 转换成标准单位
     tmpVet(0) = tmpRRD[0]*m_dAu;

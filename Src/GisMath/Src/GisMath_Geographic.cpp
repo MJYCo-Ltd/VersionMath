@@ -131,6 +131,7 @@ double GisMath::CalArcLen(double dLon1, double dLat1, double dLon2, double dLat2
 /// 计算多边形围成的面积
 double GisMath::CalclutaGeoArea(const CVector &vGeoIn, GisMath::AREA_TYPE type)
 {
+    CheckInit();
     /// 不足以构成多边形
     int n_xy = vGeoIn.Size()/2;
     if(n_xy < 3)

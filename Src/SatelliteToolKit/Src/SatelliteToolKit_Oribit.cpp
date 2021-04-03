@@ -54,6 +54,7 @@ bool TwoBody(const BJTime &stStartTime, const BJTime &stEndTime,
 
     double dSpace = dMJDEnd - dMJDStart;
     long long nTimeLenMs = dSpace * DAYSEC * (long long)1000;
+    double dBeginSec = (dMJDStart-dMJDEpoch)*DAYSEC;
 
     long long nStepMs = nStep * 1000;
     long long nCount = nTimeLenMs / nStepMs;
@@ -76,7 +77,7 @@ bool TwoBody(const BJTime &stStartTime, const BJTime &stEndTime,
     double dCalSec=0;
     for(int i=0;i<=nCount;++i,dMJDCal = dMJDStart + i *dMJDStep,dCalSec=nStep*i)
     {
-        vECI = CKepler::State(GM_Earth,vKepler,dCalSec);
+        vECI = CKepler::State(GM_Earth,vKepler,dCalSec+dBeginSec);
         stSatPos.vJ2000[i].stP.dX = vECI(0);
         stSatPos.vJ2000[i].stP.dY = vECI(1);
         stSatPos.vJ2000[i].stP.dZ = vECI(2);
