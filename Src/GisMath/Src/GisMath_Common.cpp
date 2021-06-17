@@ -49,14 +49,11 @@ void GisMath::InitGis(ELLIPSOID typeEllipsoid)
 bool GisMath::CalLineInterEllipsoid(const CVector& pt,const CVector& stDir,CVector& rInsertPos,
                                                     double dA,double dB)
 {
-    /// 椭球参数
-    double a  = dA;
-    double b  = dB;
     CVector vDir(stDir);
     vDir.Normalize();
 
-    double a2 = a*a;
-    double b2 = b*b;
+    double a2 = dA*dA;
+    double b2 = dB*dB;
     double dx = vDir.GetX();
     double dy = vDir.GetY();
     double dz = vDir.GetZ();
@@ -64,9 +61,9 @@ bool GisMath::CalLineInterEllipsoid(const CVector& pt,const CVector& stDir,CVect
     double ey = pt.GetY();
     double ez = pt.GetZ();
 
-    double A   = b2*dx*dx + b2*dy*dy + a2*dz*dz;
-    double B   = 2 * (b2*dx*ex + b2*dy*ey+ a2*dz*ez);
-    double C   = b2*ex*ex + b2*ey*ey + a2*ez*ez - a2*b2;
+    double A   = b2*(dx*dx + dy*dy) + a2*dz*dz;
+    double B   = 2 * (b2*(dx*ex + dy*ey) + a2*dz*ez);
+    double C   = b2*(ex*ex + ey*ey) + a2*ez*ez - a2*b2;
 
     /// 求该视线与椭球的两个交点
     double delta = B*B-4*A*C;
@@ -76,14 +73,20 @@ bool GisMath::CalLineInterEllipsoid(const CVector& pt,const CVector& stDir,CVect
     double t1 = (-B + deltaS)/(2*A);
     double t2 = (-B - deltaS)/(2*A);
 
-    /// 如果t1,t2都小于0，则认为视线与椭球没有交点
+    /// 如果t1,t2都小于0，表示在射线的反方向和椭球相交
     if(t1<0 && t2<0)
     {
         return(false);
     }
 
-    /// 取t1, t2中绝对值较小的那个
-    double t = fabs(t1)<fabs(t2)? t1:t2;
+    /// 首先取射线方向
+    /// 如果两个交点都在射线方向则取距离近的交点(第一个交点)
+    double t = t1 < 0 ? t2 : t1 > t2 ? t2 : t1;
+
+    if(rInsertPos.Size() < 3)
+    {
+        rInsertPos.Resize(3);
+    }
 
     ///  根据直线参数方程：X = Dt + E，可得直线与椭球的交点坐标
     rInsertPos(0) = t * dx + ex;

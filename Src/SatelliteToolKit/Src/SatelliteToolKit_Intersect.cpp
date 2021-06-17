@@ -36,10 +36,6 @@ vector<Pos> Intersect(const PV& satPV,
         tmpPos.dZ = satPos.GetZ();
         vResult.push_back(tmpPos);
     }
-
-
-
-
     return(vResult);
 }
 
