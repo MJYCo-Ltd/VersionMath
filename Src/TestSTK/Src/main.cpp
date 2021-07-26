@@ -25,25 +25,28 @@ int main()
     }
     GisMath::InitGis(GisMath::WGS_84);
 
-    Math::CVector vPos(384263.875,7061764.50,2416784.75);
-    cout<<"Distance: "<<vPos.Length()<<" Earth R:"<<R_Earth2<<endl;
-    double dSinA = asin(R_Earth2 / vPos.Length());
-    cout<<"Sin Angle: "<<dSinA*DR2D<<endl;
-    /// 向内0.15
-    dSinA -= 0.15* DD2R;
-    Math::CVector vZPlane(0,0,1);
+//    Math::CVector vPos(384263.875,7061764.50,2416784.75);
+//    cout<<"Distance: "<<vPos.Length()<<" Earth R:"<<R_Earth2<<endl;
+//    double dSinA = asin(R_Earth2 / vPos.Length());
+//    cout<<"Sin Angle: "<<dSinA*DR2D<<endl;
+//    /// 向内0.15
+//    dSinA -= 0.15* DD2R;
+//    Math::CVector vZPlane(0,0,1);
 
-    /// 计算一个旋转轴
-    Math::CVector vRotateAix = CVecMat::Cross(vPos,vZPlane);
-    Math::CQuaternion vRotateQua(vRotateAix,dSinA);
-    Math::CVector vRotatedPos = vRotateQua * -vPos;
+//    /// 计算一个旋转轴
+//    Math::CVector vRotateAix = CVecMat::Cross(vPos,vZPlane);
+//    Math::CQuaternion vRotateQua(vRotateAix,dSinA);
+//    Math::CVector vRotatedPos = vRotateQua * -vPos;
 
-    /// 判断两个向量的夹角是否在Sin角度内
+//    /// 判断两个向量的夹角是否在Sin角度内
+//    double dDot = CVecMat::Dot(vRotatedPos,-vPos);
+//    double dCosB = acos(dDot/vRotatedPos.Length()/vPos.Length());
+//    cout<<"Cos Angle: "<<dCosB*DR2D<<endl;
+
+    Math::CVector vPos(378617,7.06624e+06,2.40458e+06),vRotatedPos(-0.886557,-0.374096,-0.306347),vInsertPos;
     double dDot = CVecMat::Dot(vRotatedPos,-vPos);
     double dCosB = acos(dDot/vRotatedPos.Length()/vPos.Length());
     cout<<"Cos Angle: "<<dCosB*DR2D<<endl;
-
-    Math::CVector vInsertPos(3);
     if(!GisMath::CalLineInterEarth(vPos,vRotatedPos,vInsertPos))
     {
         cout<<"not Insert"<<endl;

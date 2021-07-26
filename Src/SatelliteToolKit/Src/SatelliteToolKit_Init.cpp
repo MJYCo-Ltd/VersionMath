@@ -17,7 +17,7 @@ bool InitSatelliteToolKit(const std::string& sPath,std::string& sErrorInfo)
 
     if(!pIERS->IsInit())
     {
-        string filePath = sPath + "/STKData/finals2000A.data";
+        string filePath = sPath + "/Data/STKData/finals2000A.data";
         if(!pIERS->Init(filePath))
         {
             sErrorInfo = filePath + " does not exist or is malformed!";
@@ -35,7 +35,7 @@ bool InitSatelliteToolKit(const std::string& sPath,std::string& sErrorInfo)
 
     if(!pJPL->IsInit())
     {
-        string filePath = sPath + "/STKData/ephem";
+        string filePath = sPath + "/Data/STKData/ephem";
         if(!pJPL->Init(filePath))
         {
             sErrorInfo = filePath + " does not exist or is malformed!";
