@@ -1,3 +1,4 @@
+#include <cmath>
 #include "GisMath_Common.h"
 
 /*****************************************************

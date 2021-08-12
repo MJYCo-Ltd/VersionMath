@@ -1,3 +1,4 @@
+#include <cmath>
 #include "GisMath_Common.h"
 
 /// 经纬度和xyz的转换

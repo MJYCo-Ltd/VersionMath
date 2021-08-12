@@ -11,7 +11,7 @@ win32{
 
 ### Linux 或 Mac 环境
 unix{
-    DESTDIR = $${SDK_PATH}/Bin
+    DESTDIR = $${SDK_PATH}/../Bin/stklib
     VERSION = 2.0.0
     QMAKE_LFLAGS += -Wl,-rpath,.
     QMAKE_CXXFLAGS += -fvisibility=hidden

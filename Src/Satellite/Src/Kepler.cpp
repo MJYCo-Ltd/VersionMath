@@ -1,6 +1,7 @@
 ﻿#include <cmath>
 #include <limits>
 #include <iostream>
+#include <cstring>
 using namespace std;
 #include <Math/VecMat.h>
 #include <Math/MathCommonAlgorithm.h>

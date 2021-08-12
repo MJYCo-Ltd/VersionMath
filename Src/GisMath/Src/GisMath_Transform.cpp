@@ -1,3 +1,4 @@
+#include <cmath>
 #include "GisMath_Common.h"
 
 /// 全局坐标到局部坐标的转换
