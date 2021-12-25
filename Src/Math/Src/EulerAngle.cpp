@@ -1,6 +1,7 @@
-﻿#include "Matrix.h"
-#include "Quaternion.h"
-#include "EulerAngle.h"
+﻿#include <Math/Matrix.h>
+#include <Math/Quaternion.h>
+#include <Math/EulerAngle.h>
+#include <sofa.h>
 
 using namespace Math;
 
@@ -32,48 +33,74 @@ CEulerAngle::~CEulerAngle()
 /// 通过角A、角B、角C角度值，以及旋转类型，计算旋转矩阵
 CMatrix CEulerAngle::CreateMatrix(double dA, double dB, double dC, EULERROTATE type)
 {
+    double dTemp[3][3];
+    iauIr(dTemp);
     switch(type)
     {
     case E121:
-        return((CQuaternion(CVector(1,0,0),dC)*CQuaternion(CVector(0,1,0),dB)*
-                CQuaternion(CVector(1,0,0),dA)).GetMatrix());
+        iauRx(dA,dTemp);
+        iauRy(dB,dTemp);
+        iauRx(dC,dTemp);
+        break;
     case E123:
-        return((CQuaternion(CVector(0,0,1),dC)*CQuaternion(CVector(0,1,0),dB)*
-                CQuaternion(CVector(1,0,0),dA)).GetMatrix());
+        iauRx(dA,dTemp);
+        iauRy(dB,dTemp);
+        iauRz(dC,dTemp);
+        break;
     case E131:
-        return((CQuaternion(CVector(1,0,0),dC)*CQuaternion(CVector(0,0,1),dB)*
-                CQuaternion(CVector(1,0,0),dA)).GetMatrix());
+        iauRx(dA,dTemp);
+        iauRz(dB,dTemp);
+        iauRx(dC,dTemp);
+        break;
     case E132:
-        return((CQuaternion(CVector(0,1,0),dC)*CQuaternion(CVector(0,0,1),dB)*
-                CQuaternion(CVector(1,0,0),dA)).GetMatrix());
+        iauRx(dA,dTemp);
+        iauRz(dB,dTemp);
+        iauRy(dC,dTemp);
+        break;
     case E212:
-        return((CQuaternion(CVector(0,1,0),dC)*CQuaternion(CVector(1,0,0),dB)*
-                CQuaternion(0,1,0,dA)).GetMatrix());
+        iauRy(dA,dTemp);
+        iauRx(dB,dTemp);
+        iauRy(dC,dTemp);
+        break;
     case E213:
-        return((CQuaternion(CVector(0,0,1),dC)*CQuaternion(CVector(1,0,0),dB)*
-                CQuaternion(CVector(0,1,0),dA)).GetMatrix());
+        iauRy(dA,dTemp);
+        iauRx(dB,dTemp);
+        iauRz(dC,dTemp);
+        break;
     case E231:
-        return((CQuaternion(CVector(1,0,0),dC)*CQuaternion(CVector(0,0,1),dB)*
-                CQuaternion(CVector(0,1,0),dA)).GetMatrix());
+        iauRy(dA,dTemp);
+        iauRz(dB,dTemp);
+        iauRx(dC,dTemp);
+        break;
     case E232:
-        return((CQuaternion(CVector(0,1,0),dC)*CQuaternion(CVector(0,0,1),dB)*
-                CQuaternion(CVector(0,1,0),dA)).GetMatrix());
+        iauRy(dA,dTemp);
+        iauRz(dB,dTemp);
+        iauRy(dC,dTemp);
+        break;
     case E312:
-        return((CQuaternion(CVector(0,1,0),dC)*CQuaternion(CVector(1,0,0),dB)*
-                CQuaternion(CVector(0,0,1),dA)).GetMatrix());
+        iauRz(dA,dTemp);
+        iauRx(dB,dTemp);
+        iauRy(dC,dTemp);
+        break;
     case E313:
-        return((CQuaternion(CVector(0,0,1),dC)*CQuaternion(CVector(1,0,0),dB)*
-                CQuaternion(CVector(0,0,1),dA)).GetMatrix());
+        iauRz(dA,dTemp);
+        iauRx(dB,dTemp);
+        iauRz(dC,dTemp);
+        break;
     case E321:
-        return((CQuaternion(CVector(1,0,0),dC)*CQuaternion(CVector(0,1,0),dB)*
-                CQuaternion(CVector(0,0,1),dA)).GetMatrix());
+        iauRz(dA,dTemp);
+        iauRy(dB,dTemp);
+        iauRx(dC,dTemp);
+        break;
     case E323:
-        return((CQuaternion(CVector(0,0,1),dC)*CQuaternion(CVector(0,1,0),dB)*
-                CQuaternion(CVector(0,0,1),dA)).GetMatrix());
+        iauRz(dA,dTemp);
+        iauRy(dB,dTemp);
+        iauRz(dC,dTemp);
+        break;
     default:
         break;
     }
 
-    CMatrix tmpMatrix;
+    CMatrix tmpMatrix(dTemp,3,3);
     return(tmpMatrix);
 }

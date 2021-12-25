@@ -2,6 +2,8 @@
 #define SATELLITETOOLKITCOMMON_H
 #include <vector>
 #include <Math/VecMat.h>
+#include <SatelliteToolKit/SatelliteToolKit_TypeDef.h>
+
 /**
  * @brief 时间和角度
  */
@@ -20,7 +22,7 @@ struct STK_Point
 using namespace std;
 using namespace Math;
 
-#include "SatelliteToolKit_TypeDef.h"
+
 /**
  * @brief 判断时间是否有效
  * @param stStartTime 开始有效

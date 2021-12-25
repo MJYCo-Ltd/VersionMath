@@ -31,7 +31,7 @@ void SATELLITETOOLKIT_EXPORT CloseSatelliteToolKit();
  * @param stStartTime 开始计算时间
  * @param stEndTime   结束时间
  * @param nStep       计算步长 [秒]
- * @param stKepler    开普勒六根数和根数的历元时间
+ * @param stKepler    开普勒六根数
  * @param stSatPos    计算出来的卫星轨道数据
  * @return
  */
@@ -292,6 +292,17 @@ vector<double> SATELLITETOOLKIT_EXPORT CalSat2GroundAngle(const vector<PV>& vAx,
                                  const Pos& rGoundB);
 
 /**
+ * @brief 根据指定轨道计算附近的轨道
+ * @param nNum            所求轨道数量
+ * @param stInsertTime    接近时刻
+ * @param originOribit    原始轨道
+ * @param dDistance       最远距离 [m]
+ * @return
+ */
+vector<Kepler> SATELLITETOOLKIT_EXPORT CallDeribs(int nNum,const BJTime& stInsertTime,
+                                                 const Satellite_Element& originOribit,double dDistance);
+
+/**
  * @brief 判断两点是否被地球遮挡
  * @param rPos1
  * @param rPos2
@@ -301,6 +312,16 @@ bool SATELLITETOOLKIT_EXPORT InsertEarth(const Pos& rPos1, const Pos& rPos2);
 bool SATELLITETOOLKIT_EXPORT InsertEarth(const Math::CVector& vR1, const Math::CVector& vR2);
 bool SATELLITETOOLKIT_EXPORT InsertEllipseEarth(const Pos&rPos1, const Pos& rPos2);
 bool SATELLITETOOLKIT_EXPORT InsertEllipseEarth(const Math::CVector& vR1, const Math::CVector& vR2);
+
+/**
+ * @brief 计算与卫星相交的轨道
+ * @param originOribit
+ * @param dAngle      [rad] 相差角度
+ * @param stInsertTime 相交时刻
+ * @return 相交时刻的轨道六根数
+ */
+Kepler SATELLITETOOLKIT_EXPORT InsertOribit(const Satellite_Element& originOribit,double dAngle,const BJTime& stInsertTime);
+Kepler SATELLITETOOLKIT_EXPORT InsertOribit(const PV& rPV,double dAngle);
 
 /**
  * @brief 通过卫星的位置姿态计算旋转矩阵

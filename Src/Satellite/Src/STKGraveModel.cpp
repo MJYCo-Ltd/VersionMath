@@ -8,6 +8,7 @@
 
 #include <Math/VecMat.h>
 #include <Satellite/STKGraveModel.h>
+#include <Math/MemPool.h>
 
 using namespace std;
 using namespace Math;
@@ -35,6 +36,16 @@ CSTKGraveModel::CSTKGraveModel():m_bReady(false),m_pBuffer(0)
 CSTKGraveModel::CSTKGraveModel(const string &sFileName):m_bReady(false),m_pBuffer(0)
 {
     SetFile(sFileName);
+}
+
+CSTKGraveModel::~CSTKGraveModel()
+{
+    /// 如果存在数据则清空
+    if(0 != m_pBuffer)
+    {
+        CMemPool::GetInstance()->Remove(m_pBuffer);
+        m_pBuffer = 0;
+    }
 }
 
 /// 设置文件名称
@@ -91,12 +102,13 @@ void CSTKGraveModel::InitBuffer(const streamsize& nSize)
     /// 如果存在数据则清空
     if(0 != m_pBuffer)
     {
-        delete []m_pBuffer;
+        CMemPool::GetInstance()->Remove(m_pBuffer);
         m_pBuffer = 0;
     }
 
     /// 开辟空间
-    m_pBuffer = new char[nSize + 1]();
+    m_pBuffer = new char[nSize + 1];
+    memset(m_pBuffer,0,nSize+1);
 }
 
 void CSTKGraveModel::DealBuffer()

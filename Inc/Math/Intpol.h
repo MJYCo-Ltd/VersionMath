@@ -17,12 +17,9 @@ namespace Numerical {
 using namespace Math;
 using namespace std;
 
-class MATH_EXPORT Cntpol
+class MATH_EXPORT Intpol
 {
 public:
-    Cntpol();
-    ~Cntpol();
-
     /**
      * @brief 内维尔插值算法(Neville)
      * @param nNum  数组的个数

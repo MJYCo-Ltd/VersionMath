@@ -2,9 +2,9 @@
 #include <iostream>
 #include <limits>
 using namespace std;
-#include "VecMat.h"
-#include "DE.h"
-#include "MathCommonAlgorithm.h"
+#include <Math/VecMat.h>
+#include <Math/DE.h>
+#include <Math/MathCommonAlgorithm.h>
 
 using namespace Numerical;
 using namespace Math;

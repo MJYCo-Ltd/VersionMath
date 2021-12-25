@@ -3,6 +3,7 @@
 #include <Satellite/Date.h>
 #include <Satellite/TimeSys.h>
 #include "sofa.h"
+#include "sofam.h"
 #include "CommonAlgorithm.h"
 
 /*****************************************
@@ -49,10 +50,6 @@
 using namespace Aerospace;
 static const double TAI_GPS(19./DAYSEC);
 static const double ELC(1.480868457e-8);
-
-CTimeSys::CTimeSys():m_dateUtc(0.0)
-{
-}
 
 CTimeSys::CTimeSys(double dMjdUTC):m_dateUtc(dMjdUTC)
 {
@@ -114,22 +111,17 @@ double CTimeSys::GetUT1() const
         return(0);
     }
 
-    double dUtc = m_dateUtc.GetMJD();
-
-    /// 获取 读取IERS 文件的类的实例
-    CIRESInfo* pIERS = CIRESInfo::GetInstance();
-
     /// 判断是否初始化
-    if(!pIERS || !pIERS->IsInit())
+    if(CIRESInfo::GetInstance()->IsInit())
     {
-        std::cerr<<" ERROR IERS file Read faild!"<<std::endl;
-        return(0);
+        return(m_dateUtc.GetMJD());
     }
-
-    /// 获取数据
-    BulletinB rB = pIERS->GetBulletinB(m_dateUtc.GetMJD());
-
-    return(dUtc+rB.dUT1_UTC/DAYSEC);
+    else
+    {
+        BulletinB tmpB;
+        CIRESInfo::GetInstance()->GetBulletinB(m_dateUtc.GetMJD(),tmpB);
+        return(m_dateUtc.GetMJD()+tmpB.dUT1_UTC/DAYSEC);
+    }
 }
 
 double CTimeSys::GetTDB() const

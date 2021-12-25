@@ -1,4 +1,5 @@
 #include <cmath>
+#include <Math/MemPool.h>
 #include "GisMath_Common.h"
 
 /// 经纬度和xyz的转换
@@ -141,7 +142,9 @@ double GisMath::CalclutaGeoArea(const CVector &vGeoIn, GisMath::AREA_TYPE type)
     }
 
     /// 构建临时数据
-    double dArea,dLength,*dLon=new double[n_xy](),*dLat=new double[n_xy]();
+    double dArea,dLength,
+            *dLon=new double [n_xy](),
+            *dLat=new double [n_xy]();
     for(short i=0; i<n_xy; ++i)
     {
         dLon[i] = vGeoIn(i*2);
@@ -152,8 +155,9 @@ double GisMath::CalclutaGeoArea(const CVector &vGeoIn, GisMath::AREA_TYPE type)
     geod_polygonarea(&PJ_GEOD,dLat,dLon,n_xy,&dArea,&dLength);
 
     /// 释放空间
-    delete[]dLon;
-    delete[]dLat;
+    delete []dLon;
+    delete []dLat;
+
     switch (type)
     {
     default:

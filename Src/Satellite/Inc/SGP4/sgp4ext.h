@@ -30,34 +30,17 @@
 
 // ------------------------- function declarations -------------------------
 
-double  sgn
-        (
-          double x
-        );
+double  sgn(double x);
 
-double  angle
-        (
-          double vec1[3],
-          double vec2[3]
-        );
+double  angle(double vec1[3],double vec2[3]);
 
-void    newtonnu
-        (
-          double ecc, double nu,
-          double& e0, double& m
-        );
+void newtonnu(double ecc, double nu,double& e0, double& m);
 
-double  asinh
-        (
-          double xval
-        );
+double asinh(double xval);
 
-void    rv2coe
-        (
-          double r[3], double v[3], double mu,
-          double& p, double& a, double& ecc, double& incl, double& omega, double& argp,
-          double& nu, double& m, double& arglat, double& truelon, double& lonper
-        );
+void rv2coe(double r[3], double v[3], double mu,
+double& p, double& a, double& ecc, double& incl, double& omega, double& argp,
+double& nu, double& m, double& arglat, double& truelon, double& lonper);
 
 #endif
 

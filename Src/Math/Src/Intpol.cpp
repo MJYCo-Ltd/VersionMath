@@ -1,26 +1,18 @@
 ﻿#include <cstring>
 #include <cmath>
 using namespace std;
-#include "Vector.h"
-#include "Intpol.h"
+#include <Math/Vector.h>
+#include <Math/Intpol.h>
+#include <Math/MemPool.h>
 
 using namespace Numerical;
 using namespace Math;
-Cntpol::Cntpol()
-{
-
-}
-
-Cntpol::~Cntpol()
-{
-
-}
 
 /// 内维尔插值算法
-double Cntpol::ItNeville(int nNum, const double *pdX, const double *pdY, double dX0)
+double Intpol::ItNeville(int nNum, const double *pdX, const double *pdY, double dX0)
 {
     int     i,k;                    // Loop counters
-    double* p = new double [nNum];  // Interpolation tableau
+    double* p = CMemPool::GetInstance()->Create<double>(nNum);  // Interpolation tableau
     double  dY0;
 
     /// 将值复制到新开辟的空间
@@ -38,13 +30,13 @@ double Cntpol::ItNeville(int nNum, const double *pdX, const double *pdY, double 
     dY0 = p[nNum-1];
 
     /// 删除开辟的空间
-    delete []p;
+    CMemPool::GetInstance()->Remove(p);
 
     return(dY0);
 }
 
 /// 拉格朗日插值算法
-double Cntpol::ItLagrange(int nNum, const double *pdX, const double *pdY, double dX0)
+double Intpol::ItLagrange(int nNum, const double *pdX, const double *pdY, double dX0)
 {
     int i, j;
     double dY0(0);
@@ -61,7 +53,9 @@ double Cntpol::ItLagrange(int nNum, const double *pdX, const double *pdY, double
         for (j = 0; j < nNum; ++j)
         {
             if (i != j)
+            {
                 X = X * (dX0 - pdX[j]) / (pdX[i] - pdX[j]);
+            }
         }
         dY0 += X * pdY[i];
     }
@@ -70,10 +64,10 @@ double Cntpol::ItLagrange(int nNum, const double *pdX, const double *pdY, double
 }
 
 /// 牛顿插值
-double Cntpol::ItNewton(int nNum, const double *pdX, const double *pdY, double dX0)
+double Intpol::ItNewton(int nNum, const double *pdX, const double *pdY, double dX0)
 {
     int i, j;
-    double* p = new double [nNum];
+    double* p = CMemPool::GetInstance()->Create<double>(nNum);
     double  dY0;
 
     /// 将值复制到新开辟的空间
@@ -96,13 +90,13 @@ double Cntpol::ItNewton(int nNum, const double *pdX, const double *pdY, double d
     }
 
     /// 删除开辟的空间
-    delete[]p;
+    CMemPool::GetInstance()->Remove(p);
 
     return (dY0);
 }
 
 /// 三次样条插值
-double Cntpol::ItCubicSpline(int nNum, const double *pdX, const double *pdY, double dX0)
+double Intpol::ItCubicSpline(int nNum, const double *pdX, const double *pdY, double dX0)
 {
 
     if(nNum <2)
@@ -142,8 +136,8 @@ double Cntpol::ItCubicSpline(int nNum, const double *pdX, const double *pdY, dou
     }
 
     /// 如果值没有在边界点上，进行三次样条插值
-    double* dis = new double[nNum]; /// 保存当前点到第一个点的距离
-    double* H   = new double[nNum]; /// 保存相邻两点间距离
+    double* dis = CMemPool::GetInstance()->Create<double>(nNum); /// 保存当前点到第一个点的距离
+    double* H   = CMemPool::GetInstance()->Create<double>(nNum); /// 保存相邻两点间距离
     double dTempX0 = dX0-pdX[0];
 
     /// 初始化第一个点
@@ -160,13 +154,13 @@ double Cntpol::ItCubicSpline(int nNum, const double *pdX, const double *pdY, dou
     }
     //================ END =========================================
 
-    double* A = new double[nNum]; /// Miu
-    double* B = new double[nNum]; /// 对角线
-    double* C = new double[nNum]; /// Lanmida
-    double* D = new double[nNum]; //
-    double* COEX = new double[nNum]; // 保存X的
-    double* BTA = new double[nNum]; // 二阶导
-    double* CTA = new double[nNum]; // 一阶导
+    double* A = CMemPool::GetInstance()->Create<double>(nNum); /// Miu
+    double* B = CMemPool::GetInstance()->Create<double>(nNum); /// 对角线
+    double* C = CMemPool::GetInstance()->Create<double>(nNum); /// Lanmida
+    double* D = CMemPool::GetInstance()->Create<double>(nNum); //
+    double* COEX = CMemPool::GetInstance()->Create<double>(nNum); // 保存X的
+    double* BTA = CMemPool::GetInstance()->Create<double>(nNum); // 二阶导
+    double* CTA = CMemPool::GetInstance()->Create<double>(nNum); // 一阶导
 
     //================ 已知相邻两个关键点的时间差求比率 =================================================
     for( i = 1 ; i < nNum-1 ; ++i)
@@ -228,20 +222,20 @@ double Cntpol::ItCubicSpline(int nNum, const double *pdX, const double *pdY, dou
 
 
     /// 释放内存
-    delete []dis;
-    delete []H;
-    delete []A;
-    delete []B;
-    delete []C;
-    delete []D;
-    delete []COEX;
-    delete []BTA;
-    delete []CTA;
+    CMemPool::GetInstance()->Remove(dis);
+    CMemPool::GetInstance()->Remove(H);
+    CMemPool::GetInstance()->Remove(A);
+    CMemPool::GetInstance()->Remove(B);
+    CMemPool::GetInstance()->Remove(C);
+    CMemPool::GetInstance()->Remove(D);
+    CMemPool::GetInstance()->Remove(COEX);
+    CMemPool::GetInstance()->Remove(BTA);
+    CMemPool::GetInstance()->Remove(CTA);
 
     return(dResult);
 }
 
-CVector Cntpol::ItCubicSpline(const vector<double> &vX, const vector<CVector> &vY, double dX)
+CVector Intpol::ItCubicSpline(const vector<double> &vX, const vector<CVector> &vY, double dX)
 {
     /// 定义一个临时变量，用于返回
     CVector tmp;
@@ -286,8 +280,8 @@ CVector Cntpol::ItCubicSpline(const vector<double> &vX, const vector<CVector> &v
         }
     }
 
-    double* dis = new double[nXSize]; // 保存当前点到第一个点的距离
-    double* H   = new double[nXSize]; // 保存相邻两点间距离
+    double* dis = CMemPool::GetInstance()->Create<double>(nXSize); // 保存当前点到第一个点的距离
+    double* H   = CMemPool::GetInstance()->Create<double>(nXSize); // 保存相邻两点间距离
     double dTempX = dX-vX[0];
 
     // 初始化第一个点
@@ -304,17 +298,17 @@ CVector Cntpol::ItCubicSpline(const vector<double> &vX, const vector<CVector> &v
     }
     //================ END =========================================
 
-    double* A = new double[nXSize]; /// Miu
-    double* B = new double[nXSize]; /// 对角线
-    double* C = new double[nXSize]; /// Lanmida
-    double* D = new double[nXSize]; //
-    double** COEX = new double* [nDim]; // 保存X的
+    double* A = CMemPool::GetInstance()->Create<double>(nXSize); /// Miu
+    double* B = CMemPool::GetInstance()->Create<double>(nXSize); /// 对角线
+    double* C = CMemPool::GetInstance()->Create<double>(nXSize); /// Lanmida
+    double* D = CMemPool::GetInstance()->Create<double>(nXSize); //
+    double** COEX = CMemPool::GetInstance()->Create<double*>(nDim); // 保存X的
     for(i=0; i<nDim; ++i)
     {
-        COEX[i] = new double [nXSize];
+        COEX[i] = CMemPool::GetInstance()->Create<double>(nXSize);
     }
-    double* BTA = new double[nXSize]; // 二阶导
-    double* CTA = new double[nXSize]; // 一阶导
+    double* BTA = CMemPool::GetInstance()->Create<double>(nXSize); // 二阶导
+    double* CTA = CMemPool::GetInstance()->Create<double>(nXSize); // 一阶导
 
     //================ 已知相邻两个关键点的时间差求比率 =================================================
     for( i = 1 ; i < nXSize-1 ; ++i)
@@ -379,21 +373,21 @@ CVector Cntpol::ItCubicSpline(const vector<double> &vX, const vector<CVector> &v
     }
 
     /// 释放内存
-    delete []dis;
-    delete []H;
-    delete []A;
-    delete []B;
-    delete []C;
-    delete []D;
+    CMemPool::GetInstance()->Remove(dis);
+    CMemPool::GetInstance()->Remove(H);
+    CMemPool::GetInstance()->Remove(A);
+    CMemPool::GetInstance()->Remove(B);
+    CMemPool::GetInstance()->Remove(C);
+    CMemPool::GetInstance()->Remove(D);
 
     for(i=0; i<nDim; ++i)
     {
-        delete []COEX[i];
+        CMemPool::GetInstance()->Remove(COEX[i]);
     }
-    delete []COEX;
+    CMemPool::GetInstance()->Remove(COEX);
 
-    delete []BTA;
-    delete []CTA;
+    CMemPool::GetInstance()->Remove(BTA);
+    CMemPool::GetInstance()->Remove(CTA);
 
     return(tmp);
 }

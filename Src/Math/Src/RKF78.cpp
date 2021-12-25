@@ -1,6 +1,6 @@
 ﻿#include <cmath>
-#include "VecMat.h"
-#include "RKF78.h"
+#include <Math/VecMat.h>
+#include <Math/RKF78.h>
 using namespace Numerical;
 using namespace Math;
 

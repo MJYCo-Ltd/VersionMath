@@ -23,7 +23,7 @@ class ALGORITHM_EXPORT CSTKGraveModel
 public:
     CSTKGraveModel();
     CSTKGraveModel(const string& sFileName);
-    virtual ~CSTKGraveModel(){}
+    ~CSTKGraveModel();
 
     /**
      * 设置文件名字

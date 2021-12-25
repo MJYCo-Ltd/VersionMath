@@ -112,3 +112,18 @@ vector<Pos> IntersectRectangle(const PV& satPV,
 
     return(vResult);
 }
+
+vector<Period> IntersectCircle(const SatellitePos& stSatPos,const Pos& stPos,float fAngle)
+{
+    vector<Period> vResult;
+
+    return(vResult);
+}
+
+vector<Period> IntersectRectangle(const SatellitePos& stSatPos,const Pos& stPos,
+                                  float fHAngle, float fVAngle)
+{
+    vector<Period> vResult;
+
+    return(vResult);
+}

@@ -14,20 +14,67 @@ using namespace std;
 using namespace Satellite;
 using namespace Aerospace;
 using namespace Math;
-
+#include "sofa.h"
 static const double eps_mach(numeric_limits<double>::epsilon());
 #define centralize_angle(x) (fmod( (x) + DPI * 10., D2PI))
 #define J0 (DJ00 - 2000. * 365.25)
 #define SQRT_2 1.41421356
 
-CKepler::CKepler()
+CKepler::CKepler(double dA, double dE, double dI, double dRAAN, double dMA, double dAP)
+    :m_dA(dA),m_dE(dE),m_dI(dI),m_dRAAN(dRAAN),m_dMA(dMA),m_dAP(dAP)
 {
+    /// 轨道面到惯性系旋转矩阵
+    m_quatPQW.Rebuild(CVector::Z_AXIS,-m_dRAAN);
+    CQuaternion tmpQuat(CVector::X_AXIS,-m_dI);
+    m_quatPQW *= tmpQuat;
+    tmpQuat.Rebuild(CVector::Z_AXIS,-m_dAP);
+    m_quatPQW *= tmpQuat;
 
+    m_dN=sqrt(GM_Earth/(m_dA*m_dA*m_dA));
+    m_dFac = sqrt(1.0-m_dE*m_dE);
+    m_dV = sqrt(GM_Earth*m_dA);
+    m_vPV.Resize(6);
 }
 
 CKepler::~CKepler()
 {
 
+}
+
+const CVector& CKepler::CalPV(double dT)
+{
+    double dM,dE;
+    /// 计算平近点角位置
+    if (0.0 == dT)
+    {
+        dM = m_dMA;
+    }
+    else
+    {
+        dM = m_dMA + m_dN*dT;
+    };
+
+    /// 计算偏近点角
+    dE  = EccAnom(dM,m_dE);
+
+    double dCosE = cos(dE);
+    double dSinE = sin(dE);
+
+
+    double dR = m_dA*(1.0-m_dE*dCosE);  /// 距离
+    double dV = m_dV/dR;    /// 速度
+
+
+    m_vPV(0) = m_dA*(dCosE-m_dE);
+    m_vPV(1) = m_dA*m_dFac*dSinE;
+    m_vPV(2) = m_vPV(5) = 0.;
+
+    m_vPV(3) = -dV*dSinE;
+    m_vPV(4) = dV*m_dFac*dCosE;
+
+    m_quatPQW.Translate(m_vPV,m_vPV);
+
+    return(m_vPV);
 }
 
 /// 解开普勒方程
@@ -36,7 +83,7 @@ CVector CKepler::State(const double &dGM, const CVector &vKep, double dT)
     /// 变量
     double  a,e,i,Omega,omega,M,M0,n;
     double  E,cosE,sinE, fac, R,V;
-    CVector  r,v;
+    CVector  r(3),v(3);
     CMatrix  PQW;
 
     if(vKep.Size() < 6)
@@ -72,8 +119,8 @@ CVector CKepler::State(const double &dGM, const CVector &vKep, double dT)
     R = a*(1.0-e*cosE);  /// 距离
     V = sqrt(dGM*a)/R;    /// 速度
 
-    r = CVector( a*(cosE-e), a*fac*sinE , 0.0 );
-    v = CVector( -V*sinE   , +V*fac*cosE, 0.0 );
+    r.Set(a*(cosE-e), a*fac*sinE , 0.0 );
+    v.Set(-V*sinE   , +V*fac*cosE, 0.0 );
 
     /// 轨道面到惯性系旋转矩阵
     PQW = CVecMat::R_z(-Omega) * CVecMat::R_x(-i) * CVecMat::R_z(-omega);
@@ -456,7 +503,7 @@ CVector CKepler::RIC(const CVector &vKepChaser,
                 vt=vTarget.slice(3,5),
             RelPos,RelVel;
 
-    CMatrix Coti = CCoorSys::ECI2VVLH(vKepTarget);
+    CMatrix Coti = CCoorSys::J20002VVLH(vKepTarget);
     RelPos = Coti*(rc - rt);
     //Vector w(0,-RefSat.n(),0);
     // 这里的轨道角速度应该用位置速度来计算，与使用平均轨道
@@ -486,7 +533,7 @@ CVector CKepler::CIR(const CVector &vKepTarget, const CVector& vPV, const double
     }
 
     /// 获取ECI 到 轨道面的旋转矩阵
-    CMatrix Coti = CCoorSys::ECI2VVLH(vKepTarget);
+    CMatrix Coti = CCoorSys::J20002VVLH(vKepTarget);
     CVector rv;
     rv = State(dGM,vKepTarget);
     if(!rv)
@@ -679,7 +726,7 @@ double CKepler::EccAnom(double dM, double de)
 /// 根据轨道的长半轴计算卫星的运行周期
 double CKepler::T(double da, double dGM)
 {
-    return(D2PI/sqrt(dGM/pow(da,3.)));
+    return(D2PI/sqrt(dGM/(da*da*da)));
 }
 
 /// 计算轨道的远地点

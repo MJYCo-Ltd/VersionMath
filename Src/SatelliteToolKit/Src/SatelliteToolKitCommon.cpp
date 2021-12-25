@@ -175,7 +175,7 @@ double CalSolarAltitude(double dMJD,const Pos& gruondStationGeo)
     CVector vECISun = pJPL->GetSunPos(timeSys.GetTT());
 
     CVector vECFSun;
-    CCoorSys::ECI2ECF(dMJD,vECISun,vECFSun);
+    CCoorSys::J20002ECF(dMJD,vECISun,vECFSun);
 
     CVector vStation3D(3);
     GisMath::LBH2XYZ(gruondStationGeo.dX,gruondStationGeo.dY,gruondStationGeo.dZ,

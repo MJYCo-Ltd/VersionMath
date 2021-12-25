@@ -4,12 +4,18 @@
 #include <VersionMathCommon.h>
 #include <GisMath/GisMath.h>
 
-extern double iauAnp(double a);
-extern int iauEform( int n, double *a, double *f );
-extern int iauGd2gc ( int n, double elong, double phi, double height,
-                      double xyz[3] );
-extern int iauGc2gd ( int n, double xyz[3],
-                      double *elong, double *phi, double *height );
+#ifdef __cplusplus
+extern "C" {
+#endif
+double iauAnp(double a);
+int iauEform(int n, double *a, double *f);
+int iauGd2gc(int n, double elong, double phi, double height,
+             double xyz[3] );
+int iauGc2gd(int n, double xyz[3],
+             double *elong, double *phi, double *height);
+#ifdef __cplusplus
+}
+#endif
 
 extern geod_geodesic       PJ_GEOD;
 extern GisMath::ELLIPSOID  EM_TYPE;

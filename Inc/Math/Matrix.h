@@ -17,24 +17,26 @@
 /// 向量 矩阵在右边 (v*M)  得到的向量 表示 局部坐标系中的这个点的位置在世界坐标中的描述
 
 namespace Math {
+
 class MATH_EXPORT CMatrix
 {
 
 public:
-
+    const static CMatrix IDENTITY_MAT;
+    const static CMatrix NULL_MATRIX;
     /// 构造函数
     CMatrix ();                                      /// 默认构造函数
-    CMatrix (int dim1, int dim2);                    /// Nullmatrix
-    CMatrix (const CMatrix& rM);                 /// 复制构造函数
-    CMatrix (const double *p, int dim1, int dim2);   /// 通过一维数组构造
-    CMatrix (const double p[3][3],int dim1, int dim2);/// 通过二维数组构造
+    CMatrix (unsigned int dim1,unsigned int dim2);   /// Nullmatrix
+    CMatrix (const CMatrix& rM);                     /// 复制构造函数
+    CMatrix (const double *p,unsigned int dim1,unsigned int dim2);     /// 通过一维数组构造
+    CMatrix (const double p[3][3],unsigned int dim1,unsigned int dim2);/// 通过二维数组构造
 
     /// 析构函数
     ~CMatrix();
 
     /// 判断矩阵是否为空
-    inline bool IsEmpty()const{return (0 == m_nRow || 0 == m_nCol);}
-    inline bool IsSquare()const{return(m_nRow == m_nCol && m_nRow > 0);}
+    inline bool IsEmpty()const{return (0 == m_unRow || 0 == m_unCol);}
+    inline bool IsSquare()const{return(m_unRow == m_unCol && m_unRow > 0);}
 
     /// 判断矩阵是否是单位矩阵
     bool IsId() const;
@@ -50,16 +52,16 @@ public:
     CMatrix& operator=(const CMatrix& rM);
 
     /// 获取大小
-    inline int Row() const { return m_nRow; }
-    inline int Col() const { return m_nCol; }
+    inline unsigned int Row() const { return m_unRow; }
+    inline unsigned int Col() const { return m_unCol; }
     /// 重置矩阵大小
-    CMatrix& Resize(int nRow, int nCol);
+    CMatrix& Resize(unsigned int nRow,unsigned int nCol);
 
     /// 返回指定列数据
-    CVector GetCol(int j) const;
+    CVector GetCol(unsigned int j) const;
 
     /// 返回指定行数据
-    CVector GetRow(int i) const;
+    CVector GetRow(unsigned int i) const;
 
     /// 获取对角线上的数据
     /// @attention 如果无法获取则返回一个空的向量
@@ -68,27 +70,27 @@ public:
 
     /// 矩阵的迹
     double Trace() const;
-    double Trace(int low, int upp) const;
+    double Trace(unsigned int low,unsigned int upp) const;
 
     /// 获取矩阵的一块儿
     /// 如果指定的区域超出矩阵的范围则返回一个空的矩阵
-    CMatrix slice(int first_row, int last_row, int first_col, int last_col);
+    CMatrix slice(unsigned int first_row, unsigned int last_row, unsigned int first_col, unsigned int last_col);
 
     /** @brief     将向量设置到指定列
       * @param j   指定矩阵的列
       * @param Col 准备填充的向量
       * @return    如果成功返回true
       */
-    bool SetCol(int j, const CVector& Col);
+    bool SetCol(unsigned int j, const CVector& Col);
 
     /// 设置指定行成指定数据
-    bool SetRow(int i, const CVector& Row);
+    bool SetRow(unsigned int i, const CVector& Row);
 
     /// 转换操作符
     inline operator bool() const {return !IsEmpty();}
     /// 访问数据
-    double  operator () (int i, int j) const { return m_ppdM[i][j]; }
-    double& operator () (int i, int j)       { return m_ppdM[i][j]; }
+    inline double  operator () (unsigned int i, unsigned int j) const { return m_ppdM[i][j]; }
+    inline double& operator () (unsigned int i, unsigned int j)       { return m_ppdM[i][j]; }
     /// 矩阵的加减
     /// 如果传入的矩阵的行列不同，则保持原值不变
     bool operator += (const CMatrix& rM);
@@ -107,9 +109,9 @@ private:
 private:
 
     /// 属性
-    int      m_nRow;                       // First dimension (number of rows)
-    int      m_nCol;                       // Second dimension (number of columns)
-    double **m_ppdM;                       // Matrix M(n,m)
+    unsigned int      m_unRow;  // First dimension (number of rows)
+    unsigned int      m_unCol;  // Second dimension (number of columns)
+    double **m_ppdM;           // Matrix M(n,m)
 
 };
 }

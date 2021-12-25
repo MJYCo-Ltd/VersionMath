@@ -2,7 +2,7 @@
 #include <Math/Intpol.h>
 #include <Satellite/TimeSys.h>
 #include <Satellite/OpticalAlg.h>
-
+#include <VersionMathCommon.h>
 #include "sofa.h"
 
 using namespace Math;
@@ -98,9 +98,9 @@ double COpticalAlg::DownlegLightTime(const vector<CVector> &vSatPos, const CVect
     /// 经过两次迭代才能准确 (经验值)
     for(int i=0; i<2; ++i)
     {
-        vecSat(0) = Cntpol::ItNeville(nMax,d,dX,dStarJD-tau_down/DAYSEC);
-        vecSat(1) = Cntpol::ItNeville(nMax,d,dY,dStarJD-tau_down/DAYSEC);
-        vecSat(2) = Cntpol::ItNeville(nMax,d,dZ,dStarJD-tau_down/DAYSEC);
+        vecSat(0) = Intpol::ItNeville(nMax,d,dX,dStarJD-tau_down/DAYSEC);
+        vecSat(1) = Intpol::ItNeville(nMax,d,dY,dStarJD-tau_down/DAYSEC);
+        vecSat(2) = Intpol::ItNeville(nMax,d,dZ,dStarJD-tau_down/DAYSEC);
 
 
         /// 计算两者的距离

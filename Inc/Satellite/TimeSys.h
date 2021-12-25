@@ -19,13 +19,12 @@
         TDT(Terrestrial Dynamical  Time) 地球力学时(1979年IAU决议定义的视地心历表使用的时
         间，1991年为地球时（TT）所代替)
  *****************************************/
-#include "SAT_global.h"
-#include "Date.h"
+#include <Satellite/SAT_global.h>
+#include <Satellite/Date.h>
 namespace Aerospace{
 class ALGORITHM_EXPORT CTimeSys
 {
 public:
-    CTimeSys();
     CTimeSys(double dMjdUTC);
     CTimeSys(const CDate& rDate);
 

@@ -14,13 +14,16 @@ namespace Math {
 class MATH_EXPORT CVector
 {
 public:
-
+    const static CVector X_AXIS;
+    const static CVector Y_AXIS;
+    const static CVector Z_AXIS;
+    const static CVector NULL_VECTOR;
     /// 构造函数
     CVector ();
-    CVector (int nSize);                       /// 构造一个全为零的向量
+    CVector (unsigned int nSize);                       /// 构造一个全为零的向量
     CVector (const CVector& rV);           /// 复制构造
-    CVector (const double* pdArry, int nDim);  /// 通过数组构造
-    CVector (double dX, double dY, double dZ); /// 3维向量
+    CVector (const double* pdArry,unsigned int nDim);  /// 通过数组构造
+    CVector (double dX, double dY, double dZ,bool bIsNormal=false); /// 3维向量
     CVector (double dx, double dy, double dz
              ,double dX, double dY, double dZ); /// 6维向量
 
@@ -28,7 +31,7 @@ public:
     ~CVector();
 
     /// 判断向量是否为空
-    inline bool IsEmpty()const {return (0 == m_nDim);}
+    inline bool IsEmpty()const {return (0 == m_unDim);}
 
     /// Set方法
     void Set(double xT,double yT, double zT);
@@ -42,17 +45,18 @@ public:
     inline double GetZ()const {return m_pdV[2];}
 
     /// 大小
-    inline int Size() const { return m_nDim; }
-    CVector& Resize(int nSize);
+    inline unsigned int Size() const { return m_unDim; }
+    CVector& Resize(unsigned int nSize);
 
     /// 获取向量的子集
-    CVector slice (int nFirst, int nLast) const;
+    CVector slice(unsigned int nFirst, unsigned int nLast) const;
 
     /// 向量长度
     double Length() const;
 
     /// 将向量归一化
     void Normalize();
+    inline bool IsNormal()const{return(m_bIsNormal);}
 
     /// 获取向量的开平方向量
     CVector Sqrt() const;
@@ -79,10 +83,10 @@ public:
     CVector& operator *= (const double value);
 
 private:
-
     /// 成员变量
-    int    m_nDim;       /// 向量维数
-    double *m_pdV;       /// 向量存储空间
+    unsigned int m_unDim{};  /// 向量维数
+    bool   m_bIsNormal{false};
+    double *m_pdV{};         /// 向量存储空间
 };
 }
 #endif // YTY_VECTOR_H

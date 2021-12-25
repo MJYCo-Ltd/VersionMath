@@ -108,28 +108,18 @@ typedef struct elsetrec
 
 
 // --------------------------- function declarations ----------------------------
-bool sgp4init
-     (gravconsttype whichconst,  const int satn, const double epoch,
+bool sgp4init(gravconsttype whichconst,  const int satn, const double epoch,
        const double xbstar,  const double xecco, const double xargpo,
        const double xinclo,  const double xmo,   const double xno,
-       const double xnodeo,  elsetrec& satrec
-     );
+       const double xnodeo,  elsetrec& satrec);
 
-bool sgp4
-     (
-       gravconsttype whichconst, elsetrec& satrec,  double tsince,
-       double r[3],  double v[3]
-     );
+bool sgp4(gravconsttype whichconst, elsetrec& satrec,  double tsince,
+       double r[3],  double v[3]);
 
 /// 计算格林尼治恒星时
-double  gstime
-        (
-          double jdut1
-        );
+double  gstime(double jdut1);
 
-void getgravconst
-     (
-      gravconsttype whichconst,
+void getgravconst(gravconsttype whichconst,
       double& tumin,
       double& mu,
       double& radiusearthkm,
@@ -137,8 +127,7 @@ void getgravconst
       double& j2,
       double& j3,
       double& j4,
-      double& j3oj2
-     );
+      double& j3oj2);
 
 #endif
 

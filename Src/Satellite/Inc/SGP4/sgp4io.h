@@ -33,12 +33,7 @@
 
 // ------------------------- function declarations -------------------------
 
-void twoline2rv
-     (char longstr1[130],
-      char longstr2[130],
-      gravconsttype whichconst,
-      elsetrec& satrec
-     );
+void twoline2rv(char longstr1[130],char longstr2[130],gravconsttype whichconst,elsetrec& satrec);
 
 #endif
 

@@ -88,7 +88,6 @@ public:
      * @return 旋转矩阵
      */
     static CMatrix CreateMatrix(double dRoll,double dPitch, double dYaw, YPRROTATE type);
-    static CQuaternion CreateQuaternion(double dRoll,double dPitch, double dYaw, YPRROTATE type);
 
 
     /**

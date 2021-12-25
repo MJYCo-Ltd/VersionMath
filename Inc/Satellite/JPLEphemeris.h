@@ -75,14 +75,14 @@ public:
     /**
      * @brief 获取太阳在以地球为原点的坐标系下的位置
      * @param dMjdTT [约简儒略日TT时间]
-     * @return xyz [m][ECI]
+     * @return xyz [m][J2000]
      */
     CVector GetSunPos(const double& dMjdTT) const;
 
     /**
      * @brief 获取月球在以地球为原点的坐标系下的位置
      * @param dMjdTT [约简儒略日TT时间]
-     * @return xyz [m][ECI]
+     * @return xyz [m][J2000]
      */
     CVector GetMoonPos(const double& dMjdTT) const;
 
@@ -91,7 +91,7 @@ public:
      * @param dMjdTT    [MJD TT]
      * @param planet1 所要计算的行星
      * @param centerPlanet 中心行星
-     * @return (x,y,z) [m][ECI]
+     * @return (x,y,z) [m][J2000]
      */
     CVector GetPos(const double& dMjdTT, const PLANET_TYPE &planet1
                    , const PLANET_TYPE& centerPlanet)const;

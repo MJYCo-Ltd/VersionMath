@@ -1,5 +1,5 @@
-﻿#include "VecMat.h"
-#include "GJ4.h"
+﻿#include <Math/VecMat.h>
+#include <Math/GJ4.h>
 using namespace Numerical;
 using namespace Math;
 

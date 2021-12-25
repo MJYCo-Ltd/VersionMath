@@ -1,4 +1,4 @@
-﻿#ifndef YTY_SGP4_H
+#ifndef YTY_SGP4_H
 #define YTY_SGP4_H
 
 /*****************************************
@@ -24,10 +24,7 @@
 #include <string>
 using namespace std;
 #include "SAT_global.h"
-
-namespace Math{
-class CVector;
-}
+#include <Math/Vector.h>
 
 struct elsetrec;
 

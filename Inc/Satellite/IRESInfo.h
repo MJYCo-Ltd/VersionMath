@@ -18,9 +18,9 @@ using namespace std;
 namespace Aerospace{
 struct BulletinB
 {
-    double dPX;           /// 极移x    角度单位 秒
-    double dPY;           /// 极移y    角度单位 秒
-    double dUT1_UTC;      /// UT1-UTC 时间单位 秒
+    double dPX{};           /// 极移x    角度单位 秒
+    double dPY{};           /// 极移y    角度单位 秒
+    double dUT1_UTC{};      /// UT1-UTC 时间单位 秒
 };
 
 class ALGORITHM_EXPORT CIRESInfo
@@ -28,7 +28,6 @@ class ALGORITHM_EXPORT CIRESInfo
 public:
     /// 获取实例
     static CIRESInfo  *GetInstance();
-    static void Realse();
 
     /// 通过文件初始化
     bool Init(const string& strFileName);
@@ -36,22 +35,21 @@ public:
     bool IsInit(){return m_bInit;}
 
     /// 根据简约儒略日获取布告B中的数据
-    BulletinB   GetBulletinB(double dMJD) const;
+    bool GetBulletinB(double dMJD, BulletinB &bulletinB) const;
     /// 获取
     double      GetUT2_UT1(double dMJD) const;
 private:
     /// 清除数据，在再次初始化时使用
     void ClearData();
     CIRESInfo();
-    virtual ~CIRESInfo();
+    ~CIRESInfo();
 private:
     vector<double>     m_vMJD;
     vector<double>     m_vPx;
     vector<double>     m_vPy;
     vector<double>     m_vUt1_Utc;
-    unsigned int       m_unCount;
-    static CIRESInfo* m_pThis;              //单例的指针
-    bool               m_bInit;                 //是否初始化
+    unsigned int       m_unCount{};
+    bool               m_bInit{};                 //是否初始化
 };
 }
 #endif // YTY_IRESINFO_H

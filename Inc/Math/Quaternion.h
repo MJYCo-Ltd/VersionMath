@@ -57,7 +57,7 @@ public:
      * @brief 获取四元数对应的旋转矩阵
      * @return
      */
-    CMatrix GetMatrix()const;
+    CMatrix GetMatrix();
 
     /**
      * @brief 以向量的形式获取值
@@ -108,14 +108,24 @@ public:
 
     /// 重载bool类型
     operator bool()const;
+
+    bool Rebuild(const CMatrix &vMat);
+    bool Rebuild(const CVector &vVec, double dphi);
+
+    bool Translate(const CVector &vIn, CVector &vOut);
 private:
     void InitQuat();
+    void InitCoefficient();
 
 private:
     double m_dX;
     double m_dY;
     double m_dZ;
     double m_dS;
+    double m_dX1,m_dY1,m_dZ1;
+    double m_dX2,m_dY2,m_dZ2;
+    double m_dX3,m_dY3,m_dZ3;
+    bool   m_bNeedInitCoefficient;
 };
 }
 using namespace Math;

@@ -115,18 +115,30 @@ vector<Period> VisiblePeriod(const BJTime& stStartTime,
         return(vResult);
     }
 
-    CSGP4 tmpSGP4(stSatElement.stTLE.sLine1,stSatElement.stTLE.sLine2);
-    if(!tmpSGP4)
-    {
-        return(vResult);
-    }
+    CVector vKepler;
+//    switch(stSatElement.elemType)
+//    {
+//    case SAT_TLE:
+//    {
+        CSGP4 tmpSGP4(stSatElement.stTLE.sLine1,stSatElement.stTLE.sLine2);
+        if(!tmpSGP4)
+        {
+            return(vResult);
+        }
 
-    CVector vKepler = tmpSGP4.ClassicalElements();
+        vKepler = tmpSGP4.ClassicalElements();
 
-    if(!vKepler)
-    {
-        return(vResult);
-    }
+        if(!vKepler)
+        {
+            return(vResult);
+        }
+//    }
+//        break;
+//    case SAT_TWOBODY:
+//        break;
+//    }
+
+
 
     double dT = CKepler::T(vKepler(0), GM_Earth) * SECDAY;
 
@@ -787,21 +799,6 @@ vector<Period> VisiblePeriod(const BJTime& stStartTime,
 vector<Period> VisiblePeriod(const SatellitePos& stSatPosEye,
                              const SatellitePos& stSatPosTarget,
                              float fVisibleAngle)
-{
-    vector<Period> vResult;
-
-    return(vResult);
-}
-
-vector<Period> IntersectCircle(const SatellitePos& stSatPos,const Pos& stPos,float fAngle)
-{
-    vector<Period> vResult;
-
-    return(vResult);
-}
-
-vector<Period> IntersectRectangle(const SatellitePos& stSatPos,const Pos& stPos,
-                                  float fHAngle, float fVAngle)
 {
     vector<Period> vResult;
 

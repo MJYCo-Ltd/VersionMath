@@ -2,6 +2,7 @@
 using namespace std;
 #include <Satellite/Date.h>
 #include "sofa.h"
+#include "sofam.h"
 
 using namespace Aerospace;
 static const double BJ_UTC(1./3.);

@@ -26,21 +26,7 @@ typedef struct
 } tle_t;
 
 ////////////天文学基础///////////
-/**
- * @brief 黄道与J2000.0平赤道的黄赤交角ε
- * @param Mjd_TT 计算的时间 [MJD UTT]
- * @return 黄赤交角         [rad]
- */
-double MeanObliquity (double Mjd_TT);
 
-/**
- * @brief J2000参考系下的章动角度计算
- * @param Mjd_TT 计算的时间 [MJD UTT]
- * @param dpsi 黄经章动     [rad]
- * @param deps 交角章动     [rad]
- * @attention dpsi, deps   为返回值
- */
-void NutAngles (double Mjd_TT, double& dpsi, double& deps);
 
 /**
  * @brief 计算岁差的各项值
@@ -59,43 +45,37 @@ void compute_ecliptic_precession_angles( const double epoch_from,
  * @param Mjd_2 要计算岁差的时间 [MJD UTT]
  * @return 岁差旋转矩阵
  */
-CMatrix PrecMatrix (double Mjd_1, double Mjd_2);
+void PrecMatrix (double Mjd_2, double dTemp[3][3]);
 
 /**
  * @brief J2000参考系下章动矩阵
  * @param Mjd_TT 要计算章动的时间 [MJD UTT]
  * @return 章动旋转矩阵
  */
-CMatrix NutMatrix (double Mjd_TT);
+void NutMatrix (double Mjd_TT, double &dpsi, double &eps, double &deps, double &dom, double dTemp[3][3]);
 
 /**
- * @brief 瞬时真春分点与平春分点的差值
- * @param Mjd_TT 要计算的时间           [MJD UTT]
- * @return 瞬时平春分点到平春分点的角度   [rad]
- * @attention GAST 使用
+ * @brief EquationOfEquinoxes
+ * @param dpsi
+ * @param eps
+ * @param om
+ * @return
  */
-double EqnEquinox (double Mjd_TT);
-
-/**
- * @brief 格林尼治平恒星时
- * @param Mjd_UT1 要计算的时间            [MJD UT1]
- * @return 从瞬时平春分点到格林尼治经线的角度 [rad]
- */
-double GMST (double Mjd_UT1);
+double EquationOfEquinoxes(double dpsi, double deps, double eps, double om);
 
 /**
  * @brief 格林尼治真恒星时
  * @param Mjd_UT1 要计算的时间         [MJD UT1]
  * @return 从平春分点到格林尼治经线的角度 [rad]
  */
-double GAST (double Mjd_UT1);
+double GAST (double Mjd_UT1, double dpsi, double deps, double eps, double om);
 
 /**
  * @brief J2000参考系下地球旋转矩阵
  * @param Mjd_UT1 要计算的时间  [MJD UT1]
  * @return 地球旋转矩阵
  */
-CMatrix GHAMatrix (double Mjd_UT1);
+void GHAMatrix (double Mjd_UT1, double dpsi, double deps, double eps, double om, double dTemp[3][3]);
 
 /**
  * @brief 极移矩阵
@@ -103,7 +83,7 @@ CMatrix GHAMatrix (double Mjd_UT1);
  * @param dY [rad]
  * @return 极移矩阵
  */
-CMatrix PoleMatrix (const double& dX, const double& dY);
+void PoleMatrix(const double& dX, const double& dY, double dTemp[3][3]);
 ////////////天文学基础 end///////////
 
 ////////////轨道处理////////////////

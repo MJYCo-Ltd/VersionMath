@@ -1,5 +1,5 @@
 #include <cmath>
-#include "Transit.h"
+#include <Math/Transit.h>
 
 using namespace Math;
 

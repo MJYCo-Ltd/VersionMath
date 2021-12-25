@@ -4,6 +4,7 @@
 #include <Math/VecMat.h>
 #include <Math/YPRAngle.h>
 #include <Math/Quaternion.h>
+#include <sofa.h>
 
 using namespace std;
 
@@ -236,53 +237,50 @@ void CYPRAngle::CalTransform(const CMatrix &rotateMatrix, YPRROTATE type, YPR_Ro
 /// 根据指定的旋转角度计算旋转矩阵
 CMatrix CYPRAngle::CreateMatrix(double dRoll, double dPitch, double dYaw, YPRROTATE type)
 {
-    return(CreateQuaternion(dRoll,dPitch,dYaw,type).GetMatrix());
-}
-
-CQuaternion CYPRAngle::CreateQuaternion(double dRoll, double dPitch, double dYaw, YPRROTATE type)
-{
-    ///////////////////////////绕轴旋转///////////////////////////////////
-    //绕X轴旋转
-    CQuaternion qX(CVector(1,0,0),dRoll);
-
-    //绕Y轴旋转
-    CQuaternion qY(CVector(0,1,0),dPitch);
-
-    //绕Z轴旋转
-    CQuaternion qZ(CVector(0,0,1),dYaw);
-    /////////////////////////////////////////////////////////////////////
-
-    CMatrix matrxRotate;
+    double dTemp[3][3];
+    iauIr(dTemp);
     switch(type)
     {
     case XYZ:
     case RPY:
-        return(qX*qY*qZ);
+        iauRz(dYaw,dTemp);
+        iauRy(dPitch,dTemp);
+        iauRx(dRoll,dTemp);
         break;
     case XZY:
     case RYP:
-        return(qX*qZ*qY);
+        iauRy(dPitch,dTemp);
+        iauRz(dYaw,dTemp);
+        iauRx(dRoll,dTemp);
         break;
     case YXZ:
     case PRY:
-        return(qY*qX*qZ);
+        iauRz(dYaw,dTemp);
+        iauRx(dRoll,dTemp);
+        iauRy(dPitch,dTemp);
         break;
     case YZX:
     case PYR:
-        return(qY*qZ*qX);
+        iauRx(dRoll,dTemp);
+        iauRz(dYaw,dTemp);
+        iauRy(dPitch,dTemp);
         break;
     case ZXY:
     case YRP:
-        return(qZ*qX*qY);
+        iauRy(dPitch,dTemp);
+        iauRx(dRoll,dTemp);
+        iauRz(dYaw,dTemp);
         break;
     case ZYX:
     case YPR:
-        return(qZ*qY*qX);
+        iauRx(dRoll,dTemp);
+        iauRy(dPitch,dTemp);
+        iauRz(dYaw,dTemp);
         break;
     default:
         break;
     }
-    return (CQuaternion());
+    return(CMatrix(dTemp,3,3));
 }
 
 /// 根据指定的旋转顺序计算 各角度

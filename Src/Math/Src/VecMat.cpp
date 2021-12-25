@@ -15,13 +15,7 @@ CVecMat::CVecMat()
 
 bool CVecMat::IsValid(const CVector &vIn, CVector &vOut)
 {
-    int nInSize = vIn.Size();
-
-    /// 判断数据是否有效
-    if(vOut && nInSize != vOut.Size())
-    {
-        return(false);
-    }
+    unsigned int nInSize = vIn.Size();
 
     /// 必须是3的整数倍出现
     if(1 > nInSize || nInSize%3 != 0)
@@ -29,8 +23,8 @@ bool CVecMat::IsValid(const CVector &vIn, CVector &vOut)
         return(false);
     }
 
-    /// 如果ecf为空则开辟空间
-    if(!vOut)
+    /// 如果输出的空间小于输入的空间
+    if(vOut.Size() < nInSize)
     {
         vOut.Resize(nInSize);
     }
@@ -45,11 +39,11 @@ bool CVecMat::CalReault(const CMatrix &rMatrix, const CVector &vIn, CVector &vOu
         return(false);
     }
 
-    CVector tmpVector;
+    CVector tmpVector(3);
 
-    int nInSize = vIn.Size();
+    unsigned int nInSize = vIn.Size();
 
-    for(int j=0; j<nInSize; j+=3)
+    for(unsigned int j=0; j<nInSize; j+=3)
     {
         tmpVector = rMatrix * vIn.slice(j,j+2);
 
@@ -83,7 +77,7 @@ void CVecMat::AzEl(const CVector &vecLtc, double &dAzim, double &dElev)
 /// 点乘
 double CVecMat::Dot (const CVector& left, const CVector& right)
 {
-    int nLeftDim = left.Size();
+    unsigned int nLeftDim = left.Size();
     if (right.Size() != nLeftDim)
     {
         cerr << "ERROR: Incompatible shape in Dot(Vector,Vector)" << endl;
@@ -91,7 +85,7 @@ double CVecMat::Dot (const CVector& left, const CVector& right)
     }
 
     double Sum = 0.0;
-    for (int i=0; i<nLeftDim; ++i)
+    for (unsigned int i=0; i<nLeftDim; ++i)
     {
         Sum+=left(i)*right(i);
     }
@@ -359,21 +353,20 @@ CVector operator - (const CVector& left, const CVector& right)
 /// 以行合并，行数增加
 CMatrix operator &(const CMatrix& A, const CVector& Row)
 {
-    int    nRow=A.Row();
-    int    nCol=A.Col();
-    CMatrix tmp;
+    unsigned int    nRow=A.Row();
+    unsigned int    nCol=A.Col();
 
     if ( nCol!=Row.Size() )
     {
         cerr << "ERROR: Incompatible shape in Matrix&Vector concatenation" << endl;
-        return(tmp);
+        return(CMatrix::NULL_MATRIX);
     }
 
-    tmp.Resize(nRow+1,nCol);
+    CMatrix tmp(nRow+1,nCol);
 
-    for (int j=0;j<nCol;++j)
+    for (unsigned int j=0;j<nCol;++j)
     {
-        for (int i=0;i<nRow;++i)
+        for (unsigned int i=0;i<nRow;++i)
         {
             tmp(i,j)=A(i,j);
         }
@@ -384,20 +377,20 @@ CMatrix operator &(const CMatrix& A, const CVector& Row)
 
 CMatrix operator &(const CVector& Row, const CMatrix& A)
 {
-    int    nRow=A.Row();
-    int    nCol=A.Col();
-    CMatrix tmp;
+    unsigned int    nRow=A.Row();
+    unsigned int    nCol=A.Col();
+
     if ( nCol!=Row.Size() )
     {
         cerr << "ERROR: Incompatible shape in Vector&Matrix concatenation" << endl;
-        return(tmp);
+        return(CMatrix::NULL_MATRIX);
     }
 
-    tmp.Resize(nRow+1,nCol);
-    for (int j=0;j<nCol;++j)
+    CMatrix tmp(nRow+1,nCol);
+    for (unsigned int j=0;j<nCol;++j)
     {
         tmp(0,j) = Row(j);
-        for (int i=0;i<nRow;++i)
+        for (unsigned int i=0;i<nRow;++i)
         {
             tmp(i+1,j)=A(i,j);
         }
@@ -408,23 +401,22 @@ CMatrix operator &(const CVector& Row, const CMatrix& A)
 CMatrix operator &(const CMatrix& A, const CMatrix& B)
 {
     /// 获取需要的信息
-    int nACol = A.Col();
-    int nARow = A.Row();
-    int nBRow = B.Row();
-    int nBCol = B.Col();
+    unsigned int nACol = A.Col();
+    unsigned int nARow = A.Row();
+    unsigned int nBRow = B.Row();
+    unsigned int nBCol = B.Col();
 
-    CMatrix tmp;
     if ( nACol!=nBCol)
     {
         cerr << "ERROR: Incompatible shape in Matrix&Matrix concatenation" << endl;
-        return (tmp);
+        return (CMatrix::NULL_MATRIX);
     }
 
-    tmp.Resize(nARow+nBRow,nACol);
+    CMatrix tmp(nARow+nBRow,nACol);
 
-    int    i;
+    unsigned int    i;
 
-    for (int j=0;j<nACol;++j)
+    for (unsigned int j=0;j<nACol;++j)
     {
         for (i=0;i<nARow;++i)
         {
@@ -441,8 +433,8 @@ CMatrix operator &(const CMatrix& A, const CMatrix& B)
 /// 以列合并，列数增加
 CMatrix operator |(const CMatrix& A, const CVector& Col)
 {
-    int    nRow=A.Row();
-    int    nCol=A.Col();
+    unsigned int    nRow=A.Row();
+    unsigned int    nCol=A.Col();
     CMatrix tmp;
     if ( nRow!=Col.Size() )
     {
@@ -452,9 +444,9 @@ CMatrix operator |(const CMatrix& A, const CVector& Col)
 
     /// 重置大小
     tmp.Resize(nRow,nCol+1);
-    for (int i=0;i<nRow;++i)
+    for (unsigned int i=0;i<nRow;++i)
     {
-        for (int j=0;j<nCol;++j)
+        for (unsigned int j=0;j<nCol;++j)
         {
             tmp(i,j)=A(i,j);
         }
@@ -465,8 +457,8 @@ CMatrix operator |(const CMatrix& A, const CVector& Col)
 
 CMatrix operator |(const CVector& Col, const CMatrix& A)
 {
-    int    nRow=A.Row();
-    int    nCol=A.Col();
+    unsigned int    nRow=A.Row();
+    unsigned int    nCol=A.Col();
     CMatrix tmp;
     if ( nRow!=Col.Size() )
     {
@@ -476,10 +468,10 @@ CMatrix operator |(const CVector& Col, const CMatrix& A)
 
     /// 重置大小
     tmp.Resize(nRow,nCol+1);
-    for (int i=0;i<nRow;++i)
+    for (unsigned int i=0;i<nRow;++i)
     {
         tmp(i,0) = Col(i);
-        for (int j=0;j<nCol;++j)
+        for (unsigned int j=0;j<nCol;++j)
         {
             tmp(i,j+1)=A(i,j);
         }
@@ -490,21 +482,21 @@ CMatrix operator |(const CVector& Col, const CMatrix& A)
 CMatrix operator |(const CMatrix& A, const CMatrix& B)
 {
 
-    int    j;
-    int nARow = A.Row();
-    int nACol = A.Col();
-    int nBRow = B.Row();
-    int nBCol = B.Col();
-    CMatrix tmp;
+    unsigned int    j;
+    unsigned int nARow = A.Row();
+    unsigned int nACol = A.Col();
+    unsigned int nBRow = B.Row();
+    unsigned int nBCol = B.Col();
+
     if ( nARow != nBRow )
     {
         cerr << "ERROR: Incompatible shape in Matrix|Matrix concatenation" << endl;
-        return(tmp);
+        return(CMatrix::NULL_MATRIX);
     }
 
     /// 重设大小
-    tmp.Resize(nARow,nACol+nBCol);
-    for (int i=0;i<nARow;++i)
+    CMatrix tmp(nARow,nACol+nBCol);
+    for (unsigned int i=0;i<nARow;++i)
     {
         for (j=0;j<nACol;++j)
         {
@@ -522,8 +514,8 @@ CMatrix operator |(const CMatrix& A, const CMatrix& B)
 /// 输出向量
 ostream& operator << (ostream& os, const CVector& rVec)
 {
-    int w = os.width();
-    for (int i=0; i<rVec.Size(); ++i)
+    unsigned int w = os.width();
+    for (unsigned int i=0; i<rVec.Size(); ++i)
     {
         os << setw(w) << rVec(i);
     }
@@ -533,10 +525,10 @@ ostream& operator << (ostream& os, const CVector& rVec)
 /// 输出矩阵
 ostream& operator << (ostream& os, const CMatrix& rMat)
 {
-    int w = os.width();
-    for (int i=0; i<rMat.Row(); ++i)
+    unsigned int w = os.width();
+    for (unsigned int i=0; i<rMat.Row(); ++i)
     {
-        for (int j=0; j<rMat.Col(); ++j)
+        for (unsigned int j=0; j<rMat.Col(); ++j)
         {
             os << setw(w) << rMat(i,j);
         }
@@ -571,13 +563,13 @@ CMatrix operator / (const CMatrix& Mat, double value)
 /// 取负
 CMatrix operator - (const CMatrix& Mat)
 {
-    int nRow = Mat.Row();
-    int nCol = Mat.Col();
+    unsigned int nRow = Mat.Row();
+    unsigned int nCol = Mat.Col();
 
     CMatrix Aux(nRow,nCol);
-    for (int i=0; i<nRow; ++i)
+    for (unsigned int i=0; i<nRow; ++i)
     {
-        for (int j=0; j<nCol; ++j)
+        for (unsigned int j=0; j<nCol; ++j)
         {
             Aux(i,j)=-Mat(i,j);
         }
@@ -606,10 +598,10 @@ CMatrix operator - (const CMatrix& left, const CMatrix& right)
 /// 矩阵的乘法
 CMatrix operator * (const CMatrix& left, const CMatrix& right)
 {
-    int nLRow = left.Row();
-    int nLCol = left.Col();
-    int nRRow = right.Row();
-    int nRCol = right.Col();
+    unsigned int nLRow = left.Row();
+    unsigned int nLCol = left.Col();
+    unsigned int nRRow = right.Row();
+    unsigned int nRCol = right.Col();
 
     CMatrix Aux;
 
@@ -621,12 +613,12 @@ CMatrix operator * (const CMatrix& left, const CMatrix& right)
     Aux.Resize(nLRow,nRCol);
 
     double Sum;
-    for (int i=0; i<nLRow; ++i)
+    for (unsigned int i=0; i<nLRow; ++i)
     {
-        for (int j=0; j<nRCol; ++j)
+        for (unsigned int j=0; j<nRCol; ++j)
         {
             Sum = 0.0;
-            for (int k=0; k<nLCol; ++k)
+            for (unsigned int k=0; k<nLCol; ++k)
             {
                 Sum += left(i,k) * right(k,j);
             }
@@ -641,53 +633,51 @@ CMatrix operator * (const CMatrix& left, const CMatrix& right)
 CVector operator * (const CMatrix& Mat, const CVector& Vec)
 {
     /// 获取矩阵的 行数 列数
-    int nRow = Mat.Row();
-    int nCol = Mat.Col();
+    unsigned int nRow = Mat.Row();
+    unsigned int nCol = Mat.Col();
 
-    CVector Aux;
+
     if (Vec.Size() != nCol)
     {
         cerr << "ERROR: Incompatible shape in *(Matrix,Vector)" << endl;
-        return (Aux);
+        return (CVector::NULL_VECTOR);
     }
 
     /// 设置成矩阵的行
-    Aux.Resize(nRow);
+    CVector Aux(nRow);
     double Sum;
-    for (int i=0; i<nRow; ++i)
+    for (unsigned int i=0; i<nRow; ++i)
     {
         Sum = 0.0;
-        for (int j=0; j<nCol; ++j)
+        for (unsigned int j=0; j<nCol; ++j)
         {
             Sum += Mat(i,j) * Vec(j);
         }
         Aux(i) = Sum;
     }
-    return Aux;
+    return (Aux);
 }
 
 CVector operator * (const CVector& Vec, const CMatrix& Mat)
 {
     /// 获取矩阵的 行数 列数
-    int nRow = Mat.Row();
-    int nCol = Mat.Col();
-
-    CVector Aux;
+    unsigned int nRow = Mat.Row();
+    unsigned int nCol = Mat.Col();
 
     /// 如果失败返回空的向量
     if (Vec.Size() != nRow)
     {
         cerr << "ERROR: Incompatible shape in *(Vector,Matrix)" << endl;
-        return(Aux);
+        return(CVector::NULL_VECTOR);
     }
 
     /// 设置成矩阵的列
-    Aux.Resize(nCol);
+    CVector Aux(nCol);
     double Sum;
-    for (int j=0; j<nCol; ++j)
+    for (unsigned int j=0; j<nCol; ++j)
     {
         Sum = 0.0;
-        for (int i=0; i<nRow; ++i)
+        for (unsigned int i=0; i<nRow; ++i)
         {
             Sum += Vec(i) * Mat(i,j);
         }
@@ -699,16 +689,16 @@ CVector operator * (const CVector& Vec, const CMatrix& Mat)
 CMatrix operator *(const CVector& left, const CVector& right)
 {
     /// 用左向量的维数作为行数
-    int nRow = left.Size();
+    unsigned int nRow = left.Size();
 
     /// 用第二个向量的维数作为列数
-    int nCol = right.Size();
+    unsigned int nCol = right.Size();
 
     /// 构建矩阵
     CMatrix Mat(nRow,nCol);
-    for (int i=0;i<nRow;++i)
+    for (unsigned int i=0;i<nRow;++i)
     {
-        for (int j=0;j<nCol;++j)
+        for (unsigned int j=0;j<nCol;++j)
         {
             Mat(i,j) = left(i)*right(j);
         }

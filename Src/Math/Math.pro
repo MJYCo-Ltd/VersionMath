@@ -10,11 +10,8 @@ TEMPLATE = lib
 
 DEFINES *= MATH_LIBRARY
 
-SDK_PATH=$$PWD/../..
 include($$PWD/../VersionMath.pri)
-
-INCLUDEPATH *= $$SDK_PATH/Inc/Math
-
+INCLUDEPATH *= $$PWD/../Satellite/Inc/Sofa
 # 目标文件的输出路  end
 
 SOURCES += \
@@ -30,4 +27,13 @@ SOURCES += \
     Src/VecMat.cpp \
     Src/Vector.cpp \
     Src/YPRAngle.cpp \
-    Src/MathCommonAlgorithm.cpp
+    Src/MathCommonAlgorithm.cpp \
+    Src/tlsf.c \
+    ../Satellite/Src/Sofa/ir.c \
+    ../Satellite/Src/Sofa/rx.c \
+    ../Satellite/Src/Sofa/ry.c \
+    ../Satellite/Src/Sofa/rz.c \
+    Src/MemPool.cpp
+
+HEADERS += \
+    Inc/tlsf.h

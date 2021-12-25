@@ -1,20 +1,20 @@
 ﻿#ifndef YTY_KEPLER_H
 #define YTY_KEPLER_H
 
-#include "SAT_global.h"
+#include <Satellite/SAT_global.h>
 
-namespace Math{
-class CVector;
-}
+#include <Math/VecMat.h>
+#include <Math/Quaternion.h>
 
 namespace Satellite{
 using namespace Math;
 class ALGORITHM_EXPORT CKepler
 {
 public:
-    CKepler();
+    CKepler(double dA, double dE, double dI, double dRAAN, double dMA, double dAP);
     ~CKepler();
 
+    const CVector& CalPV(double dT);
     /**
      * @brief 解开普勒方程
      * @param dGM  中心天体引力系数   [m^3/s^2]
@@ -164,6 +164,10 @@ public:
      * @return 近地点地心距离 [m]
      */
     static double Perigee(double da, double de);
+private:
+    double m_dA,m_dE,m_dI,m_dRAAN,m_dMA,m_dAP,m_dN,m_dFac,m_dV;
+    CQuaternion m_quatPQW;
+    CVector m_vPV;
 };
 }
 #endif // YTY_KEPLER_H

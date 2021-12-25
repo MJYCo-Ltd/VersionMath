@@ -1,5 +1,5 @@
-﻿#include "VecMat.h"
-#include "RK4.h"
+﻿#include <Math/VecMat.h>
+#include <Math/RK4.h>
 
 using namespace Math;
 using namespace Numerical;
@@ -11,7 +11,6 @@ CRK4::CRK4(RK4funct pfRK4, int nEqn, void* pAux):
 
 CRK4::~CRK4()
 {
-
 }
 
 void CRK4::Step(double& dt, CVector& vY, double dh)

@@ -2,47 +2,58 @@
 #include <cstring>
 #include <iostream>
 #include <cmath>
-#include "Vector.h"
+#include <VersionMathCommon.h>
+#include <Math/Vector.h>
+#include <Math/MemPool.h>
 using namespace std;
 using namespace Math;
 
-CVector::CVector():m_nDim(0),m_pdV(0)
+const CVector CVector::X_AXIS(1,0,0,true);
+const CVector CVector::Y_AXIS(0,1,0,true);
+const CVector CVector::Z_AXIS(0,0,1,true);
+const CVector CVector::NULL_VECTOR;
+
+CVector::CVector()
 {
 }
 
 /// 构造一个全为零的向量
-CVector::CVector (int nSize)
-    : m_nDim(nSize)
+CVector::CVector (unsigned int nSize)
 {
+    m_unDim = nSize;
     /// 开辟空间
-    m_pdV = new double[nSize]();
+    m_pdV = CMemPool::GetInstance()->Create<double>(m_unDim);
 }
 
 /// 复制构造
 CVector::CVector (const CVector& rV)
-    : m_nDim(rV.m_nDim)
 {
-    m_pdV = new double [rV.m_nDim];
+    if(rV.m_unDim < 1) return;
+
+    m_unDim = rV.m_unDim;
+    m_pdV = CMemPool::GetInstance()->Create<double>(m_unDim);
 
     /// 复制信息
-    memcpy(m_pdV,rV.m_pdV,sizeof(*m_pdV)*rV.m_nDim);
+    memcpy(m_pdV,rV.m_pdV,sizeof(*m_pdV)*m_unDim);
 }
 
 /// 通过数组构造
-CVector::CVector (const double* pdArry, int nDim)
-    : m_nDim(nDim)
+CVector::CVector (const double* pdArry, unsigned int nDim)
 {
-    m_pdV = new double [m_nDim];
+    if(nDim < 1 || nullptr == pdArry) return;
+
+    m_unDim = nDim;
+    m_pdV = CMemPool::GetInstance()->Create<double>(m_unDim);
 
     /// 复制信息
     memcpy(m_pdV,pdArry,sizeof(*m_pdV)*nDim);
 }
 
 /// 3维向量
-CVector::CVector (double dX, double dY, double dZ)
-    : m_nDim(3)
+CVector::CVector (double dX, double dY, double dZ, bool bIsNormal)
+    : m_unDim(3),m_bIsNormal(bIsNormal)
 {
-    m_pdV = new double[m_nDim];
+    m_pdV = CMemPool::GetInstance()->Create<double>(m_unDim);
 
     m_pdV[0]=dX;
     m_pdV[1]=dY;
@@ -52,9 +63,9 @@ CVector::CVector (double dX, double dY, double dZ)
 /// 6维向量
 CVector::CVector (double dx, double dy, double dz
                           ,double dX, double dY, double dZ)
-    : m_nDim(6)
+    : m_unDim(6)
 {
-    m_pdV = new double [m_nDim];
+    m_pdV = CMemPool::GetInstance()->Create<double>(m_unDim);
 
     m_pdV[0]=dx;
     m_pdV[1]=dy;
@@ -67,16 +78,19 @@ CVector::CVector (double dx, double dy, double dz
 
 CVector::~CVector()
 {
-    if(0 != m_pdV)
+    if(nullptr != m_pdV)
     {
-        delete [] m_pdV;
+        CMemPool::GetInstance()->Remove(m_pdV);
+        m_pdV = nullptr;
     }
+
+    m_unDim = 0;
 }
 
 /// Set方法
 void CVector::Set(double xT, double yT, double zT)
 {
-    if(m_nDim<3)
+    if(m_unDim<3)
     {
         Resize(3);
     }
@@ -87,37 +101,34 @@ void CVector::Set(double xT, double yT, double zT)
 }
 
 /// 重设大小
-CVector& CVector::Resize(int nSize)
+CVector& CVector::Resize(unsigned int unSize)
 {
     /// 如果相等则直接返回
-    if (m_nDim==nSize) return (*this);
+    if (m_unDim==unSize) return (*this);
 
-    int    i       /// 游标
-          ,i_max;  /// 需要复制的值的个数
-
-    /// 开辟新的空间
-    double *v_new = new double[nSize];
-
-    i_max = ((nSize<m_nDim)? nSize : m_nDim);
-
-    /// 复制旧值
-    for (i=0;i<i_max;++i)
+    if(unSize < 1)
     {
-        v_new[i]=m_pdV[i];
+        m_unDim = 0;
+        CMemPool::GetInstance()->Remove(m_pdV);
+        return(*this);
     }
 
-    /// 填充 0
-    for (i=i_max;i<nSize;++i)
+    /// 开辟新的空间
+    double *pNew = CMemPool::GetInstance()->Create<double>(unSize);;
+
+    unsigned int unMax = ((unSize<m_unDim)? unSize : m_unDim);
+
+    if(unMax > 0)
     {
-        v_new[i]=0.0;
+        memcpy(pNew,m_pdV,unMax*sizeof(*pNew));
     }
 
     /// 释放旧空间
-    delete [] m_pdV;
+    CMemPool::GetInstance()->Remove(m_pdV);
 
     /// 内存指向新的地址
-    m_pdV = v_new;
-    m_nDim = nSize;
+    m_pdV = pNew;
+    m_unDim = unSize;
 
     return (*this);
 }
@@ -126,7 +137,7 @@ CVector& CVector::Resize(int nSize)
 double CVector::Length() const
 {
     double target = 0.0;
-    for(int i = 0; i < m_nDim; ++i)
+    for(unsigned int i = 0; i < m_unDim; ++i)
     {
         target += m_pdV[i] * m_pdV[i];
     }
@@ -137,17 +148,28 @@ double CVector::Length() const
 /// 将向量归一化
 void CVector::Normalize()
 {
+    static const double epsilon(0.0000001);
     double r = Length();
+    if(r==1)
+    {
+        m_bIsNormal = true;
+        return;
+    }
 
-    this->operator /=(r);
+    if(r > epsilon)
+    {
+
+        this->operator /=(r);
+        m_bIsNormal = true;
+    }
 }
 
 /// 访问部分数据
-CVector CVector::slice (int nFirst, int nLast) const
+CVector CVector::slice (unsigned int nFirst,unsigned int nLast) const
 {
     /// 设置
-    int i
-       ,nMax= nLast < m_nDim ? nLast : m_nDim;
+    unsigned int i
+       ,nMax= nLast < m_unDim ? nLast : m_unDim;
 
     CVector Aux(nLast-nFirst+1);
 
@@ -157,12 +179,6 @@ CVector CVector::slice (int nFirst, int nLast) const
         Aux.m_pdV[i-nFirst]=m_pdV[i];
     }
 
-    /// 填充 防止越界访问
-    for(i=nMax+1; i<=nLast; ++i)
-    {
-        Aux.m_pdV[i-nFirst] = 0;
-    }
-
     return Aux;
 }
 
@@ -170,8 +186,8 @@ CVector CVector::slice (int nFirst, int nLast) const
 /// 获取向量的开平方向量
 CVector CVector::Sqrt() const
 {
-    CVector Aux(m_nDim);
-    for (int i=0; i<m_nDim; ++i)
+    CVector Aux(m_unDim);
+    for (unsigned int i=0; i<m_unDim; ++i)
     {
         Aux.m_pdV[i]=sqrt(m_pdV[i]);
     }
@@ -182,7 +198,7 @@ CVector CVector::Sqrt() const
 /// 赋值
 CVector& CVector::operator=(const double value)
 {
-    for (int i=0; i<m_nDim; ++i)
+    for (unsigned int i=0; i<m_unDim; ++i)
     {
         m_pdV[i]=value;
     }
@@ -198,22 +214,10 @@ CVector& CVector::operator=(const CVector& V)
         return (*this);
     }
 
-    /// 检查向量是否为空
-    if (IsEmpty())
-    {
-        m_nDim = V.m_nDim;
-        m_pdV = new double [V.m_nDim];
-    };
-
-    /// 检查维度是否相同
-    if (m_nDim != V.m_nDim)
-    {
-        cerr << "ERROR: Incompatible sizes in Vector operator=(Vector)" << endl;
-        return (*this);
-    };
+    Resize(V.m_unDim);
 
     /// 复制数据
-    memcpy(m_pdV,V.m_pdV,sizeof(*m_pdV)*m_nDim);
+    memcpy(m_pdV,V.m_pdV,sizeof(*m_pdV)*m_unDim);
 
     return (*this);
 }
@@ -224,13 +228,13 @@ CVector& CVector::operator=(const CVector& V)
 void CVector::operator += (const CVector& V)
 {
     /// 如果维数不相等则不进行操作
-    if (m_nDim!=V.m_nDim)
+    if (m_unDim!=V.m_unDim)
     {
         cerr << "ERROR: Incompatible shape in Vector operator+=(Vector)" << endl;
         return;
     };
 
-    for (int i=0; i<m_nDim; ++i)
+    for (unsigned int i=0; i<m_unDim; ++i)
     {
         m_pdV[i]+=V.m_pdV[i];
     }
@@ -238,13 +242,13 @@ void CVector::operator += (const CVector& V)
 
 void CVector::operator -= (const CVector& V)
 {
-    if (m_nDim!=V.m_nDim)
+    if (m_unDim!=V.m_unDim)
     {
         cerr << "ERROR: Incompatible shape in Vector operator-=(Vector)" << endl;
         return;
     };
 
-    for (int i=0; i<m_nDim; ++i)
+    for (unsigned int i=0; i<m_unDim; ++i)
     {
         m_pdV[i]-=V.m_pdV[i];
     }
@@ -260,14 +264,14 @@ bool CVector::operator ==(const CVector& V)const
     else
     {
         /// 判断维数是否相同
-        if(m_nDim != V.m_nDim)
+        if(m_unDim != V.m_unDim)
         {
             return(false);
         }
         else
         {
             /// 判断各值是否相同
-            for(int i=0; i<m_nDim; ++i)
+            for(unsigned int i=0; i<m_unDim; ++i)
             {
                 if(fabs(m_pdV[i]-V.m_pdV[i]) > numeric_limits<double>::min())
                 {
@@ -304,7 +308,7 @@ CVector& CVector::operator /=(const double value)
 
 CVector& CVector::operator *=(const double value)
 {
-    for(int i = 0; i < m_nDim; ++i)
+    for(unsigned int i = 0; i < m_unDim; ++i)
     {
         m_pdV[i] *= value;
     }

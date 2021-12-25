@@ -17,7 +17,7 @@ double Math::sign(double a, double b)
 /// x的小数部分
 double Math::Frac(double x)
 {
-    return x-floor(x);
+    return x-int(x);
 }
 
 /// x%y
@@ -269,7 +269,9 @@ double Math::zero_to_two_pi( double angle_in_radians)
 {
     angle_in_radians = fmod( angle_in_radians, D2PI);
     if( angle_in_radians < 0.)
+    {
         angle_in_radians += D2PI;
+    }
     return( angle_in_radians);
 }
 
