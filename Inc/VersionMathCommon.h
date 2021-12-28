@@ -28,6 +28,9 @@
  */
 #define DAS2R (4.848136811095359935899141e-6)
 
+/* J2摄动系数 */
+#define DJ2 (1.08263e-3)
+
 /* Seconds of time to radians */
 /**
  * @brief 每秒地球的旋转弧度
@@ -108,8 +111,8 @@
 
 #define DF_ZERO (1e-12)
 /*6378.137e3*/// Radius Earth [m] WGS-84
-#define R_Earth  (6378245.0000000000)
-#define R_Earth2 (6356755.2881600000)
+#define R_Earth  (6378137.0000000000)
+#define R_Earth2 (6356752.314245179)
 
 // Radius Sun [m]
 #define R_Sun (695990000.)

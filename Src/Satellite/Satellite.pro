@@ -23,6 +23,7 @@ SOURCES += \
     Src/IRESInfo.cpp \
     Src/JPLEphemeris.cpp \
     Src/Kepler.cpp \
+    Src/J2.cpp \
     Src/OpticalAlg.cpp \
     Src/SGP4.cpp \
     Src/STKGraveModel.cpp \

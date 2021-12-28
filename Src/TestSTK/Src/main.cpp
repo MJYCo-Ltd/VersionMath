@@ -15,6 +15,7 @@
 #include <Satellite/JPLEphemeris.h>
 #include <Satellite/TimeSys.h>
 #include <Satellite/CoorSys.h>
+#include <Satellite/J2.h>
 
 using namespace std;
 int main()
@@ -376,7 +377,7 @@ int main()
 
         CQuaternion tmpQuat(CVector::X_AXIS,45*DD2R);
         CVector v(1,0,0);
-        int nTime(1e7);
+        int nTime(0);
         begine = clock();
         CQuaternion tmpQuat2;
         for(int i=0;i<nTime;++i)
@@ -415,6 +416,13 @@ int main()
 
 ////        CDate testData(2009,1,1,4,0,0,UTC);
 
+        CVector vTest(6678140,0,28.5*DD2R,0,0,0);
+        Satellite::CJ2 j2(6678140,0,28.5*DD2R,0,0,0);
+//        for(int i=0;i<86400;++i)
+        {
+            std::cout<<setprecision(11)<<setw(25)<<j2.CalPV(0)<<endl;
+            std::cout<<setprecision(11)<<setw(25)<<j2.CalPV(86400)<<endl;
+        }
 //        vJ2000.Set(-4953.733255,-3936.230829,-2136.381869);
 //        vICRF = CCoorSys::TEME2ECF(testData.GetMJD()) * vJ2000;
 //        std::cout<<setprecision(11)<<setw(20)<<vICRF<<std::endl;

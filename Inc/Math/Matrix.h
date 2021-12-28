@@ -41,6 +41,8 @@ public:
     /// 判断矩阵是否是单位矩阵
     bool IsId() const;
 
+    bool Translate(const CVector &vIn, CVector &vOut)const;
+
     /// 赋值
     /// 将所有的元素赋值成指定的值
     CMatrix& operator=(const double value);

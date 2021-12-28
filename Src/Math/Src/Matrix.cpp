@@ -228,6 +228,37 @@ bool CMatrix::IsId() const
     return(true);
 }
 
+bool CMatrix::Translate(const CVector &vIn, CVector &vOut) const
+{
+    if(vIn.Size() > 2 && 3 == m_unCol && 3 == m_unRow)
+    {
+        unsigned int nCount = vIn.Size() / 3;
+        double dvX,dvY,dvZ;
+
+        /// 如果输出大小不足以存储则扩展空间
+        if(vOut.Size() < nCount*3)
+        {
+            vOut.Resize(nCount*3);
+        }
+
+        for(unsigned int i=0,j=0;i<nCount;++i,j+=3)
+        {
+            dvX = vIn(j);
+            dvY = vIn(j+1);
+            dvZ = vIn(j+2);
+            vOut(j)   = m_ppdM[0][0]*dvX + m_ppdM[0][1]*dvY + m_ppdM[0][2]*dvZ;
+            vOut(j+1) = m_ppdM[1][0]*dvX + m_ppdM[1][1]*dvY + m_ppdM[1][2]*dvZ;
+            vOut(j+2) = m_ppdM[2][0]*dvX + m_ppdM[2][1]*dvY + m_ppdM[2][2]*dvZ;
+        }
+
+        return(true);
+    }
+    else
+    {
+        return(false);
+    }
+}
+
 /// 赋值操作
 CMatrix& CMatrix::operator=(const double value)
 {

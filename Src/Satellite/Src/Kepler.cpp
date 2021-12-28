@@ -38,7 +38,6 @@ CKepler::CKepler(double dA, double dE, double dI, double dRAAN, double dMA, doub
 
 CKepler::~CKepler()
 {
-
 }
 
 const CVector& CKepler::CalPV(double dT)
@@ -84,7 +83,6 @@ CVector CKepler::State(const double &dGM, const CVector &vKep, double dT)
     double  a,e,i,Omega,omega,M,M0,n;
     double  E,cosE,sinE, fac, R,V;
     CVector  r(3),v(3);
-    CMatrix  PQW;
 
     if(vKep.Size() < 6)
     {
@@ -122,11 +120,18 @@ CVector CKepler::State(const double &dGM, const CVector &vKep, double dT)
     r.Set(a*(cosE-e), a*fac*sinE , 0.0 );
     v.Set(-V*sinE   , +V*fac*cosE, 0.0 );
 
+    double dTempMat[3][3];
+    iauIr(dTempMat);
+    iauRz(-omega,dTempMat);
+    iauRx(-i,dTempMat);
+    iauRz(-Omega,dTempMat);
     /// 轨道面到惯性系旋转矩阵
-    PQW = CVecMat::R_z(-Omega) * CVecMat::R_x(-i) * CVecMat::R_z(-omega);
+    CMatrix  PQW(dTempMat,3,3);
 
-    r = PQW*r;
-    v = PQW*v;
+    PQW.Translate(r,r);
+    PQW.Translate(v,v);
+//    r = PQW*r;
+//    v = PQW*v;
 
     return(CVecMat::Stack(r,v));
 }
