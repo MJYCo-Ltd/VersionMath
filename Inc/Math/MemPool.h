@@ -16,13 +16,13 @@ public:
      * @brief 初始化空间大小，以后将以此大小为基本单位开辟空间
      * @param nBytesSize
      */
-    bool InitSize(unsigned int nBytesSize);
+    bool InitSize(size_t nBytesSize);
 
     /**
      * @brief 开辟空间
      */
     template<typename T>
-    T* Create(unsigned int nSize);
+    T* Create(size_t nSize);
 
     /**
      *@brief 移除开辟的空间
@@ -37,8 +37,8 @@ public:
 protected:
     ~CMemPool();
 private:
-    unsigned int m_nBytesSize{0};
-    unsigned int m_nTotalSize{0};
+    size_t m_nBytesSize{};
+    size_t m_nTotalSize{};
     void*     m_pFirstBuffer{};
     std::list<void*> m_listBuffer{};
 };

@@ -11,7 +11,7 @@ CMemPool *CMemPool::GetInstance()
 }
 
 /// 初始化空间大小
-bool CMemPool::InitSize(unsigned int nBytesSize)
+bool CMemPool::InitSize(size_t nBytesSize)
 {
     if(0 == nBytesSize)
     {
@@ -52,7 +52,7 @@ bool CMemPool::InitSize(unsigned int nBytesSize)
             m_pFirstBuffer = nullptr;
             return(false);
         }
-        m_nTotalSize += m_nBytesSize;
+        m_nTotalSize = m_nBytesSize;
     }
 
     return(true);
@@ -82,7 +82,7 @@ CMemPool::~CMemPool()
 }
 
 template<typename T>
-T *CMemPool::Create(unsigned int nSize)
+T *CMemPool::Create(size_t nSize)
 {
     if(nullptr == m_pFirstBuffer)
     {
@@ -124,6 +124,6 @@ void CMemPool::Remove(void *pT)
     }
 }
 
-template double* CMemPool::Create<double>(unsigned int nSize);
-template char* CMemPool::Create<char>(unsigned int nSize);
-template double** CMemPool::Create<double*>(unsigned int nSize);
+template double* CMemPool::Create<double>(size_t nSize);
+template char* CMemPool::Create<char>(size_t nSize);
+template double** CMemPool::Create<double*>(size_t nSize);
