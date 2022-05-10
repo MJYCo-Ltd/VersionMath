@@ -1,8 +1,7 @@
 ﻿#include <cstdlib>
 #include <Math/MemPool.h>
 #include "Inc/tlsf.h"
-
-static const unsigned int unDefaultSize=1024*1024;
+static const unsigned int unDefaultSize=300*1024*1024;
 /// 获取单例
 CMemPool *CMemPool::GetInstance()
 {
