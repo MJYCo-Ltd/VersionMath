@@ -1,7 +1,9 @@
 ﻿#include <cstdlib>
+#include <mutex>
 #include <Math/MemPool.h>
 #include "Inc/tlsf.h"
 static const unsigned int unDefaultSize=300*1024*1024;
+std::mutex g_mtxMemPool;
 /// 获取单例
 CMemPool *CMemPool::GetInstance()
 {
@@ -18,6 +20,7 @@ bool CMemPool::InitSize(size_t nBytesSize)
     }
 
 
+    g_mtxMemPool.lock();
     if(nBytesSize > m_nBytesSize)
     {
         m_nBytesSize = nBytesSize;
@@ -53,6 +56,7 @@ bool CMemPool::InitSize(size_t nBytesSize)
         }
         m_nTotalSize = m_nBytesSize;
     }
+    g_mtxMemPool.unlock();
 
     return(true);
 }
@@ -92,6 +96,7 @@ T *CMemPool::Create(size_t nSize)
         }
     }
 
+    g_mtxMemPool.lock();
     /// 尝试开辟空间
     T* pT = (T*)tlsf_malloc(sizeof(T)* nSize);
 
@@ -111,6 +116,7 @@ T *CMemPool::Create(size_t nSize)
             break;
         }
     }
+    g_mtxMemPool.unlock();
 
     return(pT);
 }
@@ -119,7 +125,9 @@ void CMemPool::Remove(void *pT)
 {
     if(pT != nullptr && m_pFirstBuffer != nullptr)
     {
+        g_mtxMemPool.lock();
         tlsf_free(pT);
+        g_mtxMemPool.unlock();
     }
 }
 
