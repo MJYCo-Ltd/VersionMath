@@ -5,6 +5,7 @@
   作用：统一管理内存，减少内存碎片
  *****************************************/
 #include <list>
+#include <mutex>
 #include "Math_global.h"
 
 class MATH_EXPORT CMemPool
@@ -41,6 +42,7 @@ private:
     size_t m_nTotalSize{};
     void*     m_pFirstBuffer{};
     std::list<void*> m_listBuffer{};
+    std::mutex m_mtxMemPool;
 };
 
 #endif // YTY_MEMPOOL_H
