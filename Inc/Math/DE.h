@@ -6,16 +6,9 @@
        进行加锁保护，否则运算结果不能保证
   备注：完全不懂如何进行积分的，还需要知道的人进行注释
  *****************************************/
-#include "Math_global.h"
-
-namespace Math{
-class CVector;
-class CMatrix;
-}
+#include<Math/VecMat.h>
 
 namespace Numerical{
-
-using namespace Math;
 
 enum DE_STATE {
     DE_INIT     = 1,   // Restart integration
@@ -26,8 +19,8 @@ enum DE_STATE {
     DE_INVPARAM = 6    // Invalid input parameters
 };
 
-typedef void (*DEfunct)(double x, const CVector& y
-                        ,CVector& yp,void* pAux);
+typedef void (*DEfunct)(double x, const Math::CVector& y
+                        ,Math::CVector& yp,void* pAux);
 
 class MATH_EXPORT CDE
 {
@@ -57,19 +50,19 @@ public:
      * @param dTout 结束时间
      * @param vecY  积分结果
      */
-    void Integ(double dTout, CVector& vecY);
+    void Integ(double dTout, Math::CVector& vecY);
 
     /// 插入
-    void Intrp(double dTout, CVector& vecY);
+    void Intrp(double dTout, Math::CVector& vecY);
 private:
     // Elementary integration step
-    void Step(double& dX, CVector& vecY, double& dEps, bool& bCrash);
+    void Step(double& dX, Math::CVector& vecY, double& dEps, bool& bCrash);
 
     // Interpolation
-    void Intrp( double dXout, CVector& vecYout, CVector& vecYpout );
+    void Intrp( double dXout, Math::CVector& vecYout, Math::CVector& vecYpout );
 
     // Integration (with full control of warnings and error status codes)
-    void Integ(double& dt, double dTout, CVector& vecY);
+    void Integ(double& dt, double dTout, Math::CVector& vecY);
 
     /// 成员变量
 public:
@@ -82,8 +75,8 @@ private:
     DEfunct  m_pfDE;
     int      m_nEqn;
     void*    m_pAux;
-    CVector   m_vecYy,m_vecWt,m_vecP,m_vecYp,m_vecYpout;
-    CMatrix   m_matPhi;
+    Math::CVector   m_vecYy,m_vecWt,m_vecP,m_vecYp,m_vecYpout;
+    Math::CMatrix   m_matPhi;
     double   m_dAlpha[13],m_dBeta[13],m_dV[13],m_dW[13],m_dPsi[13];
     double   m_dSig[14],m_dG[14];
     double   m_dX,m_dH,m_dHold,m_dTold,m_dDelsgn;

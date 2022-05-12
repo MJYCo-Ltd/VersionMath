@@ -32,13 +32,13 @@ bool GisMath::XYZ2LBH(double dX, double dY, double dZ, double &dL, double &dB, d
 }
 
 /// 经纬度和xyz的转换
-bool GisMath::LBH2XYZ(const CVector &vGeo, CVector &v3D)
+bool GisMath::LBH2XYZ(const Math::CVector &vGeo, Math::CVector &v3D)
 {
 
     int nGeo = vGeo.Size();
 
     /// 判断两个矩阵元素是否相同
-    if(!CVecMat::IsValid(vGeo,v3D))
+    if(!Math::CVecMat::IsValid(vGeo,v3D))
     {
         return(false);
     }
@@ -55,12 +55,12 @@ bool GisMath::LBH2XYZ(const CVector &vGeo, CVector &v3D)
 }
 
 /// 经纬度和xyz的转换
-bool GisMath::XYZ2LBH(const CVector &v3D, CVector &vGeo)
+bool GisMath::XYZ2LBH(const Math::CVector &v3D, Math::CVector &vGeo)
 {
     int n3D = v3D.Size();
 
     /// 判断两个矩阵元素是否相同
-    if(!CVecMat::IsValid(v3D,vGeo))
+    if(!Math::CVecMat::IsValid(v3D,vGeo))
     {
         return(false);
     }
@@ -131,7 +131,7 @@ double GisMath::CalArcLen(double dLon1, double dLat1, double dLon2, double dLat2
 }
 
 /// 计算多边形围成的面积
-double GisMath::CalclutaGeoArea(const CVector &vGeoIn, GisMath::AREA_TYPE type)
+double GisMath::CalclutaGeoArea(const Math::CVector &vGeoIn, GisMath::AREA_TYPE type)
 {
     CheckInit();
     /// 不足以构成多边形

@@ -47,10 +47,10 @@ void GisMath::InitGis(ELLIPSOID typeEllipsoid)
     S_INIT = true;
 }
 
-bool GisMath::CalLineInterEllipsoid(const CVector& pt,const CVector& stDir,CVector& rInsertPos,
+bool GisMath::CalLineInterEllipsoid(const Math::CVector& pt,const Math::CVector& stDir,Math::CVector& rInsertPos,
                                                     double dA,double dB)
 {
-    CVector vDir(stDir);
+    Math::CVector vDir(stDir);
     vDir.Normalize();
 
     double a2 = dA*dA;
@@ -98,7 +98,7 @@ bool GisMath::CalLineInterEllipsoid(const CVector& pt,const CVector& stDir,CVect
 }
 
 /// 求射线与椭球的交点
-bool GisMath::CalLineInterEarth(const CVector &pt, const CVector &stDir, CVector &rInsertPos)
+bool GisMath::CalLineInterEarth(const Math::CVector &pt, const Math::CVector &stDir, Math::CVector &rInsertPos)
 {
     CheckInit();
     return(CalLineInterEllipsoid(pt,stDir,rInsertPos,EARTH_DA,EARTH_DB));

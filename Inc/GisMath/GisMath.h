@@ -57,14 +57,14 @@ namespace GisMath
      * @param rInsertPos    交点     [m,m,m]
      * @return
      */
-    GISMATHSHARED_EXPORT bool CalLineInterEarth(const CVector& pt,const CVector& stDir,CVector& rInsertPos);
+    GISMATHSHARED_EXPORT bool CalLineInterEarth(const Math::CVector& pt,const Math::CVector& stDir,Math::CVector& rInsertPos);
 
     /**
      * @param dA 赤道半径[m]
      * @param dB 极半径[m]
      * @return
      */
-    GISMATHSHARED_EXPORT bool CalLineInterEllipsoid(const CVector& pt,const CVector& stDir,CVector& rInsertPos,
+    GISMATHSHARED_EXPORT bool CalLineInterEllipsoid(const Math::CVector& pt,const Math::CVector& stDir,Math::CVector& rInsertPos,
                                                     double dA,double dB);
 
     /************************ 表述方式的转换 ************************/
@@ -81,8 +81,8 @@ namespace GisMath
     GISMATHSHARED_EXPORT bool LBH2XYZ(double dL, double dB, double dH, double& dX, double& dY, double& dZ);
 
     /// @attention 用向量表示(适合数据为3的倍数) 支持批量处理
-    GISMATHSHARED_EXPORT bool XYZ2LBH(const CVector& v3D, CVector& vGeo);
-    GISMATHSHARED_EXPORT bool LBH2XYZ(const CVector& vGeo, CVector& v3D);
+    GISMATHSHARED_EXPORT bool XYZ2LBH(const Math::CVector& v3D, Math::CVector& vGeo);
+    GISMATHSHARED_EXPORT bool LBH2XYZ(const Math::CVector& vGeo, Math::CVector& v3D);
 
     /************************ 观察方式的转换 ************************/
     /**
@@ -92,8 +92,8 @@ namespace GisMath
      * @param vGlobal  全局(ECF)下笛卡尔坐标 [m,m,m]
      * @param vLocal   站心坐标系系的坐标    [m,m,m]
      */
-    GISMATHSHARED_EXPORT bool GLOBAL2LOCAL(double dL, double dB,const CVector& vGlobal, CVector& vLocal);
-    GISMATHSHARED_EXPORT bool LOCAL2GLOBAL(double dL, double dB,const CVector& vLocal, CVector& vGlobal);
+    GISMATHSHARED_EXPORT bool GLOBAL2LOCAL(double dL, double dB,const Math::CVector& vGlobal, Math::CVector& vLocal);
+    GISMATHSHARED_EXPORT bool LOCAL2GLOBAL(double dL, double dB,const Math::CVector& vLocal, Math::CVector& vGlobal);
 
     /**
      * @brief 全局坐标转换成局部东北天坐标转换的矩阵
@@ -102,8 +102,8 @@ namespace GisMath
      * @attention vLocal = GLOBAL2LOCAL(dLon,dLat) * vGlobal;
      * @return
      */
-    GISMATHSHARED_EXPORT CMatrix GLOBAL2LOCAL(double dL, double dB);
-    GISMATHSHARED_EXPORT CMatrix LOCAL2GLOBAL(double dL, double dB);
+    GISMATHSHARED_EXPORT Math::CMatrix GLOBAL2LOCAL(double dL, double dB);
+    GISMATHSHARED_EXPORT Math::CMatrix LOCAL2GLOBAL(double dL, double dB);
 
 
     /**
@@ -250,7 +250,7 @@ namespace GisMath
      * @param type    输出面积类型
      * @return
      */
-    GISMATHSHARED_EXPORT double CalclutaGeoArea(const CVector& vGeoIn,AREA_TYPE type);
+    GISMATHSHARED_EXPORT double CalclutaGeoArea(const Math::CVector& vGeoIn,AREA_TYPE type);
 
     /**
      * @brief JC02 到wgs84的转换

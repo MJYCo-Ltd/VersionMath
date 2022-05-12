@@ -1,4 +1,4 @@
-﻿#include <Math/VecMat.h>
+﻿#include <iostream>
 #include <Math/GJ4.h>
 using namespace Numerical;
 using namespace Math;
@@ -16,15 +16,16 @@ void CGJ4::RK4(double& dT, CVector& vecR, CVector& vecV, double dH)
 {
     CVector v_1, v_2, v_3, v_4;
     CVector a_1, a_2, a_3, a_4;
+    double dHalfH(dH*0.5),dOneSixH(dH/6.);
 
     v_1 = vecV;               m_pfGJ4( dT      , vecR              , v_1, a_1, m_pAux );
-    v_2 = vecV+(dH/2.0)*a_1;  m_pfGJ4( dT+dH/2.0, vecR+(dH/2.0)*v_1, v_2, a_2, m_pAux );
-    v_3 = vecV+(dH/2.0)*a_2;  m_pfGJ4( dT+dH/2.0, vecR+(dH/2.0)*v_2, v_3, a_3, m_pAux );
-    v_4 = vecV+dH*a_3;        m_pfGJ4( dT+dH    , vecR+dH*v_3      , v_4, a_4, m_pAux );
+    v_2 = vecV+dHalfH*a_1;  m_pfGJ4( dT+dHalfH, vecR+dHalfH*v_1, v_2, a_2, m_pAux );
+    v_3 = vecV+dHalfH*a_2;  m_pfGJ4( dT+dHalfH, vecR+dHalfH*v_2, v_3, a_3, m_pAux );
+    v_4 = vecV+dH*a_3;      m_pfGJ4( dT+dH    , vecR+dH*v_3      , v_4, a_4, m_pAux );
 
     dT = dT + dH;
-    vecR = vecR + (dH/6.0)*( v_1 + 2.0*v_2 + 2.0*v_3 + v_4 );
-    vecV = vecV + (dH/6.0)*( a_1 + 2.0*a_2 + 2.0*a_3 + a_4 );
+    vecR = vecR + dOneSixH*( v_1 + 2.0*v_2 + 2.0*v_3 + v_4 );
+    vecV = vecV + dOneSixH*( a_1 + 2.0*a_2 + 2.0*a_3 + a_4 );
 
 }
 

@@ -13,10 +13,6 @@ const CVector CVector::Y_AXIS(0,1,0,true);
 const CVector CVector::Z_AXIS(0,0,1,true);
 const CVector CVector::NULL_VECTOR;
 
-CVector::CVector()
-{
-}
-
 /// 构造一个全为零的向量
 CVector::CVector (unsigned int nSize)
 {
@@ -37,6 +33,14 @@ CVector::CVector (const CVector& rV)
     memcpy(m_pdV,rV.m_pdV,sizeof(*m_pdV)*m_unDim);
 }
 
+CVector::CVector(CVector&& rV)
+{
+    m_unDim = rV.m_unDim;
+    m_bIsNormal = rV.m_bIsNormal;
+    m_pdV = rV.m_pdV;
+
+    rV.InitAttr();
+}
 /// 通过数组构造
 CVector::CVector (const double* pdArry, unsigned int nDim)
 {
@@ -222,6 +226,20 @@ CVector& CVector::operator=(const CVector& V)
     return (*this);
 }
 
+CVector& CVector::operator=(CVector&& rV)
+{
+    if (this == &rV)
+    {
+        return (*this);
+    }
+
+    m_unDim = rV.m_unDim;
+    m_bIsNormal = rV.m_bIsNormal;
+    m_pdV = rV.m_pdV;
+
+    rV.InitAttr();
+    return(*this);
+}
 
 // Vector addition/subtraction with assignment
 
@@ -313,4 +331,9 @@ CVector& CVector::operator *=(const double value)
         m_pdV[i] *= value;
     }
     return (*this);
+}
+
+void CVector::InitAttr()
+{
+    std::memset(this,0,sizeof(*this));
 }

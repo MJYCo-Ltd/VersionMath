@@ -6,11 +6,8 @@
        进行加锁保护，否则运算结果不能保证
  *****************************************/
 
-#include "Math_global.h"
+#include <Math/VecMat.h>
 namespace Math{
-class CVector;
-class CMatrix;
-
 class MATH_EXPORT CQuaternion
 {
 public:
@@ -128,25 +125,24 @@ private:
     bool   m_bNeedInitCoefficient;
 };
 }
-using namespace Math;
 /// 计算rOther的逆四元数
-MATH_EXPORT CQuaternion Inv(const CQuaternion& rOther);
+MATH_EXPORT Math::CQuaternion Inv(const Math::CQuaternion& rOther);
 
 /// 计算rOther的共轭四元数
-MATH_EXPORT CQuaternion Conj(const CQuaternion& rOther);
+MATH_EXPORT Math::CQuaternion Conj(const Math::CQuaternion& rOther);
 
 /// 计算从 rFrom 到 rTo 的中间位置的四元数
 /// dPos 取值范围 (0~1) 超过的取余，为负数则直接乘-1
-MATH_EXPORT CQuaternion Slerp(const CQuaternion& rqFrom,const CQuaternion& rqTo,double dPos);
+MATH_EXPORT Math::CQuaternion Slerp(const Math::CQuaternion& rqFrom,const Math::CQuaternion& rqTo,double dPos);
 
 /// 实现运算符
-MATH_EXPORT CQuaternion operator + (const CQuaternion& qOne,const CQuaternion& qTwo);
-MATH_EXPORT CQuaternion operator - (const CQuaternion& qOne,const CQuaternion& qTwo);
-MATH_EXPORT CQuaternion operator * (const CQuaternion& q,double dScale);
-MATH_EXPORT CQuaternion operator * (double dScale,const CQuaternion& q);
+MATH_EXPORT Math::CQuaternion operator + (const Math::CQuaternion& qOne,const Math::CQuaternion& qTwo);
+MATH_EXPORT Math::CQuaternion operator - (const Math::CQuaternion& qOne,const Math::CQuaternion& qTwo);
+MATH_EXPORT Math::CQuaternion operator * (const Math::CQuaternion& q,double dScale);
+MATH_EXPORT Math::CQuaternion operator * (double dScale,const Math::CQuaternion& q);
 
-MATH_EXPORT CVector     operator * (const CQuaternion& q,const CVector& v);
-MATH_EXPORT CQuaternion operator * (const CQuaternion& rOne, const CQuaternion& rTwo);
-MATH_EXPORT CQuaternion operator / (const CQuaternion& rOne, const CQuaternion& rTwo);
+MATH_EXPORT Math::CVector     operator * (const Math::CQuaternion& q,const Math::CVector& v);
+MATH_EXPORT Math::CQuaternion operator * (const Math::CQuaternion& rOne, const Math::CQuaternion& rTwo);
+MATH_EXPORT Math::CQuaternion operator / (const Math::CQuaternion& rOne, const Math::CQuaternion& rTwo);
 
 #endif // YTY_QUATERNION_H

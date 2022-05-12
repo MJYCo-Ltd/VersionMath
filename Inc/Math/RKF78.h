@@ -5,8 +5,7 @@
   注意：此类是非线程安全的，在多线程中使用需要对变量
        进行加锁保护，否则运算结果不能保证
  *****************************************/
-#include "Math_global.h"
-#include "RK4.h"
+#include <Math/RK4.h>
 
 namespace Numerical{
 class MATH_EXPORT CRKF78:public CRK4
@@ -21,9 +20,9 @@ public:
     CRKF78(RK4funct pfRK4, int nEqn, void* pAux );
     ~CRKF78();
 
-    virtual void Step (double& dt, CVector& vY, double dh);
+    virtual void Step (double& dt, Math::CVector& vY, double dh);
 private:
-    CVector m_vK[13];
+    Math::CVector m_vK[13];
 
     const static double m_dAK[13];
     const static double m_dW[13];

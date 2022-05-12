@@ -5,7 +5,7 @@
   注意：此类是非线程安全的，在多线程中使用需要对变量
        进行加锁保护，否则运算结果不能保证
  *****************************************/
-#include "Math_global.h"
+#include <Math/VecMat.h>
 
 namespace Math {
 /**
@@ -26,8 +26,6 @@ struct Euler_Rotate
     double dB;
     double dC;
 };
-
-class CMatrix;
 
 class MATH_EXPORT CEulerAngle
 {

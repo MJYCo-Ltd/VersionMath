@@ -6,7 +6,7 @@
  *****************************************/
 #include <list>
 #include <mutex>
-#include "Math_global.h"
+#include <Math/Math_global.h>
 
 class MATH_EXPORT CMemPool
 {

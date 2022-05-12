@@ -8,7 +8,7 @@
        进行加锁保护，否则运算结果不能保证
  空向量：维数为0的向量
  *****************************************/
-#include "Math_global.h"
+#include <Math/Math_global.h>
 namespace Math {
 
 class MATH_EXPORT CVector
@@ -19,9 +19,10 @@ public:
     const static CVector Z_AXIS;
     const static CVector NULL_VECTOR;
     /// 构造函数
-    CVector ();
+    CVector (){}
     CVector (unsigned int nSize);                       /// 构造一个全为零的向量
     CVector (const CVector& rV);           /// 复制构造
+    CVector (CVector&& rV);
     CVector (const double* pdArry,unsigned int nDim);  /// 通过数组构造
     CVector (double dX, double dY, double dZ,bool bIsNormal=false); /// 3维向量
     CVector (double dx, double dy, double dz
@@ -66,6 +67,7 @@ public:
     /// 赋值操作符
     CVector& operator=(const double value);
     CVector& operator=(const CVector& V);
+    CVector& operator=(CVector&& rV);
 
     /// 获取向量中的值
     /// 注意没有进行越界检查，使用时按照规范使用
@@ -81,7 +83,8 @@ public:
     /// 对向量进行缩放
     CVector& operator /= (const double value);
     CVector& operator *= (const double value);
-
+private:
+    inline void InitAttr();
 private:
     /// 成员变量
     unsigned int m_unDim{};  /// 向量维数

@@ -65,6 +65,14 @@ CMatrix::CMatrix (const CMatrix& rM)
     }
 }
 
+CMatrix::CMatrix(CMatrix &&rM)
+{
+    m_unRow = rM.m_unRow;
+    m_unCol = rM.m_unCol;
+    m_ppdM = rM.m_ppdM;
+    rM.InitAttr();
+}
+
 /// 通过数组构造
 CMatrix::CMatrix (const double* p, unsigned int dim1, unsigned int dim2)
 {
@@ -138,7 +146,7 @@ CMatrix& CMatrix::Resize(unsigned int nRow, unsigned int nCol)
     {
         cerr << "ERROR: Incompatible shape in Matrix Resize(int,int)" << endl;
         /// 清空数据
-        this->Empty();
+        Empty();
         return (*this);
     }
 
@@ -278,27 +286,9 @@ CMatrix& CMatrix::operator=(const CMatrix& rM)
     {
         return (*this);
     }
+    Resize(rM.m_unRow,rM.m_unCol);
 
     unsigned int i,j;
-    /// 如果矩阵为空则开辟空间
-    if (IsEmpty())
-    {
-        m_unRow = rM.m_unRow;
-        m_unCol = rM.m_unCol;
-        m_ppdM = CMemPool::GetInstance()->Create<double*>(m_unRow);
-        for (i=0; i<m_unRow; ++i)
-        {
-            m_ppdM[i] = CMemPool::GetInstance()->Create<double>(m_unCol);
-        }
-    }
-
-    /// 如果矩阵的行列不同则直接返回
-    if ( (m_unRow!=rM.m_unRow) || (m_unCol!=rM.m_unCol) )
-    {
-        cerr << "ERROR: Incompatible shapes in Matrix operator=(Matrix)" << endl;
-        return(*this);
-    }
-
     /// 计算每一行的空间大小
     j = m_unCol * sizeof(**m_ppdM);
     for (i=0; i<m_unRow; ++i)
@@ -309,6 +299,19 @@ CMatrix& CMatrix::operator=(const CMatrix& rM)
     return (*this);
 }
 
+CMatrix& CMatrix::operator=(CMatrix&& rM)
+{
+    if (this == &rM)
+    {
+        return (*this);
+    }
+
+    m_unRow = rM.m_unRow;
+    m_unCol = rM.m_unCol;
+    m_ppdM = rM.m_ppdM;
+    rM.InitAttr();
+    return(*this);
+}
 
 /// 返回指定列数据
 CVector CMatrix::GetCol(unsigned int j) const
@@ -356,7 +359,7 @@ double CMatrix::Trace() const
 
 double CMatrix::Trace(unsigned int low, unsigned int upp) const
 {
-    double tmp = 0.0;
+    double tmp{};
 
     /// 不是方阵则退出
     if (!IsSquare())
@@ -564,7 +567,7 @@ CMatrix& CMatrix::operator *=(const double value)
 void CMatrix::Empty()
 {
     /// 如果缓存为空，则直接返回
-    if(0 == m_ppdM)
+    if(nullptr == m_ppdM)
     {
         InitAttr();
         return;
@@ -582,6 +585,5 @@ void CMatrix::Empty()
 
 void CMatrix::InitAttr()
 {
-    m_unRow = m_unCol = 0;
-    m_ppdM = 0;
+    std::memset(this,0,sizeof(*this));
 }

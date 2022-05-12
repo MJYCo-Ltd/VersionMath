@@ -113,59 +113,58 @@ private:
 };
 }
 
-using namespace Math;
 //////////////////////////////向量操作符///////////////////////////////////////
-MATH_EXPORT CVector operator &(const CVector& a, double b);
-MATH_EXPORT CVector operator &(double a, const CVector& b);
-MATH_EXPORT CVector operator &(const CVector& a, const CVector& b);
-MATH_EXPORT CVector operator * (double value, const CVector& V);
-MATH_EXPORT CVector operator * (const CVector& V, double value);
-MATH_EXPORT CVector operator / (const CVector& V, double value);
-MATH_EXPORT CVector operator + (const CVector& left, const CVector& right);
-MATH_EXPORT CVector operator - (const CVector& left, const CVector& right);
+MATH_EXPORT Math::CVector operator &(const Math::CVector& a, double b);
+MATH_EXPORT Math::CVector operator &(double a, const Math::CVector& b);
+MATH_EXPORT Math::CVector operator &(const Math::CVector& a, const Math::CVector& b);
+MATH_EXPORT Math::CVector operator * (double value, const Math::CVector& V);
+MATH_EXPORT Math::CVector operator * (const Math::CVector& V, double value);
+MATH_EXPORT Math::CVector operator / (const Math::CVector& V, double value);
+MATH_EXPORT Math::CVector operator + (const Math::CVector& left, const Math::CVector& right);
+MATH_EXPORT Math::CVector operator - (const Math::CVector& left, const Math::CVector& right);
 /// 将向量取负
-MATH_EXPORT CVector operator - (const CVector& V);
+MATH_EXPORT Math::CVector operator - (const Math::CVector& V);
 //////////////////////////////向量操作符///////////////////////////////////////
 /// 输出
-MATH_EXPORT std::ostream& operator << (std::ostream& os, const CVector& rVec);
-MATH_EXPORT std::ostream& operator << (std::ostream& os, const CMatrix& rMat);
+MATH_EXPORT std::ostream& operator << (std::ostream& os, const Math::CVector& rVec);
+MATH_EXPORT std::ostream& operator << (std::ostream& os, const Math::CMatrix& rMat);
 //////////////////////////////矩阵操作 //////////////////////////////////////////
 /// 以行合并，行数增加
-MATH_EXPORT CMatrix operator &(const CMatrix& A, const CMatrix& B);
+MATH_EXPORT Math::CMatrix operator &(const Math::CMatrix& A, const Math::CMatrix& B);
 
 /// 以列合并，列数增加
-MATH_EXPORT CMatrix operator |(const CMatrix& A, const CMatrix& B);
+MATH_EXPORT Math::CMatrix operator |(const Math::CMatrix& A, const Math::CMatrix& B);
 
 /// 缩放矩阵
-MATH_EXPORT CMatrix operator * (double value, const CMatrix& Mat);
-MATH_EXPORT CMatrix operator * (const CMatrix& Mat, double value);
-MATH_EXPORT CMatrix operator / (const CMatrix& Mat, double value);
+MATH_EXPORT Math::CMatrix operator * (double value, const Math::CMatrix& Mat);
+MATH_EXPORT Math::CMatrix operator * (const Math::CMatrix& Mat, double value);
+MATH_EXPORT Math::CMatrix operator / (const Math::CMatrix& Mat, double value);
 
 /// 矩阵取反
-MATH_EXPORT CMatrix operator - (const CMatrix& Mat);
+MATH_EXPORT Math::CMatrix operator - (const Math::CMatrix& Mat);
 
 /// 矩阵的加减
-MATH_EXPORT CMatrix operator + (const CMatrix& left, const CMatrix& right);
-MATH_EXPORT CMatrix operator - (const CMatrix& left, const CMatrix& right);
+MATH_EXPORT Math::CMatrix operator + (const Math::CMatrix& left, const Math::CMatrix& right);
+MATH_EXPORT Math::CMatrix operator - (const Math::CMatrix& left, const Math::CMatrix& right);
 
 /// 矩阵相乘
-MATH_EXPORT CMatrix operator * (const CMatrix& left, const CMatrix& right);
+MATH_EXPORT Math::CMatrix operator * (const Math::CMatrix& left, const Math::CMatrix& right);
 //////////////////////////////矩阵操作 //////////////////////////////////////////
 /// 以行合并，行数增加
-MATH_EXPORT CMatrix operator &(const CMatrix& A, const CVector& Row);
-MATH_EXPORT CMatrix operator &(const CVector& Row, const CMatrix& A);
+MATH_EXPORT Math::CMatrix operator &(const Math::CMatrix& A, const Math::CVector& Row);
+MATH_EXPORT Math::CMatrix operator &(const Math::CVector& Row, const Math::CMatrix& A);
 
 /// 以列合并，列数增加
-MATH_EXPORT CMatrix operator |(const CMatrix& A, const CVector& Col);
-MATH_EXPORT CMatrix operator |(const CVector& Col, const CMatrix& A);
+MATH_EXPORT Math::CMatrix operator |(const Math::CMatrix& A, const Math::CVector& Col);
+MATH_EXPORT Math::CMatrix operator |(const Math::CVector& Col, const Math::CMatrix& A);
 
 /// 矩阵乘以一个列向量
-MATH_EXPORT CVector operator * (const CMatrix& Mat, const CVector& Vec);
+MATH_EXPORT Math::CVector operator * (const Math::CMatrix& Mat, const Math::CVector& Vec);
 
 /// 一个行向量乘以矩阵
-MATH_EXPORT CVector operator * (const CVector& Vec, const CMatrix& Mat);
+MATH_EXPORT Math::CVector operator * (const Math::CVector& Vec, const Math::CMatrix& Mat);
 
 /// 通过两个向量相乘构建矩阵
-MATH_EXPORT CMatrix operator * (const CVector& left, const CVector& right);
+MATH_EXPORT Math::CMatrix operator * (const Math::CVector& left, const Math::CVector& right);
 
 #endif // YTY_VECMAT_H

@@ -6,18 +6,14 @@
        进行加锁保护，否则运算结果不能保证
  *****************************************/
 
-#include "Math_global.h"
-namespace Math{
-class CVector;
-}
+#include <Math/Vector.h>
 
 namespace Numerical{
-using namespace Math;
 /**
  * 定义微分方程的函数指针
  */
-typedef void (*RK4funct)(double x, const CVector& y
-                       , CVector& yp,void* pAux);
+typedef void (*RK4funct)(double x, const Math::CVector& y
+                       , Math::CVector& yp,void* pAux);
 
 class MATH_EXPORT CRK4
 {
@@ -32,14 +28,14 @@ public:
     ~CRK4();
 
     /// 积分步骤
-    virtual void Step (double& dt, CVector& vY, double dh);
+    virtual void Step (double& dt, Math::CVector& vY, double dh);
 protected:
 
   /// 成员变量
   RK4funct       m_pfRK4;                 /// 龙格库塔微分方程
   int            m_nEqn;                  /// 维数
   void*          m_pAux;                  /// 附加参数
-  CVector    m_vK1,m_vK2,m_vK3,m_vK4; /// 函数的四个斜率
+  Math::CVector    m_vK1,m_vK2,m_vK3,m_vK4; /// 函数的四个斜率
 };
 }
 #endif // YTY_RK4_H

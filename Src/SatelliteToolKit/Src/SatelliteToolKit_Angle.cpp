@@ -16,14 +16,14 @@ vector<double> Cal2SatGroundAngle(const vector<PV>& vAx,
 
     vTemp.resize(vAx.size());
 
-    CVector v3D(3);
+    Math::CVector v3D(3);
 
     GisMath::LBH2XYZ(rGroundStation.dX,rGroundStation.dY,rGroundStation.dZ,
                      v3D(0),v3D(1),v3D(2));
     Math::CMatrix g2l = GisMath::GLOBAL2LOCAL(rGroundStation.dX,rGroundStation.dY);
 
     int nSize = vAx.size();
-    CVector vSatA(3),vSatB(3);
+    Math::CVector vSatA(3),vSatB(3);
     double dElevA,dAzimA,dElevB,dAzimB,dDotAB;
     for(int nIndex=0; nIndex<nSize; ++nIndex)
     {
@@ -83,7 +83,7 @@ vector<double>CalSat2GroundAngle(const vector<PV>& vAx,
     Math::CMatrix g2lB = GisMath::GLOBAL2LOCAL(rGoundB.dX,rGoundB.dY);
 
     int nSize = vAx.size();
-    CVector vGroundA(3),vGroundB(3),vSat_GroudA(3),vSat_GroundB(3);
+    Math::CVector vGroundA(3),vGroundB(3),vSat_GroudA(3),vSat_GroundB(3);
     double dElevA,dAzimA,dElevB,dAzimB,dDotAB;
     for(int nIndex=0; nIndex<nSize; ++nIndex)
     {

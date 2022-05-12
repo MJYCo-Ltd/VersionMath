@@ -1,6 +1,7 @@
 #include <cmath>
 #include <Math/Transit.h>
 
+using namespace std;
 using namespace Math;
 
 CTransit::CTransit()
@@ -10,17 +11,16 @@ CTransit::CTransit()
 
 CTransit::~CTransit()
 {
-
 }
 
 
 void polygon_isect_line(const CVector &p1, const CVector &p2, const CVector &pos,int &winding)
 {
-    float x1 = p1.GetX();
-    float y1 = p1.GetY();
-    float x2 = p2.GetX();
-    float y2 = p2.GetY();
-    float y = pos.GetY();
+    double x1 = p1.GetX();
+    double y1 = p1.GetY();
+    double x2 = p2.GetX();
+    double y2 = p2.GetY();
+    double y = pos.GetY();
     int dir = 1;
     if (fabs(y1-y2)<1e-7)
     {
@@ -30,15 +30,15 @@ void polygon_isect_line(const CVector &p1, const CVector &p2, const CVector &pos
     /// 计算两个点的Y值，如果在下面就交换
     else if (y2 < y1)
     {
-        float x_tmp = x2; x2 = x1; x1 = x_tmp;
-        float y_tmp = y2; y2 = y1; y1 = y_tmp;
+        double x_tmp = x2; x2 = x1; x1 = x_tmp;
+        double y_tmp = y2; y2 = y1; y1 = y_tmp;
         dir = -1;
     }
     /// 确保检测点在线段之内
     if (y >= y1 && y < y2)
     {
         /// 射线的参数化
-        float x = x1 + ((x2 - x1) / (y2 - y1)) * (y - y1);
+        double x = x1 + ((x2 - x1) / (y2 - y1)) * (y - y1);
         /// 检测位于线段哪一方左方表示已经相交，右侧表示没有
         if (x<=pos.GetX())
         {

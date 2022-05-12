@@ -64,7 +64,7 @@ CVector CVecMat::Stack (const CVector& a, const CVector& b)
 /// 通过球极坐标构建向量
 CVector CVecMat::VecPolar (double azim, double elev, double r)
 {
-    return CVector(r*cos(azim)*cos(elev),r*sin(azim)*cos(elev),r*sin(elev));
+    return (CVector(r*cos(azim)*cos(elev),r*sin(azim)*cos(elev),r*sin(elev)));
 }
 
 void CVecMat::AzEl(const CVector &vecLtc, double &dAzim, double &dElev)

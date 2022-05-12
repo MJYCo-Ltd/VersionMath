@@ -8,8 +8,7 @@
  空矩阵：行数列数都为零的矩阵
  *****************************************/
 
-#include "Math_global.h"
-#include "Vector.h"
+#include <Math/Vector.h>
 
 /// 世界坐标系 不随着本体旋转而旋转的 坐标系
 /// 局部坐标系  跟物体固联的坐标系，一直保持机头为x轴，机身右侧为y轴，机身背部为z轴
@@ -28,6 +27,7 @@ public:
     CMatrix ();                                      /// 默认构造函数
     CMatrix (unsigned int dim1,unsigned int dim2);   /// Nullmatrix
     CMatrix (const CMatrix& rM);                     /// 复制构造函数
+    CMatrix (CMatrix&& rM);
     CMatrix (const double *p,unsigned int dim1,unsigned int dim2);     /// 通过一维数组构造
     CMatrix (const double p[3][3],unsigned int dim1,unsigned int dim2);/// 通过二维数组构造
 
@@ -52,6 +52,7 @@ public:
     /// 1、行数与列数不同不会造成左操作数的改变
     /// 2、行数与类书相同，赋值后两个矩阵相同
     CMatrix& operator=(const CMatrix& rM);
+    CMatrix& operator=(CMatrix&& rM);
 
     /// 获取大小
     inline unsigned int Row() const { return m_unRow; }
@@ -111,9 +112,9 @@ private:
 private:
 
     /// 属性
-    unsigned int      m_unRow;  // First dimension (number of rows)
-    unsigned int      m_unCol;  // Second dimension (number of columns)
-    double **m_ppdM;           // Matrix M(n,m)
+    unsigned int      m_unRow{};  // First dimension (number of rows)
+    unsigned int      m_unCol{};  // Second dimension (number of columns)
+    double **m_ppdM{};           // Matrix M(n,m)
 
 };
 }

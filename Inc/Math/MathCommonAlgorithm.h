@@ -8,11 +8,9 @@
        对外没有接口，让外部使用，只能内部使用
  *****************************************/
 
-#include "Math_global.h"
+#include <Math/VecMat.h>
 
 namespace Math{
-class CVector;
-class CMatrix;
 ////////////基础数学////////////
 
 /**

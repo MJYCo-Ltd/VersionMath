@@ -2,18 +2,18 @@
 #include "GisMath_Common.h"
 
 /// 全局坐标到局部坐标的转换
-bool GisMath::GLOBAL2LOCAL(double dL, double dB, const CVector &vGlobal, CVector &vLocal)
+bool GisMath::GLOBAL2LOCAL(double dL, double dB, const Math::CVector &vGlobal, Math::CVector &vLocal)
 {
     /// 判断两个向量元素是否相同
-    if(!CVecMat::IsValid(vGlobal,vLocal))
+    if(!Math::CVecMat::IsValid(vGlobal,vLocal))
     {
         return(false);
     }
 
-    CMatrix tmpMat = GLOBAL2LOCAL(dL,dB);
+    Math::CMatrix tmpMat = GLOBAL2LOCAL(dL,dB);
 
     /// 进行矩阵运算
-    if(!CVecMat::CalReault(tmpMat,vGlobal,vLocal))
+    if(!Math::CVecMat::CalReault(tmpMat,vGlobal,vLocal))
     {
         return(false);
     }
@@ -22,15 +22,15 @@ bool GisMath::GLOBAL2LOCAL(double dL, double dB, const CVector &vGlobal, CVector
 }
 
 /// 局部坐标转到全局坐标
-bool GisMath::LOCAL2GLOBAL(double dL, double dB, const CVector &vLocal, CVector &vGlobal)
+bool GisMath::LOCAL2GLOBAL(double dL, double dB, const Math::CVector &vLocal, Math::CVector &vGlobal)
 {
     /// 判断两个矩阵元素是否相同
-    if(!CVecMat::IsValid(vLocal,vGlobal))
+    if(!Math::CVecMat::IsValid(vLocal,vGlobal))
     {
         return(false);
     }
 
-    CMatrix tmpMat = LOCAL2GLOBAL(dL,dB);
+    Math::CMatrix tmpMat = LOCAL2GLOBAL(dL,dB);
     /// 查看矩阵是否有效
     if(!tmpMat)
     {
@@ -38,7 +38,7 @@ bool GisMath::LOCAL2GLOBAL(double dL, double dB, const CVector &vLocal, CVector 
     }
 
     /// 进行矩阵运算
-    if(!CVecMat::CalReault(tmpMat,vLocal,vGlobal))
+    if(!Math::CVecMat::CalReault(tmpMat,vLocal,vGlobal))
     {
         return(false);
     }
@@ -47,12 +47,12 @@ bool GisMath::LOCAL2GLOBAL(double dL, double dB, const CVector &vLocal, CVector 
 }
 
 /// 将全局坐标转成局部坐标
-CMatrix GisMath::GLOBAL2LOCAL(double dL, double dB)
+Math::CMatrix GisMath::GLOBAL2LOCAL(double dL, double dB)
 {
     double  Aux;
 
     // Transformation to Zenith-East-North System
-    CMatrix M = CVecMat::R_y(-dB)*CVecMat::R_z(dL);
+    Math::CMatrix M = Math::CVecMat::R_y(-dB)*Math::CVecMat::R_z(dL);
 
     // Cyclic shift of rows 0,1,2 to 1,2,0 to obtain East-North-Zenith system
     for (int j=0; j<3; ++j)
@@ -67,9 +67,9 @@ CMatrix GisMath::GLOBAL2LOCAL(double dL, double dB)
 }
 
 /// 局部坐标转成全局坐标
-CMatrix GisMath::LOCAL2GLOBAL(double dL, double dB)
+Math::CMatrix GisMath::LOCAL2GLOBAL(double dL, double dB)
 {
-    return (CVecMat::Transp(GLOBAL2LOCAL(dL,dB)));
+    return (Math::CVecMat::Transp(GLOBAL2LOCAL(dL,dB)));
 }
 
 /// 根据距离 站心 的俯仰、方位角、距离 解算在世界坐标系下的位置
@@ -77,13 +77,13 @@ void Local2Globel(double dLon, double dLat, double dAzim, double dElev, double d
                   double &dX, double& dY, double& dZ)
 {
     /// 用于存放临时数据
-    CVector vTemp(3);
+    Math::CVector vTemp(3);
 
     /// 计算在站心坐标系下的位置
     /// 因球坐标以逆时针为正方向，而方位角以顺时针为正方向
     /// 故此处对方位角取反；同时球坐标以正东为起始位置，此处
     /// 需要增加90度
-    vTemp = CVecMat::VecPolar(DPI*0.5-dAzim,dElev,dDist);
+    vTemp = Math::CVecMat::VecPolar(DPI*0.5-dAzim,dElev,dDist);
 
     /// 在世界坐标下 所求位置 相对于给定位置的位置
     vTemp = vTemp * GisMath::GLOBAL2LOCAL(dLon,dLat);
@@ -98,10 +98,10 @@ void Globel2Local(double dLon, double dLat, double dX, double dY, double dZ,
                   double &dAzim, double &dElev, double &dDist)
 {
     /// 计算 世界坐标系 到 局部天东北坐标系 旋转矩阵
-    CMatrix M = GisMath::GLOBAL2LOCAL(dLon,dLat);
+    Math::CMatrix M = GisMath::GLOBAL2LOCAL(dLon,dLat);
 
     /// 用于存放临时数据
-    CVector vTemp(3);
+    Math::CVector vTemp(3);
     vTemp(0) = dX;
     vTemp(1) = dY;
     vTemp(2) = dZ;
@@ -110,7 +110,7 @@ void Globel2Local(double dLon, double dLat, double dX, double dY, double dZ,
     vTemp = M * vTemp;
 
     /// 计算在站心坐标系的俯仰，方位
-    CVecMat::AzEl(vTemp,dAzim,dElev);
+    Math::CVecMat::AzEl(vTemp,dAzim,dElev);
     dDist = vTemp.Length();
 }
 
@@ -155,23 +155,23 @@ int GisMath::GeoCalEndGeo(double dLon, double dLat, double dHeight,
 
 
     /// 构建偏移向量
-    CVector offset(dX,dY,dZ);
+    Math::CVector offset(dX,dY,dZ);
 
     /// 方位旋转
-    CMatrix mAzim = CVecMat::R_z(dAzim);
+    Math::CMatrix mAzim = Math::CVecMat::R_z(dAzim);
 
     /// 俯仰旋转
-    CMatrix mElev = CVecMat::R_x(-dElev);
+    Math::CMatrix mElev = Math::CVecMat::R_x(-dElev);
 
     /// 横滚旋转
-    CMatrix mRoll = CVecMat::R_y(-dRoll);
+    Math::CMatrix mRoll = Math::CVecMat::R_y(-dRoll);
 
-    CMatrix tmpMatrix = mAzim*mElev*mRoll;
+    Math::CMatrix tmpMatrix = mAzim*mElev*mRoll;
 
     offset = tmpMatrix*offset;
 
     /// 求 东北天 到 地心 的 旋转矩阵
-    CMatrix M = LOCAL2GLOBAL(dLon,dLat);
+    Math::CMatrix M = LOCAL2GLOBAL(dLon,dLat);
 
     /// 在世界坐标下 所求位置 相对于给定位置的位置
     offset = M * offset;
@@ -253,22 +253,22 @@ int GisMath::CalAzElGeo(double dLon1, double dLat1, double dHeight1,
     dy = dTemp2[1] - dTemp1[1];
     dz = dTemp2[2] - dTemp1[2];
 
-    CVector vTemp(dx,dy,dz);
+    Math::CVector vTemp(dx,dy,dz);
 
     /// 计算 世界坐标系 到 局部天东北坐标系 旋转矩阵
-    CMatrix M = LOCAL2GLOBAL(dLon1,dLat1);
+    Math::CMatrix M = LOCAL2GLOBAL(dLon1,dLat1);
 
     /// 将世界坐标转换到站心坐标
     vTemp = M * vTemp;
 
     /// 方位旋转
-    CMatrix mAzim = CVecMat::R_z(dAzim);
+    Math::CMatrix mAzim = Math::CVecMat::R_z(dAzim);
 
     /// 俯仰旋转
-    CMatrix mElev = CVecMat::R_x(-dElev);
+    Math::CMatrix mElev = Math::CVecMat::R_x(-dElev);
 
     /// 横滚旋转
-    CMatrix mRoll = CVecMat::R_y(-dRoll);
+    Math::CMatrix mRoll = Math::CVecMat::R_y(-dRoll);
 
 
     vTemp = vTemp * mAzim * mElev * mRoll;

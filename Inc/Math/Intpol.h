@@ -7,16 +7,9 @@
   备注：包含的差值算法有 Neville Lagrange Newton 三次样条插值
        目前不知道什么时候使用什么插值算法，比较好
  *****************************************/
-#include "Math_global.h"
 #include <vector>
-namespace Math {
-class CVector;
-}
+#include <Math/Vector.h>
 namespace Numerical {
-
-using namespace Math;
-using namespace std;
-
 class MATH_EXPORT Intpol
 {
 public:
@@ -67,7 +60,7 @@ public:
      * @param dX  需要计算的自变量的值
      * @return    通过三次样条插值，计算因变量。
      */
-    static CVector ItCubicSpline(const vector<double>& vX, const vector<CVector>& vY, double dX);
+    static Math::CVector ItCubicSpline(const std::vector<double>& vX, const std::vector<Math::CVector>& vY, double dX);
 };
 }
 #endif // YTY_INTPOL_H

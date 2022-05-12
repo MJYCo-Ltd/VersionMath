@@ -6,15 +6,11 @@
        进行加锁保护，否则运算结果不能保证
   备注：完全不懂如何进行积分的，还需要知道的人进行注释
  *****************************************/
-#include "Math_global.h"
-#include "RK4.h"
-namespace Math{
-class CVector;
-}
+#include <Math/Vector.h>
 
 namespace Numerical{
-typedef void (*GJ4Pfunct)(double t, const CVector& r
-                          , const CVector& v, CVector& a
+typedef void (*GJ4Pfunct)(double t, const Math::CVector& r
+                          , const Math::CVector& v, Math::CVector& a
                           , void* pAux);
 
 class MATH_EXPORT CGJ4
@@ -29,25 +25,25 @@ public:
     CGJ4(GJ4Pfunct pfGJ4, int nEqn, void* pAux);
 
     /// 初始化
-    void Init(double dT0, const CVector& vecR0, const CVector& vecV0, double dH);
+    void Init(double dT0, const Math::CVector& vecR0, const Math::CVector& vecV0, double dH);
 
     /// 积分步长设置
-    void Step(double& dT,CVector& vecR,CVector& vecV);
+    void Step(double& dT,Math::CVector& vecR,Math::CVector& vecV);
 
 private:
 
     // 4th order Runge-Kutta step
-    void RK4(double& dT,CVector& vecR,CVector& vecV, double dH);
+    void RK4(double& dT,Math::CVector& vecR,Math::CVector& vecV, double dH);
 
     /// 成员变量
     int         m_nEqn;       // Dimension
     GJ4Pfunct   m_pfGJ4;           // Differential equation
     double      m_dH;           // Step size
     void*       m_pAux;        // Pointer to auxiliary data requird by f
-    CVector      m_vecS2,m_vecS1;       // First and second sum of acceleration
-    CVector      m_vecD[4];        // Backward differences of acceleration at t
-    CVector      m_vecd[4];        // Backward differences of acceleration at t+h
-    CVector      m_vecRp,m_vecVp;     // Predictor
+    Math::CVector      m_vecS2,m_vecS1;       // First and second sum of acceleration
+    Math::CVector      m_vecD[4];        // Backward differences of acceleration at t
+    Math::CVector      m_vecd[4];        // Backward differences of acceleration at t+h
+    Math::CVector      m_vecRp,m_vecVp;     // Predictor
 };
 }
 #endif // YTY_GJ4_H

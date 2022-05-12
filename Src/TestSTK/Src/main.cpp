@@ -29,6 +29,24 @@ int main()
     }
     GisMath::InitGis(GisMath::WGS_84);
 
+//    for(int k=0;k<100;++k)
+//    {
+//        CVector vTest(6);
+//        vector<CVector> vPushData;
+//        int nNum(10000);
+//        /// 通过遍历
+//        for(int i=0;i<nNum;++i)
+//        {
+//            for(int j=nNum-i;j>0;--j)
+//            {
+//                vPushData.push_back(vTest);
+//            }
+//            vPushData.clear();
+//        }
+//        cout<<"K="<<k<<endl;
+//    }
+//    return(0);
+
 //    Math::CVector vPos(384263.875,7061764.50,2416784.75);
 //    cout<<"Distance: "<<vPos.Length()<<" Earth R:"<<R_Earth2<<endl;
 //    double dSinA = asin(R_Earth2 / vPos.Length());
