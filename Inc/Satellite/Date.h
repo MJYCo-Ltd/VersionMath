@@ -11,7 +11,7 @@
  *****************************************/
 
 #include <iostream>
-#include "SAT_global.h"
+#include <Satellite/SAT_global.h>
 
 namespace Aerospace{
 enum DATE_TYPE

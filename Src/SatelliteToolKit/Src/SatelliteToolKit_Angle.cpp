@@ -3,11 +3,11 @@
 #include <SatelliteToolKit/SatelliteToolKit.h>
 
 /// 计算两个卫星和地面站的夹角
-vector<double> Cal2SatGroundAngle(const vector<PV>& vAx,
-                                  const vector<PV>& vBx,
+std::vector<double> Cal2SatGroundAngle(const std::vector<PV>& vAx,
+                                  const std::vector<PV>& vBx,
                                   const Pos& rGroundStation)
 {
-    vector<double> vTemp;
+    std::vector<double> vTemp;
 
     if(vAx.size() != vBx.size())
     {
@@ -61,11 +61,11 @@ vector<double> Cal2SatGroundAngle(const vector<PV>& vAx,
 }
 
 /// 计算某个卫星和同一个地面站的夹角
-vector<double>CalSat2GroundAngle(const vector<PV>& vAx,
+std::vector<double>CalSat2GroundAngle(const std::vector<PV>& vAx,
                                  const Pos& rGoundA,
                                  const Pos& rGoundB)
 {
-    vector<double> vTemp;
+    std::vector<double> vTemp;
     if(vAx.size() < 1)
     {
         return (vTemp);

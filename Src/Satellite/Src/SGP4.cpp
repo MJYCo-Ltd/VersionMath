@@ -5,6 +5,7 @@
 
 #include "SGP4/sgp4io.h"
 #include "sofam.h"
+using namespace std;
 using namespace Satellite;
 using namespace Math;
 

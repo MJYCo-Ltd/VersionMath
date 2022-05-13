@@ -16,15 +16,11 @@
  *****************************************/
 
 #include <string>
-using namespace std;
-#include "SAT_global.h"
-
-namespace Math{
-class CVector;
-}
+#include <Satellite/SAT_global.h>
+#include <Math/Vector.h>
 
 namespace Aerospace{
-using namespace Math;
+
 enum PLANET_TYPE
 {
     Mercury 				= 1, /// 水星
@@ -64,7 +60,7 @@ public:
      * @param sFileName DExxx文件名称
      * @return
      */
-    bool Init(const string& sFileName);
+    bool Init(const std::string& sFileName);
 
     /**
      * @brief 查看星历表是否初始化
@@ -77,14 +73,14 @@ public:
      * @param dMjdTT [约简儒略日TT时间]
      * @return xyz [m][J2000]
      */
-    CVector GetSunPos(const double& dMjdTT) const;
+    Math::CVector GetSunPos(const double& dMjdTT) const;
 
     /**
      * @brief 获取月球在以地球为原点的坐标系下的位置
      * @param dMjdTT [约简儒略日TT时间]
      * @return xyz [m][J2000]
      */
-    CVector GetMoonPos(const double& dMjdTT) const;
+    Math::CVector GetMoonPos(const double& dMjdTT) const;
 
     /**
      * @brief 获取任一行星以其他行星为原点的坐标系下的位置
@@ -93,7 +89,7 @@ public:
      * @param centerPlanet 中心行星
      * @return (x,y,z) [m][J2000]
      */
-    CVector GetPos(const double& dMjdTT, const PLANET_TYPE &planet1
+    Math::CVector GetPos(const double& dMjdTT, const PLANET_TYPE &planet1
                    , const PLANET_TYPE& centerPlanet)const;
 
     /**

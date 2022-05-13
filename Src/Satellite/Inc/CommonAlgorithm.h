@@ -13,7 +13,6 @@ class CVector;
 class CMatrix;
 }
 
-using namespace Math;
 /// 用于存放 tle数据的结构体
 typedef struct
 {
@@ -104,7 +103,7 @@ double KeplerFunc2(double ksi,double eta,double lamda);
  * @param ZS    短周期项(a_s,i_s,Omega_s,ksi_s,eta_s,lamda_s)
  * @param AS2   a的二阶长期项
  */
-void Short2(const CVector & MElem,double ZS[6],double & AS2);
+void Short2(const Math::CVector & MElem,double ZS[6],double & AS2);
 
 /**
  * @brief 被FindEta调用
@@ -119,7 +118,7 @@ double F(double eta, double m, double l);
  * @param tau
  * @return
  */
-double FindEta(const CVector& r_a, const CVector& r_b, double tau);
+double FindEta(const Math::CVector& r_a, const Math::CVector& r_b, double tau);
 
 /**
  * @brief 被 CKepler::ClassicalElements 调用
@@ -165,7 +164,7 @@ void write_elements_in_tle_format( char buff[2][73], const tle_t *tle);
  * @param r_tod    卫星ECF位置  (x,y,z) [m]
  * @return 大气密度 [kg/m^3]
  */
-double Density_HP(const CVector &vecRSun, const CVector& r_tod );
+double Density_HP(const Math::CVector &vecRSun, const Math::CVector& r_tod );
 
 /**
  * @brief 美国1976标准大气模型

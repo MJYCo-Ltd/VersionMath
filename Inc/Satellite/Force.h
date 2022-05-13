@@ -8,16 +8,10 @@
 采用的模型： 大气模型 参见CAtmosphere
            引力模型 参见CSTKGraveModel
  *****************************************/
-#include "SAT_global.h"
-#include "Atmosphere.h"
-
-namespace Math {
-class CVector;
-class CMatrix;
-}
+#include <Satellite/Atmosphere.h>
+#include <Math/VecMat.h>
 
 namespace Physical{
-using namespace Math;
 class ALGORITHM_EXPORT CForce
 {
 public:
@@ -37,8 +31,8 @@ public:
      * @attention nM_Max<=nN_Max
      *            nM_Max 和 nN_Max 小于等于 matCS 最大的阶次
      */
-    static CVector AccelHarmonic (const CVector& vecR, const CMatrix& matT,
-                                  double dGM, double dR, const CMatrix& matCS,
+    static Math::CVector AccelHarmonic (const Math::CVector& vecR, const Math::CMatrix& matT,
+                                  double dGM, double dR, const Math::CMatrix& matCS,
                                   int nN_Max, int nM_Max );
 
     /**
@@ -51,8 +45,8 @@ public:
      * @param nN_Max 阶数
      * @return 摄动引起的加速度         [m/s^2]
      */
-    static CVector ZonalHarmonic(const CVector& vecR, const CMatrix& matT,
-                                 double dGM, double dR, const CMatrix& matCS,
+    static Math::CVector ZonalHarmonic(const Math::CVector& vecR, const Math::CMatrix& matT,
+                                 double dGM, double dR, const Math::CMatrix& matCS,
                                  int nN_Max);
 
     /**
@@ -65,8 +59,8 @@ public:
      * @param nN_Max 阶数
      * @return 摄动引起的加速度           [m/s^2]
      */
-    static CVector TesseralHarmonic(const CVector& vecR, const CMatrix& matT,
-                                    double dGM, double dR, const CMatrix& matCS,
+    static Math::CVector TesseralHarmonic(const Math::CVector& vecR, const Math::CMatrix& matT,
+                                    double dGM, double dR, const Math::CMatrix& matCS,
                                     int nN_Max);
     /**
      * @brief 太阳光压(默认认为太阳光与太阳能帆板垂直)
@@ -79,7 +73,7 @@ public:
      * @param dAU    地球到太阳平均距离   [m]
      * @return 摄动引起的加速度 单位 m/s^2
      */
-    static CVector AccelSolrad(const CVector& vecR, const CVector& vecRSun,
+    static Math::CVector AccelSolrad(const Math::CVector& vecR, const Math::CVector& vecRSun,
                                double dArea, double dMass, double dCR,
                                double dP0, double dAU );
 
@@ -95,8 +89,8 @@ public:
      * @param typeAtmos 大气模型
      * @return 摄动引起的加速度 [m/s^2]
      */
-    static CVector AccelDrag(const CVector& vecRSun, const CVector& vecR,
-                             const CVector& vecV,const CMatrix& matT, double dMJD,
+    static Math::CVector AccelDrag(const Math::CVector& vecRSun, const Math::CVector& vecR,
+                             const Math::CVector& vecV,const Math::CMatrix& matT, double dMJD,
                              double dArea, double dMass, double dCD, AtmosModel typeAtmos);
 
     /**
@@ -106,7 +100,7 @@ public:
      * @param dGM       第三体引力系数        [m^3/s^2]
      * @return 摄动引起的加速度                 [m/s^2]
      */
-    static CVector AccelPointMass(const CVector& vecR, const CVector& vecPoint, double dGM);
+    static Math::CVector AccelPointMass(const Math::CVector& vecR, const Math::CVector& vecPoint, double dGM);
 
     /**
      * @brief 后牛顿效应
@@ -115,7 +109,7 @@ public:
      * @param dGM      第三体引力系数               [m^3/s^2]
      * @return 摄动引起的加速度                     [m/s^2]
      */
-    static CVector AccelPostNewton(const CVector& vecR, const CVector& vecV, double dGM);
+    static Math::CVector AccelPostNewton(const Math::CVector& vecR, const Math::CVector& vecV, double dGM);
 };
 }
 #endif // YTY_FORCE_H

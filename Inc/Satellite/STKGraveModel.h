@@ -9,31 +9,27 @@
         所有的 grv 文件即为重力场系数模型文件
  *****************************************/
 #include <string>
-using namespace std;
-#include "SAT_global.h"
-
-namespace Math{
-class CMatrix;
-}
+#include <Satellite/SAT_global.h>
+#include <Math/Matrix.h>
 
 namespace Phycical{
-using namespace Math;
+
 class ALGORITHM_EXPORT CSTKGraveModel
 {
 public:
     CSTKGraveModel();
-    CSTKGraveModel(const string& sFileName);
+    CSTKGraveModel(const std::string& sFileName);
     ~CSTKGraveModel();
 
     /**
      * 设置文件名字
      */
-    bool SetFile(const string& sFileName);
+    bool SetFile(const std::string& sFileName);
 
     /**
      * 获取模型名称
      */
-    const string& GetModelName(){return m_sModelName;}
+    const std::string& GetModelName(){return m_sModelName;}
 
     /**
      *
@@ -59,12 +55,12 @@ public:
     /**
      * 获取归一化重力系数
      */
-    const CMatrix& GetCoefficients(){return m_mtInfo;}
+    const Math::CMatrix& GetCoefficients(){return m_mtInfo;}
 
     /**
      * 获取非归一化重力系数
      */
-    const CMatrix& GetUnNormalizeCoefficients(){return m_unNorInfo;}
+    const Math::CMatrix& GetUnNormalizeCoefficients(){return m_unNorInfo;}
 
     /**
      * 查看是否准备好
@@ -79,20 +75,20 @@ private:
     /**
      * 初始化缓存
      */
-    void InitBuffer(const streamsize &nSize);
+    void InitBuffer(const std::streamsize &nSize);
 
     /**
      * 处理缓存数据
      */
     void DealBuffer();
     bool ReadCS();
-    bool ReadStr(string& rsName,const char* cstrSign);
+    bool ReadStr(std::string& rsName,const char* cstrSign);
     bool ReadDouble(double& dDouble, const char* cstrSign);
     bool ReadInt(int &nInt, const char *cstrSign);
     double UnNormaliz(int nN, int nM);
 private:
-    string m_sFileName;      /// 文件名称
-    string m_sModelName;     /// 地球引力模型名称
+    std::string m_sFileName;      /// 文件名称
+    std::string m_sModelName;     /// 地球引力模型名称
 
     int    m_nDegree;        /// 地球引力模型的阶数
     int    m_nOrder;         /// 地球引力模型的次数
@@ -100,8 +96,8 @@ private:
     double m_dGM;            /// 地球万有引力常数
     double m_dR;             /// 地球的半径
 
-    CMatrix m_mtInfo;    /// 重力场系数
-    CMatrix m_unNorInfo; /// 非归一化重力场系数
+    Math::CMatrix m_mtInfo;    /// 重力场系数
+    Math::CMatrix m_unNorInfo; /// 非归一化重力场系数
 
     bool   m_bReady;         /// 数据是否处理完毕
     bool   m_bNormal;        /// 是否是归一化的系数

@@ -10,21 +10,16 @@
  *****************************************/
 
 #include <string>
-#include "SAT_global.h"
+#include <Satellite/SAT_global.h>
+#include <Math/Vector.h>
 
-using namespace std;
 
 enum AtmosModel
 {
     HarrisPriester,NRLMSISE2000,STANDARD1976
 };
 
-namespace Math{
-class CVector;
-}
-
 namespace Physical{
-using namespace Math;
 class ALGORITHM_EXPORT CAtmosphere
 {
 public:
@@ -48,7 +43,7 @@ public:
      * @brief 获取大气模型名称
      * @return
      */
-    const string& GetModelName(){return (m_strModelName);}
+    const std::string& GetModelName(){return (m_strModelName);}
 
     /**
      * @brief 获取大气模型的类型
@@ -63,7 +58,7 @@ public:
      * @param rSun 太阳ECI位置 (x,y,z)[m]
      * @return 大气密度 [kg/m^3]
      */
-    double GetDensity(const double& dMJD,const CVector& rSat,const CVector& rSun);
+    double GetDensity(const double& dMJD,const Math::CVector& rSat,const Math::CVector& rSun);
 
     /**
      * @brief 获得大气密度值
@@ -73,7 +68,7 @@ public:
      * @param typeAtmos 大气类型
      * @return大气密度 [kg/m^3]
      */
-    static double GetDensity(const double &dMJD, const CVector &rSat, const CVector &rSun,
+    static double GetDensity(const double &dMJD, const Math::CVector &rSat, const Math::CVector &rSun,
                              AtmosModel typeAtmos);
 
 protected:
@@ -81,7 +76,7 @@ protected:
 
 private:
     AtmosModel m_typeAtmos;   /// 大气模型类型
-    string     m_strModelName;/// 大气名称
+    std::string m_strModelName;/// 大气名称
     bool       m_bInit;       /// 是否初始化成功
 };
 }

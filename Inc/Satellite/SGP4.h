@@ -22,8 +22,7 @@
  *****************************************/
 
 #include <string>
-using namespace std;
-#include "SAT_global.h"
+#include <Satellite/SAT_global.h>
 #include <Math/Vector.h>
 
 struct elsetrec;
@@ -33,11 +32,11 @@ const unsigned int FIRSTVALUELENGTH(61);
 const unsigned int SECONDVALUELENGTH(63);
 
 namespace Satellite{
-using namespace Math;
+
 class ALGORITHM_EXPORT CSGP4
 {
 public:
-    CSGP4(const string& strLine1, const string& strLine2);
+    CSGP4(const std::string& strLine1, const std::string& strLine2);
     CSGP4(const char strLine1[73],const char strLine2[73]);
     ~CSGP4();
 
@@ -47,7 +46,7 @@ public:
      * @param strLine2  第二行数据
      * @return 如果数据有效则返回 true 无效则返回 false
      */
-    bool SetTLE(const string& strLine1, const string& strLine2);
+    bool SetTLE(const std::string& strLine1, const std::string& strLine2);
 
     /**
      * @brief 计算TEME坐标系下的位置速度
@@ -55,7 +54,7 @@ public:
      * @return 错误则向量为空 正确则返回 位置(x,y,z)速度(vx,vy,vz)
      *                                  [m,m/s][TEME]
      */
-    CVector CalPV(const double& dMJD);
+    Math::CVector CalPV(const double& dMJD);
 
     /**
      * @brief 重载bool类型，用于判断是否有效
@@ -68,7 +67,7 @@ public:
      *                     [m, ,rad,rad,rad,rad]
      * @attention 只有数据有效才能调用时值才有效
      */
-    const CVector& ClassicalElements(){return (m_Oribit);}
+    const Math::CVector& ClassicalElements(){return (m_Oribit);}
 
     /**
      * @brief 通过位置速度计算 经典六根数
@@ -77,7 +76,7 @@ public:
      *                         [m, ,rad,rad,rad,rad]
      * @attention 如果计算失败会返回一个空的向量
      */
-    static CVector ClassicalElements(const CVector& vRV);
+    static Math::CVector ClassicalElements(const Math::CVector& vRV);
 
     /**
      * @brief 获取TLE的历元时间
@@ -95,7 +94,7 @@ public:
 private:
     char   m_strTLE[2][TLELENGTH]; /// 两行根数数据
     bool   m_bValid;               /// 数据是否有效
-    CVector m_Oribit;          /// 经典六根数信息
+    Math::CVector m_Oribit;        /// 经典六根数信息
     double m_dEpochMJD;            /// TLE对应的历元时间
     elsetrec* m_pTle;              /// 读取到的TLE数据
 };

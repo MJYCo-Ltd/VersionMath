@@ -69,7 +69,7 @@ int main()
     if(0)
     {
         Math::CVector vPos(378617,7.06624e+06,2.40458e+06),vRotatedPos(-0.886557,-0.374096,-0.306347),vInsertPos;
-        double dDot = CVecMat::Dot(vRotatedPos,-vPos);
+        double dDot = Math::CVecMat::Dot(vRotatedPos,-vPos);
         double dCosB = acos(dDot/vRotatedPos.Length()/vPos.Length());
         cout<<"Cos Angle: "<<dCosB*DR2D<<endl;
         if(!GisMath::CalLineInterEarth(vPos,vRotatedPos,vInsertPos))
@@ -393,28 +393,28 @@ int main()
         std::cout<<setw(25)<<Aerospace::CJPLEphemeris::GetInstance()->GetSunPos(timeSys.GetTT());
         std::cout<<setw(25)<<Aerospace::CJPLEphemeris::GetInstance()->GetMoonPos(timeSys.GetTT());
 
-        CQuaternion tmpQuat(CVector::X_AXIS,45*DD2R);
-        CVector v(1,0,0);
+        Math::CQuaternion tmpQuat(Math::CVector::X_AXIS,45*DD2R);
+        Math::CVector v(1,0,0);
         int nTime(0);
         begine = clock();
-        CQuaternion tmpQuat2;
+        Math::CQuaternion tmpQuat2;
         for(int i=0;i<nTime;++i)
         {
-            tmpQuat2.Rebuild(CVector::X_AXIS,0);
+            tmpQuat2.Rebuild(Math::CVector::X_AXIS,0);
             tmpQuat *= tmpQuat2;
-            tmpQuat2.Rebuild(CVector::X_AXIS,0);
+            tmpQuat2.Rebuild(Math::CVector::X_AXIS,0);
             tmpQuat *= tmpQuat2;
-            tmpQuat2.Rebuild(CVector::X_AXIS,0);
+            tmpQuat2.Rebuild(Math::CVector::X_AXIS,0);
             tmpQuat *= tmpQuat2;
-            tmpQuat2.Rebuild(CVector::X_AXIS,0);
+            tmpQuat2.Rebuild(Math::CVector::X_AXIS,0);
             tmpQuat *= tmpQuat2;
-            tmpQuat2.Rebuild(CVector::X_AXIS,0);
+            tmpQuat2.Rebuild(Math::CVector::X_AXIS,0);
             tmpQuat *= tmpQuat2;
-            tmpQuat2.Rebuild(CVector::X_AXIS,0);
+            tmpQuat2.Rebuild(Math::CVector::X_AXIS,0);
             tmpQuat *= tmpQuat2;
-            tmpQuat2.Rebuild(CVector::X_AXIS,0);
+            tmpQuat2.Rebuild(Math::CVector::X_AXIS,0);
             tmpQuat *= tmpQuat2;
-            tmpQuat2.Rebuild(CVector::X_AXIS,0);
+            tmpQuat2.Rebuild(Math::CVector::X_AXIS,0);
             tmpQuat *= tmpQuat2;
 
             tmpQuat.Translate(v,v);
@@ -422,10 +422,10 @@ int main()
         std::cout<<double (clock()-begine) / CLOCKS_PER_SEC<<std::endl;
         std::cout<<setprecision(11)<<setw(20)<<CCoorSys::J20002ECF(dDouble)<<std::endl;
 
-        CVector vJ2000(pos.vJ2000[0].stP.dX,pos.vJ2000[0].stP.dY,pos.vJ2000[0].stP.dZ);
+        Math::CVector vJ2000(pos.vJ2000[0].stP.dX,pos.vJ2000[0].stP.dY,pos.vJ2000[0].stP.dZ);
         CDate testData(pos.stStart.nYear,pos.stStart.uMonth,pos.stStart.uDay,
                        pos.stStart.uHour,pos.stStart.uMinute,pos.stStart.uSecond+pos.stStart.uMSecond/1000.,BJ);
-        CVector vICRF = CCoorSys::J20002MOD(testData.GetMJD()) * vJ2000;
+        Math::CVector vICRF = CCoorSys::J20002MOD(testData.GetMJD()) * vJ2000;
         std::cout<<setprecision(11)<<setw(25)<<vICRF<<std::endl;
         vICRF = CCoorSys::J20002TOD(testData.GetMJD()) * vJ2000;
         std::cout<<setprecision(11)<<setw(25)<<vICRF<<std::endl;
@@ -434,7 +434,7 @@ int main()
 
 ////        CDate testData(2009,1,1,4,0,0,UTC);
 
-        CVector vTest(6678140,0,28.5*DD2R,0,0,0);
+        Math::CVector vTest(6678140,0,28.5*DD2R,0,0,0);
         Satellite::CJ2 j2(6678140,0,28.5*DD2R,0,0,0);
 //        for(int i=0;i<86400;++i)
         {

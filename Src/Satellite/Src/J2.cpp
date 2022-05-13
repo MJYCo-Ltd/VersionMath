@@ -22,7 +22,7 @@ CJ2::CJ2(double dA, double dE, double dI, double dRAAN, double dMA, double dAP)
     m_domega = m_dN + dA*(3*dRAAN*dRAAN-1)*m_dFac;
 }
 
-const CVector &CJ2::CalPV(double dT)
+const Math::CVector &CJ2::CalPV(double dT)
 {
     double dM,dE;
     /// 计算平近点角位置
@@ -61,7 +61,7 @@ const CVector &CJ2::CalPV(double dT)
     iauRx(-m_dI,dTempMat);
     iauRz(-Omega,dTempMat);
     /// 轨道面到惯性系旋转矩阵
-    CMatrix  PQW(dTempMat,3,3);
+    Math::CMatrix  PQW(dTempMat,3,3);
     PQW.Translate(m_vPV,m_vPV);
 
     return(m_vPV);

@@ -1,14 +1,12 @@
 ﻿#ifndef YTY_OPTICALALG_H
 #define YTY_OPTICALALG_H
 #include <vector>
-using namespace std;
-#include "SAT_global.h"
+#include <Satellite/SAT_global.h>
 namespace Math{
 class CVector;
 }
 
 namespace Satellite{
-using namespace Math;
 class ALGORITHM_EXPORT COpticalAlg
 {
 public:
@@ -24,8 +22,8 @@ public:
      * @return 可视因子(本影区为0,半影区在0~1之间,阳照区为1)
      * @attention 圆锥形模型
      */
-    static double Shadow(const CVector& vecPos,const CVector& vecSun,
-                         const CVector& vecCbPos,const double& dRcb );
+    static double Shadow(const Math::CVector& vecPos,const Math::CVector& vecSun,
+                         const Math::CVector& vecCbPos,const double& dRcb );
     /**
      * @brief 对流层对光(电磁波)的折射
      * @param dPa   大气压 单位 mb
@@ -46,8 +44,8 @@ public:
      * @param vecSat       进行链路通信时刻卫星的位置 (ECI坐标 单位 m)
      * @return             通信到达地面站需要的时间 单位 s
      */
-    static double DownlegLightTime(const vector<CVector>& vSatPos, const CVector& vecStaion,
-                                   int nPos,double dMJd, double dStep, CVector& vecSat);
+    static double DownlegLightTime(const std::vector<Math::CVector>& vSatPos, const Math::CVector& vecStaion,
+                                   int nPos,double dMJd, double dStep, Math::CVector& vecSat);
 
     /**
      * @brief 上行链路的光行迭代(地面站到卫星)
@@ -59,8 +57,8 @@ public:
      * @param vecSat      进行链路通信时刻卫星的位置 (ECI坐标 单位 m)
      * @return            通信到达卫星需要的时间 单位 s
      */
-    static double UplegLightTime(const vector<CVector>& vSatPos, const CVector& vecStaion,
-                                 int nPos, double dMJd, double dStep, CVector& vecSat);
+    static double UplegLightTime(const std::vector<Math::CVector>& vSatPos, const Math::CVector& vecStaion,
+                                 int nPos, double dMJd, double dStep, Math::CVector& vecSat);
 };
 }
 #endif // YTY_OPTICALALG_H

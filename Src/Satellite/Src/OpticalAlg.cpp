@@ -5,7 +5,6 @@
 #include <VersionMathCommon.h>
 #include "sofa.h"
 
-using namespace Math;
 using namespace Satellite;
 using namespace Numerical;
 
@@ -20,14 +19,14 @@ COpticalAlg::~COpticalAlg()
 }
 
 /// 计算天体阴影
-double COpticalAlg::Shadow(const CVector &vecPos, const CVector &vecSun,
-                               const CVector &vecCbPos, const double &dRcb)
+double COpticalAlg::Shadow(const Math::CVector &vecPos, const Math::CVector &vecSun,
+                               const Math::CVector &vecCbPos, const double &dRcb)
 {
-    CVector vecRS = vecPos - vecSun;
-    CVector vecRC = vecPos - vecCbPos;
+    Math::CVector vecRS = vecPos - vecSun;
+    Math::CVector vecRC = vecPos - vecCbPos;
 
     double rm = vecRC.Length(), drm = vecRS.Length();
-    double thetaES = acos(CVecMat::Dot(vecRC,vecRS)/rm/drm );  // 天体-卫星-太阳夹角
+    double thetaES = acos(Math::CVecMat::Dot(vecRC,vecRS)/rm/drm );  // 天体-卫星-太阳夹角
     double as = asin(R_Sun/drm);  // 卫星上看太阳的视半角
     double ae = asin(dRcb/rm);    // 卫星上看天体的视半角
 
@@ -69,8 +68,8 @@ double COpticalAlg::TroposphericRef(double dPa, double dfH, double dT, double dE
 }
 
 /// 下行链路的光行迭代(卫星到地面站)
-double COpticalAlg::DownlegLightTime(const vector<CVector> &vSatPos, const CVector &vecStaion,
-                                         int nPos, double dMJd, double dStep, CVector &vecSat)
+double COpticalAlg::DownlegLightTime(const std::vector<Math::CVector> &vSatPos, const Math::CVector &vecStaion,
+                                         int nPos, double dMJd, double dStep, Math::CVector &vecSat)
 {
     /// 判断是否有效
     if(int(vSatPos.size()) <= nPos)
@@ -78,7 +77,7 @@ double COpticalAlg::DownlegLightTime(const vector<CVector> &vSatPos, const CVect
         return(-1);
     }
 
-    CVector vecTem;
+    Math::CVector vecTem;
     double tau_down = 0.0,dStarJD,dRho;
     double d[3],dX[3],dY[3],dZ[3];
     int nSize = vSatPos.size() - nPos;
@@ -104,7 +103,7 @@ double COpticalAlg::DownlegLightTime(const vector<CVector> &vSatPos, const CVect
 
 
         /// 计算两者的距离
-        dRho = CVecMat::Norm(vecSat - vecStaion);
+        dRho = Math::CVecMat::Norm(vecSat - vecStaion);
 
         /// 光传播的时间
         tau_down = dRho/DLIGHT;
@@ -114,8 +113,8 @@ double COpticalAlg::DownlegLightTime(const vector<CVector> &vSatPos, const CVect
 }
 
 /// 上行链路的光行迭代(地面站到卫星)
-double COpticalAlg::UplegLightTime(const vector<CVector> &vSatPos, const CVector &vecStaion,
-                                       int nPos, double dMJd, double dStep, CVector &vecSat)
+double COpticalAlg::UplegLightTime(const std::vector<Math::CVector> &vSatPos, const Math::CVector &vecStaion,
+                                       int nPos, double dMJd, double dStep, Math::CVector &vecSat)
 {
     /// 判断是否有效
     if(int(vSatPos.size()) <= nPos)
@@ -128,16 +127,16 @@ double COpticalAlg::UplegLightTime(const vector<CVector> &vSatPos, const CVector
 
     dStarJD = dMJd + nPos*dStep/DAYSEC;
 
-    CVector vecTem = vecStaion;
+    Math::CVector vecTem = vecStaion;
 
     /// 经过两次迭代才能准确 (经验值)
     for(int i=0; i<2; ++i)
     {
         CTimeSys tmpTimeSys(dStarJD-tau_up/DAYSEC);
         dEartAngle = iauGmst06(DJM0,tmpTimeSys.GetUT1(),DJM0,tmpTimeSys.GetTT());
-        vecTem = CVecMat::Transp(CVecMat::R_z(dEartAngle))*vecStaion;
+        vecTem = Math::CVecMat::Transp(Math::CVecMat::R_z(dEartAngle))*vecStaion;
         /// 计算两者的距离
-        dRho = CVecMat::Norm(vecTem - vecStaion);
+        dRho = Math::CVecMat::Norm(vecTem - vecStaion);
 
         /// 光传播的时间
         tau_up = dRho/DLIGHT;

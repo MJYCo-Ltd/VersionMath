@@ -3,23 +3,16 @@
 
 #include<string>
 #include<vector>
-#include "SatelliteToolKit_global.h"
-#include "SatelliteToolKit_TypeDef.h"
-
-using namespace  std;
-
-namespace Math
-{
-    class CMatrix;
-    class CVector;
-}
+#include <Math/VecMat.h>
+#include <SatelliteToolKit/SatelliteToolKit_global.h>
+#include <SatelliteToolKit/SatelliteToolKit_TypeDef.h>
 
 /**
  * @brief 初始化卫星工具包的环境
  * @param sErrorInfo 错误信息
  * @return
  */
-bool SATELLITETOOLKIT_EXPORT InitSatelliteToolKit(const string &sPath, string& sErrorInfo);
+bool SATELLITETOOLKIT_EXPORT InitSatelliteToolKit(const std::string &sPath, std::string& sErrorInfo);
 
 /**
  * @brief 释放卫星工具包占用的资源
@@ -54,8 +47,8 @@ bool SATELLITETOOLKIT_EXPORT TwoBody(const BJTime& stStartTime,
 bool SATELLITETOOLKIT_EXPORT SGP4(const BJTime& stStartTime,
                                   const BJTime& stEndTime,
                                   unsigned int nStepMs,
-                                  const string&  sLine1,
-                                  const string&  sLine2,
+                                  const std::string&  sLine1,
+                                  const std::string&  sLine2,
                                   SatellitePos& stSatPos);
 
 /**
@@ -68,7 +61,7 @@ bool SATELLITETOOLKIT_EXPORT SGP4(const BJTime& stStartTime,
  *                            经度、纬度、高度 [rad,rad,m]
  * @return
  */
-vector<Period> SATELLITETOOLKIT_EXPORT SolarAltitude(const BJTime& stStartTime,
+std::vector<Period> SATELLITETOOLKIT_EXPORT SolarAltitude(const BJTime& stStartTime,
                                                      const BJTime& stEndTime,
                                                      float   fIncidentMinAngle,
                                                      float   fIncidentMaxAngle,
@@ -95,7 +88,7 @@ double SATELLITETOOLKIT_EXPORT CalSolarAltitude(const BJTime& stTime,const Pos& 
  * @param emType       形状类型
  * @return
  */
-vector<Period> SATELLITETOOLKIT_EXPORT VisiblePeriod(const BJTime& stStartTime,
+std::vector<Period> SATELLITETOOLKIT_EXPORT VisiblePeriod(const BJTime& stStartTime,
                                                      const BJTime& stEndTime,
                                                      const Satellite_Element& stSatElement,
                                                      const Pos&   stPos,
@@ -145,7 +138,7 @@ SATELLITETOOLKIT_EXPORT bool RectangleVisible(const PV& satECFPV, const Pos& sta
  * @param fVisibleAngle  观测星的半角[弧度](0~π/2)
  * @return
  */
-vector<Period> SATELLITETOOLKIT_EXPORT VisiblePeriod(const SatellitePos& stSatPosEye,
+std::vector<Period> SATELLITETOOLKIT_EXPORT VisiblePeriod(const SatellitePos& stSatPosEye,
                                                      const SatellitePos& stSatPosTarget,
                                                      float fVisibleAngle);
 
@@ -156,9 +149,9 @@ vector<Period> SATELLITETOOLKIT_EXPORT VisiblePeriod(const SatellitePos& stSatPo
  * @param vAngle    水平、垂直方向的半角 [弧度(0~π/2)，弧度(0~π/2)]
  * @return
  */
-vector<Pos> SATELLITETOOLKIT_EXPORT Intersect(const PV& satPV,
+std::vector<Pos> SATELLITETOOLKIT_EXPORT Intersect(const PV& satPV,
                                               const Math::CMatrix &rotateMatrix,
-                                              const vector<Pos>& vAngle);
+                                              const std::vector<Pos>& vAngle);
 
 /**
  * @brief 计算某位置圆锥与地面相交区
@@ -169,7 +162,7 @@ vector<Pos> SATELLITETOOLKIT_EXPORT Intersect(const PV& satPV,
  * @param fAngle    圆锥半角[弧度](0~π/2)
  * @return
  */
-vector<Pos> SATELLITETOOLKIT_EXPORT IntersectCircle(const PV& satPV,
+std::vector<Pos> SATELLITETOOLKIT_EXPORT IntersectCircle(const PV& satPV,
                                                     const Pos& satPRY,
                                                     RotateType eRotate,
                                                     double dHAngle,
@@ -182,7 +175,7 @@ vector<Pos> SATELLITETOOLKIT_EXPORT IntersectCircle(const PV& satPV,
  * @param fAngle       圆锥半角[弧度](0~π/2)
  * @return
  */
-vector<Period> SATELLITETOOLKIT_EXPORT IntersectCircle(const SatellitePos& stSatPos,
+std::vector<Period> SATELLITETOOLKIT_EXPORT IntersectCircle(const SatellitePos& stSatPos,
                                                        const Pos& stPos,
                                                        float fAngle);
 
@@ -193,7 +186,7 @@ vector<Period> SATELLITETOOLKIT_EXPORT IntersectCircle(const SatellitePos& stSat
  * @param fVAngle   方锥垂直半角[弧度](0~π/2)
  * @return
  */
-vector<Pos> SATELLITETOOLKIT_EXPORT IntersectRectangle(const PV& satPV,
+std::vector<Pos> SATELLITETOOLKIT_EXPORT IntersectRectangle(const PV& satPV,
                                                        const Pos& satPRY,
                                                        RotateType eRotate,
                                                        double dHAngle,
@@ -220,7 +213,7 @@ bool SATELLITETOOLKIT_EXPORT CalPRY(const PV& satPV,
  * @param fVAngle      方锥垂直半角[弧度](0~π/2)
  * @return
  */
-vector<Period> SATELLITETOOLKIT_EXPORT IntersectRectangle(const SatellitePos& stSatPos,
+std::vector<Period> SATELLITETOOLKIT_EXPORT IntersectRectangle(const SatellitePos& stSatPos,
                                                        const Pos& stPos,
                                                        float fHAngle,
                                                        float fVAngle);
@@ -234,7 +227,7 @@ vector<Period> SATELLITETOOLKIT_EXPORT IntersectRectangle(const SatellitePos& st
  * @param dRAANDelt     升交点差值 [弧度][0~2π]
  * @return      卫星轨道星历数组
  */
-vector<Satellite_Element> SATELLITETOOLKIT_EXPORT CreateConstellatory(Satellite_Element satTemplet,
+std::vector<Satellite_Element> SATELLITETOOLKIT_EXPORT CreateConstellatory(Satellite_Element satTemplet,
                                               int nPlanes,
                                               int nNumSats,
                                               int nFactor,
@@ -249,7 +242,7 @@ vector<Satellite_Element> SATELLITETOOLKIT_EXPORT CreateConstellatory(Satellite_
  * @param dRAANDelt     升交点差值 [弧度][0~2π]
  * @return      卫星轨道星历数组
  */
-vector<Satellite_Element> SATELLITETOOLKIT_EXPORT CreateConstellatoryBase(Satellite_Element satTemplet,
+std::vector<Satellite_Element> SATELLITETOOLKIT_EXPORT CreateConstellatoryBase(Satellite_Element satTemplet,
                                               int nPlanes,
                                               int nNumSats,
                                               double dDelt,
@@ -263,7 +256,7 @@ vector<Satellite_Element> SATELLITETOOLKIT_EXPORT CreateConstellatoryBase(Satell
  *  dDeltaTime  步长    [s]
  *  rPos        地面位置 [经纬高](deg,deg,m)
  */
-vector<double> SATELLITETOOLKIT_EXPORT CalPDOP(const vector<Satellite_Element>& vSatellite,
+std::vector<double> SATELLITETOOLKIT_EXPORT CalPDOP(const std::vector<Satellite_Element>& vSatellite,
                        const BJTime& stStartTime,
                        const BJTime& stEndTime,
                        double dDeltaTime,
@@ -276,8 +269,8 @@ vector<double> SATELLITETOOLKIT_EXPORT CalPDOP(const vector<Satellite_Element>& 
  * @param rGroundStation 地面站的位置 [rad,rad,m]
  * @return
  */
-vector<double> SATELLITETOOLKIT_EXPORT Cal2SatGroundAngle(const vector<PV>& vAx,
-                                  const vector<PV>& vBx,
+std::vector<double> SATELLITETOOLKIT_EXPORT Cal2SatGroundAngle(const std::vector<PV>& vAx,
+                                  const std::vector<PV>& vBx,
                                   const Pos& rGroundStation);
 
 /**
@@ -287,7 +280,7 @@ vector<double> SATELLITETOOLKIT_EXPORT Cal2SatGroundAngle(const vector<PV>& vAx,
  * @param rGoundB
  * @return
  */
-vector<double> SATELLITETOOLKIT_EXPORT CalSat2GroundAngle(const vector<PV>& vAx,
+std::vector<double> SATELLITETOOLKIT_EXPORT CalSat2GroundAngle(const std::vector<PV>& vAx,
                                  const Pos& rGoundA,
                                  const Pos& rGoundB);
 
@@ -299,7 +292,7 @@ vector<double> SATELLITETOOLKIT_EXPORT CalSat2GroundAngle(const vector<PV>& vAx,
  * @param dDistance       最远距离 [m]
  * @return
  */
-vector<Kepler> SATELLITETOOLKIT_EXPORT CallDeribs(int nNum,const BJTime& stInsertTime,
+std::vector<Kepler> SATELLITETOOLKIT_EXPORT CallDeribs(int nNum,const BJTime& stInsertTime,
                                                  const Satellite_Element& originOribit,double dDistance);
 
 /**

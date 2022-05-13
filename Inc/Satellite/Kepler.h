@@ -7,14 +7,14 @@
 #include <Math/Quaternion.h>
 
 namespace Satellite{
-using namespace Math;
+
 class ALGORITHM_EXPORT CKepler
 {
 public:
     CKepler(double dA, double dE, double dI, double dRAAN, double dMA, double dAP);
     ~CKepler();
 
-    const CVector& CalPV(double dT);
+    const Math::CVector& CalPV(double dT);
     /**
      * @brief 解开普勒方程
      * @param dGM  中心天体引力系数   [m^3/s^2]
@@ -23,7 +23,7 @@ public:
      * @param dT   相对于历元的时间       [s]
      * @return 位置速度(x,y,z,vx,vy,vz)  [m,m/s][ECI]
      */
-    static CVector State(const double& dGM, const CVector& vKep, double dT=0.0);
+    static Math::CVector State(const double& dGM, const Math::CVector& vKep, double dT=0.0);
 
     /**
      * @brief 通过位置速度解算开普勒六根数
@@ -33,7 +33,7 @@ public:
      *                     [m, ,rad,rad,rad,rad]
      * @attention 该方法仅适用于椭圆轨道
      */
-    static CVector Elements(const double& dGM, const CVector& vY );
+    static Math::CVector Elements(const double& dGM, const Math::CVector& vY );
 
     /**
      * @brief 通过位置速度解算开普勒六根数
@@ -42,7 +42,7 @@ public:
      * @return 开普勒六根数(半长轴,离心率,轨道倾角,升交点赤经,近地点幅角,平近点角)
      *                    [m, ,rad,rad,rad,rad]
      */
-    static CVector ClassicalElements(const double& dGM, const CVector& vY);
+    static Math::CVector ClassicalElements(const double& dGM, const Math::CVector& vY);
 
     /**
      * @brief 通过两组位置解算开普勒六根数
@@ -54,8 +54,8 @@ public:
      * @return dMjd1时的开普勒六根数(半长轴,离心率,轨道倾角,升交点赤经,近地点幅角,平近点角)
      *                             [m, ,rad,rad,rad,rad]
      */
-    static CVector Elements(const double& dGM, const double& dMjd1, const double& dMjd2,
-                            const CVector& vPos1, const CVector& vPos2);
+    static Math::CVector Elements(const double& dGM, const double& dMjd1, const double& dMjd2,
+                            const Math::CVector& vPos1, const Math::CVector& vPos2);
 
     /**
      * @brief 将经典六根数转化成 TLE数据
@@ -66,7 +66,7 @@ public:
      * @param str      存储两行根数的数组
      * @return 成功 返回true 失败返回 false
      */
-    static bool Classical2TLE(const CVector& vKep, const double& dJDEpoch,
+    static bool Classical2TLE(const Math::CVector& vKep, const double& dJDEpoch,
                               int nNorad, char str[2][73]);
 
     /**
@@ -78,7 +78,7 @@ public:
      * @param dGM        中心天体引力系数 [m^3/s^2]
      * @return 追踪相对于目标的位置、速度 (x,y,z,vx,vy,vz)[m,m/s]
      */
-    static CVector RIC(const CVector& vKepChaser,const CVector& vKepTarget,
+    static Math::CVector RIC(const Math::CVector& vKepChaser,const Math::CVector& vKepTarget,
                        const double& dGM);
 
     /**
@@ -90,7 +90,7 @@ public:
      * @return 轨道瞬时根数 (半长轴,离心率,轨道倾角,升交点赤经,近地点幅角,平近点角)
      *                      [m,  ,rad,rad,rad,rad]
      */
-    static CVector CIR(const CVector& vKepTarget,const CVector& vPV,
+    static Math::CVector CIR(const Math::CVector& vKepTarget,const Math::CVector& vPV,
                        const double& dGM);
     ///////////////////根数转换////////////////////////////////
     /**
@@ -104,7 +104,7 @@ public:
      * @return 平根数        (半长轴,离心率,轨道倾角,升交点赤经,近地点幅角,平近点角)
      *                         [m, ,rad,rad,rad,rad]
      */
-    static CVector Instant2Mean(const CVector &rIKep);
+    static Math::CVector Instant2Mean(const Math::CVector &rIKep);
 
     /**
      * @brief 将平根数转换成瞬时根数
@@ -113,7 +113,7 @@ public:
      * @return  瞬时根数     (半长轴,离心率,轨道倾角,升交点赤经,近地点幅角,平近点角)
      *                         [m, ,rad,rad,rad,rad]
      */
-    static CVector Mean2Instant(const CVector &rMKep);
+    static Math::CVector Mean2Instant(const Math::CVector &rMKep);
     ///////////////////根数转换end////////////////////////////////
 
     /**
@@ -166,8 +166,8 @@ public:
     static double Perigee(double da, double de);
 private:
     double m_dA,m_dE,m_dI,m_dRAAN,m_dMA,m_dAP,m_dN,m_dFac,m_dV;
-    CQuaternion m_quatPQW;
-    CVector m_vPV;
+    Math::CQuaternion m_quatPQW;
+    Math::CVector m_vPV;
 };
 }
 #endif // YTY_KEPLER_H

@@ -5,13 +5,13 @@
 #include <SatelliteToolKit/SatelliteToolKit.h>
 
 /// 计算
-vector<double> CalPDOP(const vector<Satellite_Element>& vSatellite,
+std::vector<double> CalPDOP(const std::vector<Satellite_Element>& vSatellite,
                       const BJTime& stStartTime,
                       const BJTime& stEndTime,
                       double dDeltaTime,
                       const Pos& rPos)
 {
-    vector<SatellitePos> vPos;
+    std::vector<SatellitePos> vPos;
     vPos.resize(vSatellite.size());
 
     /// 计算卫星的位置
@@ -36,7 +36,7 @@ vector<double> CalPDOP(const vector<Satellite_Element>& vSatellite,
     Pos v3D;
     GisMath::LBH2XYZ(rPos.dX*DD2R, rPos.dY*DD2R, rPos.dZ, v3D.dX, v3D.dY, v3D.dZ);
 
-    vector<double> vPDOP;
+    std::vector<double> vPDOP;
     i = vPos[0].vECF.size();
     vPDOP.resize(i);
 
@@ -45,7 +45,7 @@ vector<double> CalPDOP(const vector<Satellite_Element>& vSatellite,
     Math::CVector vStation3D(v3D.dX,v3D.dY,v3D.dZ),v4(4),v3(3);
     v4(3) = -1;
 
-    vector<Math::CVector> vAllVisibleSat;
+    std::vector<Math::CVector> vAllVisibleSat;
     vAllVisibleSat.reserve(vPos.size());
 
     for(int nIndex=0;nIndex<i;++nIndex)
