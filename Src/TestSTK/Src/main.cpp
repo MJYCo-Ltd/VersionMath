@@ -91,12 +91,12 @@ int main()
         Math::CVector vKepler = tmpSGP4.ClassicalElements();
         Satellite_Element tmpElement;
         tmpElement.elemType = SAT_TWOBODY;
-        tmpElement.stKepler.dA = vKepler(0);
-        tmpElement.stKepler.dE = vKepler(1);
-        tmpElement.stKepler.dI = vKepler(2);
-        tmpElement.stKepler.dRAAN = vKepler(3);
-        tmpElement.stKepler.dW = vKepler(4);
-        tmpElement.stKepler.dMA = vKepler(5);
+        tmpElement.stKepler.dA = 6.92581e6;//vKepler(0);
+        tmpElement.stKepler.dE = 0.0001737;//vKepler(1);
+        tmpElement.stKepler.dI = 0.925995;//vKepler(2);
+        tmpElement.stKepler.dRAAN = 5.38809;//vKepler(3);
+        tmpElement.stKepler.dW = 3.1785;//vKepler(4);
+        tmpElement.stKepler.dMA = 3.1064;//vKepler(5);
 
         cout<<"A:\t"<<tmpElement.stKepler.dA<<endl;
         cout<<"E:\t"<<tmpElement.stKepler.dE<<endl;
@@ -106,11 +106,11 @@ int main()
         cout<<"MA:\t"<<tmpElement.stKepler.dMA<<endl;
 
         BJTime nowBJTime;
-        nowBJTime.nYear = 2021;
-        nowBJTime.uMonth = 9;
-        nowBJTime.uDay = 1;
-        nowBJTime.uHour = 17;
-        nowBJTime.uMinute = 43;
+        nowBJTime.nYear = 2022;
+        nowBJTime.uMonth = 1;
+        nowBJTime.uDay = 2;
+        nowBJTime.uHour = 7;
+        nowBJTime.uMinute = 0;
         nowBJTime.uSecond = 0;
         nowBJTime.uMSecond = 0;
         tmpElement.stKepler.stEpoch = nowBJTime;
@@ -315,24 +315,32 @@ int main()
     {
         Satellite_Element tmpElement;
         tmpElement.elemType = SAT_TWOBODY;
-        tmpElement.stKepler.dA = 42167e3;
-        tmpElement.stKepler.dE = 0;
-        tmpElement.stKepler.dI = 0;
-        tmpElement.stKepler.dRAAN = 327*DD2R;
-        tmpElement.stKepler.dW = 0;
-        tmpElement.stKepler.dMA = 0;
-        tmpElement.stKepler.stEpoch.nYear = 2018;
-        tmpElement.stKepler.stEpoch.uMonth = 3;
-        tmpElement.stKepler.stEpoch.uDay = 1;
-        tmpElement.stKepler.stEpoch.uHour = 8;
+//        tmpElement.stKepler.dA = 42167e3;
+//        tmpElement.stKepler.dE = 0;
+//        tmpElement.stKepler.dI = 0;
+//        tmpElement.stKepler.dRAAN = 327*DD2R;
+//        tmpElement.stKepler.dW = 0;
+//        tmpElement.stKepler.dMA = 0;
+
+        tmpElement.stKepler.dA = 6.92581e6;//vKepler(0);
+        tmpElement.stKepler.dE = 0.0001737;//vKepler(1);
+        tmpElement.stKepler.dI = 0.925995;//vKepler(2);
+        tmpElement.stKepler.dRAAN = 5.38809;//vKepler(3);
+        tmpElement.stKepler.dW = 3.1785;//vKepler(4);
+        tmpElement.stKepler.dMA = 3.1064;//vKepler(5);
+
+        tmpElement.stKepler.stEpoch.nYear = 2022;
+        tmpElement.stKepler.stEpoch.uMonth = 1;
+        tmpElement.stKepler.stEpoch.uDay = 2;
+        tmpElement.stKepler.stEpoch.uHour = 7;
         tmpElement.stKepler.stEpoch.uMinute=00;
         tmpElement.stKepler.stEpoch.uSecond=0;
         tmpElement.stKepler.stEpoch.uMSecond=0;
 
         BJTime endTime;
-        endTime.nYear = 2019;
-        endTime.uMonth = 3;
-        endTime.uDay = 1;
+        endTime.nYear = 2022;
+        endTime.uMonth = 1;
+        endTime.uDay = 2;
         endTime.uHour = 8;
         endTime.uMinute=0;
         endTime.uSecond=0;
@@ -365,6 +373,8 @@ int main()
         cout<<setprecision(16)<<setw(25)<<pos.vECF[0].stP.dX<<','<<pos.vECF[0].stP.dY<<','<<pos.vECF[0].stP.dZ<<endl;
         cout<<setprecision(16)<<setw(25)<<pos.vECF[pos.vECF.size()-1].stP.dX<<','
             <<pos.vECF[pos.vECF.size()-1].stP.dY<<','<<pos.vECF[pos.vECF.size()-1].stP.dZ<<endl;
+
+        cout<<pos.vLLA[0].dX<<','<<pos.vLLA[0].dY<<','<<pos.vLLA[0].dZ<<endl;
 //        for(auto one : pos.vJ2000)
 //        {
 //            cout<<one.stP.dX<<','<<one.stP.dY<<','<<one.stP.dZ<<endl;

@@ -100,10 +100,10 @@ bool TwoBody(const BJTime &stStartTime, const BJTime &stEndTime,
         stSatPos.vECF[i].stV.dY = vECF(4);
         stSatPos.vECF[i].stV.dZ = vECF(5);
 
-//        GisMath::XYZ2LBH(vECF(0),vECF(1),vECF(2),
-//                         stSatPos.vLLA[i].dX,stSatPos.vLLA[i].dY,stSatPos.vLLA[i].dZ);
-//        stSatPos.vLLA[i].dX *= DR2D;
-//        stSatPos.vLLA[i].dY *= DR2D;
+        GisMath::XYZ2LBH(vECF(0),vECF(1),vECF(2),
+                         stSatPos.vLLA[i].dX,stSatPos.vLLA[i].dY,stSatPos.vLLA[i].dZ);
+        stSatPos.vLLA[i].dX *= DR2D;
+        stSatPos.vLLA[i].dY *= DR2D;
     }
 
     if(nTimeLenMs % nStepMs != 0)
@@ -116,21 +116,21 @@ bool TwoBody(const BJTime &stStartTime, const BJTime &stEndTime,
         stSatPos.vJ2000[nCount+1].stV.dY = vECI(4);
         stSatPos.vJ2000[nCount+1].stV.dZ = vECI(5);
 
-//        CCoorSys::ECI2ECF(dMJDEnd,vECI,vECF);
+        CCoorSys::J20002ECF(dMJDEnd,vECI,vECF);
 
-//        stSatPos.vTimes[nCount+1] = dMJDEnd;
+        stSatPos.vTimes[nCount+1] = dMJDEnd;
 
-//        stSatPos.vECF[nCount+1].stP.dX = vECF(0);
-//        stSatPos.vECF[nCount+1].stP.dY = vECF(1);
-//        stSatPos.vECF[nCount+1].stP.dZ = vECF(2);
-//        stSatPos.vECF[nCount+1].stV.dX = vECF(3);
-//        stSatPos.vECF[nCount+1].stV.dY = vECF(4);
-//        stSatPos.vECF[nCount+1].stV.dZ = vECF(5);
+        stSatPos.vECF[nCount+1].stP.dX = vECF(0);
+        stSatPos.vECF[nCount+1].stP.dY = vECF(1);
+        stSatPos.vECF[nCount+1].stP.dZ = vECF(2);
+        stSatPos.vECF[nCount+1].stV.dX = vECF(3);
+        stSatPos.vECF[nCount+1].stV.dY = vECF(4);
+        stSatPos.vECF[nCount+1].stV.dZ = vECF(5);
 
-//        GisMath::XYZ2LBH(vECF(0),vECF(1),vECF(2),
-//                         stSatPos.vLLA[nCount+1].dX,stSatPos.vLLA[nCount+1].dY,stSatPos.vLLA[nCount+1].dZ);
-//        stSatPos.vLLA[nCount+1].dX *= DR2D;
-//        stSatPos.vLLA[nCount+1].dY *= DR2D;
+        GisMath::XYZ2LBH(vECF(0),vECF(1),vECF(2),
+                         stSatPos.vLLA[nCount+1].dX,stSatPos.vLLA[nCount+1].dY,stSatPos.vLLA[nCount+1].dZ);
+        stSatPos.vLLA[nCount+1].dX *= DR2D;
+        stSatPos.vLLA[nCount+1].dY *= DR2D;
     }
 
     return(true);
