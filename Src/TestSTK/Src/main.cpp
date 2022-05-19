@@ -315,13 +315,6 @@ int main()
     {
         Satellite_Element tmpElement;
         tmpElement.elemType = SAT_TWOBODY;
-//        tmpElement.stKepler.dA = 42167e3;
-//        tmpElement.stKepler.dE = 0;
-//        tmpElement.stKepler.dI = 0;
-//        tmpElement.stKepler.dRAAN = 327*DD2R;
-//        tmpElement.stKepler.dW = 0;
-//        tmpElement.stKepler.dMA = 0;
-
         tmpElement.stKepler.dA = 6.92581e6;//vKepler(0);
         tmpElement.stKepler.dE = 0.0001737;//vKepler(1);
         tmpElement.stKepler.dI = 0.925995;//vKepler(2);
@@ -332,7 +325,7 @@ int main()
         tmpElement.stKepler.stEpoch.nYear = 2022;
         tmpElement.stKepler.stEpoch.uMonth = 1;
         tmpElement.stKepler.stEpoch.uDay = 2;
-        tmpElement.stKepler.stEpoch.uHour = 7;
+        tmpElement.stKepler.stEpoch.uHour = 15;
         tmpElement.stKepler.stEpoch.uMinute=00;
         tmpElement.stKepler.stEpoch.uSecond=0;
         tmpElement.stKepler.stEpoch.uMSecond=0;
@@ -341,20 +334,10 @@ int main()
         endTime.nYear = 2022;
         endTime.uMonth = 1;
         endTime.uDay = 2;
-        endTime.uHour = 8;
+        endTime.uHour = 15;
         endTime.uMinute=0;
         endTime.uSecond=0;
         endTime.uMSecond=0;
-
-//        Pos stPos,stPos1;
-//        stPos.dX = 120.257291;
-//        stPos.dY = 24.080290;
-//        stPos.dZ = 0;
-//        stPos1.dX=stPos1.dY=stPos1.dZ=0;
-
-
-//        vector<Period> periods = VisiblePeriod(beginTime,endTime,tmpElement,stPos,Rota_PRY,stPos1,30*DD2R,30*DD2R,eEllipse);
-//        cout<<"periods Size:"<<periods.size()<<endl;
 
         SatellitePos pos;
         clock_t begine = clock();
@@ -374,7 +357,7 @@ int main()
         cout<<setprecision(16)<<setw(25)<<pos.vECF[pos.vECF.size()-1].stP.dX<<','
             <<pos.vECF[pos.vECF.size()-1].stP.dY<<','<<pos.vECF[pos.vECF.size()-1].stP.dZ<<endl;
 
-        cout<<pos.vLLA[0].dX<<','<<pos.vLLA[0].dY<<','<<pos.vLLA[0].dZ<<endl;
+        cout<<"LLA:"<<pos.vLLA[0].dX<<','<<pos.vLLA[0].dY<<','<<pos.vLLA[0].dZ<<endl;
 //        for(auto one : pos.vJ2000)
 //        {
 //            cout<<one.stP.dX<<','<<one.stP.dY<<','<<one.stP.dZ<<endl;
